@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Hierarchical Clustering Essentials - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "159a474491cf8bb9";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Hierarchical Clustering Essentials - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					Hierarchical Clustering Essentials - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=237&amp;com=0"><i class="fa fa-comments-o"></i> Discussion</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=237" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=237" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+
+<div id="TOC">
+<ul>
+<li><a href="#required-r-packages"><span class="toc-section-number">1</span> Required R packages</a></li>
+<li><a href="#algorithm"><span class="toc-section-number">2</span> Algorithm</a></li>
+<li><a href="#data-preparation-and-descriptive-statistics"><span class="toc-section-number">3</span> Data preparation and descriptive statistics</a></li>
+<li><a href="#r-functions-for-hierarchical-clustering"><span class="toc-section-number">4</span> R functions for hierarchical clustering</a><ul>
+<li><a href="#hclust-function"><span class="toc-section-number">4.1</span> hclust() function</a></li>
+<li><a href="#agnes-and-diana-functions"><span class="toc-section-number">4.2</span> agnes() and diana() functions</a><ul>
+<li><a href="#r-code-for-computing-agnes"><span class="toc-section-number">4.2.1</span> R code for computing agnes</a></li>
+<li><a href="#r-code-for-computing-diana"><span class="toc-section-number">4.2.2</span> R code for computing diana</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#interpretation-of-the-dendrogram"><span class="toc-section-number">5</span> Interpretation of the dendrogram</a></li>
+<li><a href="#cut-the-dendrogram-into-different-groups"><span class="toc-section-number">6</span> Cut the dendrogram into different groups</a></li>
+<li><a href="#hierarchical-clustering-and-correlation-based-distance"><span class="toc-section-number">7</span> Hierarchical clustering and correlation based distance</a></li>
+<li><a href="#what-type-of-distance-measures-should-we-choose"><span class="toc-section-number">8</span> What type of distance measures should we choose?</a></li>
+<li><a href="#comparing-two-dendrograms"><span class="toc-section-number">9</span> Comparing two dendrograms</a><ul>
+<li><a href="#tanglegram"><span class="toc-section-number">9.1</span> Tanglegram</a></li>
+<li><a href="#correlation-matrix-between-a-list-of-dendrogram"><span class="toc-section-number">9.2</span> Correlation matrix between a list of dendrogram</a></li>
+</ul></li>
+<li><a href="#infos"><span class="toc-section-number">10</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/> There are two standard clustering strategies: <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning"><strong>partitioning methods</strong></a> (e.g., k-means and pam) and <strong>hierarchical clustering</strong>.</p>
+<p><strong>Hierarchical clustering</strong> is an alternative approach to <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning"><strong>k-means clustering</strong></a> for identifying groups in the dataset. It does not require to pre-specify the number of clusters to be generated. The result is a tree-based representation of the observations which is called a <strong>dendrogram</strong>. It uses pairwise <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>distance matrix</strong></a> between observations as clustering criteria.</p>
+<p>In this article we provide:</p>
+<ul>
+<li>The description of the different types of <strong>hierarchical clustering algorithms</strong></li>
+<li>R lab sections with many examples for <strong>computing hierarchical clustering</strong>, <strong>visualizing</strong> and <strong>comparing dendrogram</strong></li>
+<li>The <strong>interpretation of dendrogram</strong></li>
+<li>R codes for <strong>cutting the dendrograms</strong> into groups</li>
+</ul>
+<div id="required-r-packages" class="section level1">
+<h1><span class="header-section-number">1</span> Required R packages</h1>
+<p>The required packages for this chapter are:</p>
+<ul>
+<li><strong>cluster</strong> for computing <strong>PAM</strong> and <strong>CLARA</strong></li>
+<li><strong>factoextra</strong> which will be used to visualize clusters</li>
+<li><strong>dendextend</strong> for comparing two dendrograms</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Install <strong>factoextra</strong> package as follow:</li>
+</ol>
+<pre class="r"><code>if(!require(devtools)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Install <strong>cluster</strong> and <strong>dendextend</strong> packages as follow:</li>
+</ol>
+<pre class="r"><code>install.packages(&quot;cluster&quot;)
+install.packages(&quot;dendextend&quot;)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Load the packages </strong>:</li>
+</ol>
+<pre class="r"><code>library(cluster)
+library(dendextend)
+library(factoextra)</code></pre>
+</div>
+<div id="algorithm" class="section level1">
+<h1><span class="header-section-number">2</span> Algorithm</h1>
+<p><strong>Hierarchical clustering</strong> can be divided into two main types: <strong>agglomerative</strong> and <strong>divisive</strong>.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Agglomerative clustering</strong>: It’s also known as <strong>AGNES</strong> (<strong>Agglomerative Nesting</strong>). It works in a <strong>bottom-up</strong> manner. That is, each object is initially considered as a single-element cluster (<strong>leaf</strong>). At each step of the algorithm, the two clusters that are the most similar are combined into a new bigger cluster (<strong>nodes</strong>). This procedure is iterated until all points are member of just one single big cluster (<strong>root</strong>) (see figure below). The result is a tree which can be plotted as a <strong>dendrogram</strong>.</p></li>
+<li><p><strong>Divisive hierarchical clustering</strong>: It’s also known as <strong>DIANA</strong> (<strong>Divise Analysis</strong>) and it works in a <strong>top-down</strong> manner. The algorithm is an inverse order of AGNES. It begins with the root, in which all objects are included in a single cluster. At each step of iteration, the most heterogeneous cluster is divided into two. The process is iterated until all objects are in their own cluster (see figure below).</p></li>
+</ol>
+<p><span class="notice">Note that <strong>agglomerative clustering</strong> is good at identifying small clusters. <strong>Divisive hierarchical clustering</strong> is good at identifying large clusters.</span></p>
+<p><img src="http://www.sthda.com/sthda/RDoc/images/hierarchical-clustering-agnes-diana.png" alt="Hierarchical clustering - AGNES and DIANA" /></p>
+<p>The merging or the division of clusters is performed according some (dis)similarity measure. In <strong>R softwrare</strong>, the <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>Euclidean distance</strong></a> is used by default to measure the <strong>dissimilarity</strong> between each pair of observations.</p>
+<p>As we already know, it’s easy to compute dissimilarity measure between two pairs of observations. It’s mentioned above that two clusters that are most similar are fused into a new big cluster.</p>
+<p>A natural question is :<br /><span class="success">How to measure the dissimilarity between two clusters of observations?</span></p>
+<p>A number of different <strong>cluster agglomeration methods</strong> (i.e, <strong>linkage methods</strong>) has been developed to answer to this question. The most common types methods are:</p>
+<br/>
+<div class="block">
+<ul>
+<li><p>Maximum or <strong>complete linkage clustering</strong>: It computes all pairwise dissimilarities between the elements in cluster 1 and the elements in cluster 2, and considers the largest value (i.e., maximum value) of these dissimilarities as the distance between the two clusters. It tends to produce more compact clusters.</p></li>
+<li><p>Minimum or <strong>single linkage clustering</strong>: It computes all pairwise dissimilarities between the elements in cluster 1 and the elements in cluster 2, and considers the smallest of these dissimilarities as a linkage criterion. It tends to produce long, “loose” clusters.</p></li>
+<li><p>Mean or <strong>average linkage clustering</strong>: It computes all pairwise dissimilarities between the elements in cluster 1 and the elements in cluster 2, and considers the average of these dissimilarities as the distance between the two clusters.</p></li>
+<li><p><strong>Centroid linkage clustering</strong>: It computes the dissimilarity between the centroid for cluster 1 (a mean vector of length p variables) and the centroid for cluster 2.</p></li>
+<li><strong>Ward’s minimum variance method</strong>: It minimizes the total within-cluster variance. At each step the pair of clusters with minimum between-cluster distance are merged.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><span class="success">Complete linkage and Ward’s method are generally preferred.</span></p>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-linkage-meythod-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-linkage-meythod-2.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-linkage-meythod-3.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-linkage-meythod-4.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="data-preparation-and-descriptive-statistics" class="section level1">
+<h1><span class="header-section-number">3</span> Data preparation and descriptive statistics</h1>
+<p>We’ll use the built-in R dataset <strong>USArrest</strong> which contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973. It includes also the percent of the population living in urban areas.</p>
+<p>It contains 50 observations on 4 variables:</p>
+<ul>
+<li>[,1] Murder numeric Murder arrests (per 100,000)</li>
+<li>[,2] Assault numeric Assault arrests (per 100,000)</li>
+<li>[,3] UrbanPop numeric Percent urban population</li>
+<li>[,4] Rape numeric Rape arrests (per 100,000)</li>
+</ul>
+<pre class="r"><code># Load the data set
+data(&quot;USArrests&quot;)
+
+# Remove any missing value (i.e, NA values for not available)
+# That might be present in the data
+df &lt;- na.omit(USArrests)
+
+# View the firt 6 rows of the data
+head(df, n = 6)</code></pre>
+<pre><code>##            Murder Assault UrbanPop Rape
+## Alabama      13.2     236       58 21.2
+## Alaska       10.0     263       48 44.5
+## Arizona       8.1     294       80 31.0
+## Arkansas      8.8     190       50 19.5
+## California    9.0     276       91 40.6
+## Colorado      7.9     204       78 38.7</code></pre>
+<p>Before hierarchical clustering, we can compute some descriptive statistics:</p>
+<pre class="r"><code>desc_stats &lt;- data.frame(
+  Min = apply(df, 2, min), # minimum
+  Med = apply(df, 2, median), # median
+  Mean = apply(df, 2, mean), # mean
+  SD = apply(df, 2, sd), # Standard deviation
+  Max = apply(df, 2, max) # Maximum
+  )
+desc_stats &lt;- round(desc_stats, 1)
+head(desc_stats)</code></pre>
+<pre><code>##           Min   Med  Mean   SD   Max
+## Murder    0.8   7.2   7.8  4.4  17.4
+## Assault  45.0 159.0 170.8 83.3 337.0
+## UrbanPop 32.0  66.0  65.5 14.5  91.0
+## Rape      7.3  20.1  21.2  9.4  46.0</code></pre>
+<p>Note that the variables have a large different means and variances. This is explained by the fact that the variables are measured in different units; Murder, Rape, and Assault are measured as the number of occurrences per 100 000 people, and UrbanPop is the percentage of the state’s population that lives in an urban area.</p>
+<p>They must be standardized (i.e., scaled) to make them comparable. Recall that, <strong>standardization</strong> consists of transforming the variables such that they have mean zero and standard deviation one. You can read more about <strong>standardization</strong> in the following article: <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>distance measures and scaling</strong></a>.</p>
+<p>As we don’t want the hierarchical clustering result to depend to an arbitrary variable unit, we start by scaling the data using the R function <strong>scale()</strong> as follow:</p>
+<pre class="r"><code>df &lt;- scale(df)
+head(df)</code></pre>
+<pre><code>##                Murder   Assault   UrbanPop         Rape
+## Alabama    1.24256408 0.7828393 -0.5209066 -0.003416473
+## Alaska     0.50786248 1.1068225 -1.2117642  2.484202941
+## Arizona    0.07163341 1.4788032  0.9989801  1.042878388
+## Arkansas   0.23234938 0.2308680 -1.0735927 -0.184916602
+## California 0.27826823 1.2628144  1.7589234  2.067820292
+## Colorado   0.02571456 0.3988593  0.8608085  1.864967207</code></pre>
+</div>
+<div id="r-functions-for-hierarchical-clustering" class="section level1">
+<h1><span class="header-section-number">4</span> R functions for hierarchical clustering</h1>
+<p>There are different functions available in R for computing <strong>hierarchical clustering</strong>. The commonly used functions are:</p>
+<ul>
+<li><strong>hclust()</strong> [in <strong>stats</strong> package] and <strong>agnes()</strong> [in <strong>cluster</strong> package] for agglomerative hierarchical clustering (HC)</li>
+<li><strong>diana()</strong> [in <strong>cluster</strong> package] for divisive HC</li>
+</ul>
+<div id="hclust-function" class="section level2">
+<h2><span class="header-section-number">4.1</span> hclust() function</h2>
+<p><strong>hclust()</strong> is the built-in R function [in <strong>stats</strong> package] for computing <strong>hierarchical clustering</strong>.</p>
+<p>The simplified format is:</p>
+<pre class="r"><code>hclust(d, method = &quot;complete&quot;)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>d</strong> a dissimilarity structure as produced by the <strong>dist()</strong> function.</li>
+<li><strong>method</strong>: The agglomeration method to be used. Allowed values is one of “ward.D”, “ward.D2”, “single”, “complete”, “average”, “mcquitty”, “median” or “centroid”.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The <strong>dist()</strong> function is used to compute the <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning">Euclidean distance</a> between observations. Finally, observations are clustered using <strong>Ward’s method</strong>.</p>
+<pre class="r"><code># Dissimilarity matrix
+d &lt;- dist(df, method = &quot;euclidean&quot;)
+
+# Hierarchical clustering using Ward&#39;s method
+res.hc &lt;- hclust(d, method = &quot;ward.D2&quot; )
+
+# Plot the obtained dendrogram
+plot(res.hc, cex = 0.6, hang = -1)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-hierarchical-clustering-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="agnes-and-diana-functions" class="section level2">
+<h2><span class="header-section-number">4.2</span> agnes() and diana() functions</h2>
+<p>The R function <strong>agnes()</strong> [in <strong>cluster</strong> package] can be also used to compute <strong>agglomerative hierarchical clustering</strong>. The R function <strong>diana()</strong> [ in <strong>cluster</strong> package ] is an example of <strong>divisive hierarchical clustering</strong>.</p>
+<pre class="r"><code># Agglomerative Nesting (Hierarchical Clustering)
+agnes(x, metric = &quot;euclidean&quot;, stand = FALSE, method = &quot;average&quot;)
+
+# DIvisive ANAlysis Clustering
+diana(x, metric = &quot;euclidean&quot;, stand = FALSE)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: data matrix or data frame or dissimilarity matrix. In case of matrix and data frame, rows are observations and columns are variables. In case of a dissimilarity matrix, x is typically the output of daisy() or dist().</li>
+<li><strong>metric</strong>: the metric to be used for calculating dissimilarities between observations. Possible values are “euclidean” and “manhattan”.</li>
+<li><strong>stand</strong>: if TRUE, then the measurements in x are standardized before calculating the dissimilarities. Measurements are standardized for each variable (column), by subtracting the variable’s mean value and dividing by the variable’s mean absolute deviation</li>
+<li><strong>method</strong>: The clustering method. Possible values includes “average”, “single”, “complete”, “ward”.</li>
+</ul>
+</div>
+<p><br/></p>
+<ul>
+<li>The function <strong>agnes()</strong> returns an object of class “agnes” (see ?agnes.object) which has methods for the functions: print(), summary(), plot(), pltree(), as.dendrogram(), as.hclust() and cutree().<br /></li>
+<li>The function <strong>diana()</strong> returns an object of class “diana” (see ?diana.object) which has also methods for the functions: print(), summary(), plot(), pltree(), as.dendrogram(), as.hclust() and cutree().</li>
+</ul>
+<p>Compared to other agglomerative clustering methods such as <strong>hclust()</strong>, <strong>agnes()</strong> has the following features:</p>
+<ul>
+<li>It yields the agglomerative coefficient (see agnes.object) which measures the amount of clustering structure found</li>
+<li>Apart from the usual tree it also provides the banner, a novel graphical display (see plot.agnes).</li>
+</ul>
+<div id="r-code-for-computing-agnes" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> R code for computing agnes</h3>
+<pre class="r"><code>library(&quot;cluster&quot;)
+# Compute agnes()
+res.agnes &lt;- agnes(df, method = &quot;ward&quot;)
+# Agglomerative coefficient
+res.agnes$ac</code></pre>
+<pre><code>## [1] 0.934621</code></pre>
+<pre class="r"><code># Plot the tree using pltree()
+pltree(res.agnes, cex = 0.6, hang = -1,
+       main = &quot;Dendrogram of agnes&quot;) </code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-agnes-hierarchical-clustering-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+<p>It’s also possible to draw AGNES dendrogram using the function plot.hclust() and the function plot.dendrogram() as follow:</p>
+<pre class="r"><code># plot.hclust()
+plot(as.hclust(res.agnes), cex = 0.6, hang = -1)
+# plot.dendrogram()
+plot(as.dendrogram(res.agnes), cex = 0.6, 
+     horiz = TRUE)</code></pre>
+</div>
+<div id="r-code-for-computing-diana" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> R code for computing diana</h3>
+<pre class="r"><code># Compute diana()
+res.diana &lt;- diana(df)
+# Plot the tree
+pltree(res.diana, cex = 0.6, hang = -1,
+       main = &quot;Dendrogram of diana&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-diana-hierarchical-clustering-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Divise coefficient; amount of clustering structure found
+res.diana$dc</code></pre>
+<pre><code>## [1] 0.8514345</code></pre>
+<p>As for plotting AGNES dendrogram, the functions plot.hclust() and plot.dendrogram() can be used as follow:</p>
+<pre class="r"><code># plot.hclust()
+plot(as.hclust(res.diana), cex = 0.6, hang = -1)
+# plot.dendrogram()
+plot(as.dendrogram(res.diana), cex = 0.6, 
+     horiz = TRUE)</code></pre>
+</div>
+</div>
+</div>
+<div id="interpretation-of-the-dendrogram" class="section level1">
+<h1><span class="header-section-number">5</span> Interpretation of the dendrogram</h1>
+<p>In the <strong>dendrogram</strong> displayed above, each <em>leaf</em> corresponds to one observation. As we move up the tree, observations that are similar to each other are combined into branches, which are themselves fused at a higher <strong>height</strong>.</p>
+<p>The height of the fusion, provided on the vertical axis, indicates the (dis)similarity between two observations. The higher the height of the fusion, the less similar the observations are.</p>
+<p><span class="warning">Note that, conclusions about the proximity of two observations can be drawn only based on the height where branches containing those two observations first are fused. We cannot use the proximity of two observations along the horizontal axis as a criteria of their similarity.</span></p>
+<p>In order to identify sub-groups (i.e. clusters), we can cut the dendrogram at a certain height as described in the next section.</p>
+</div>
+<div id="cut-the-dendrogram-into-different-groups" class="section level1">
+<h1><span class="header-section-number">6</span> Cut the dendrogram into different groups</h1>
+<p>The height of the cut to the dendrogram controls the number of clusters obtained. It plays the same role as the k in k-means clustering.</p>
+<p>The function <strong>cutree()</strong> is used and it returns a vector containing the cluster number of each observation:</p>
+<pre class="r"><code># Cut tree into 4 groups
+grp &lt;- cutree(res.hc, k = 4)
+# Number of members in each cluster
+table(grp)</code></pre>
+<pre><code>## grp
+##  1  2  3  4 
+##  7 12 19 12</code></pre>
+<pre class="r"><code># Get the names for the members of cluster 1
+rownames(df)[grp == 1]</code></pre>
+<pre><code>## [1] &quot;Alabama&quot;        &quot;Georgia&quot;        &quot;Louisiana&quot;      &quot;Mississippi&quot;   
+## [5] &quot;North Carolina&quot; &quot;South Carolina&quot; &quot;Tennessee&quot;</code></pre>
+<p>It’s also possible to draw the dendrogram with a border around the 4 clusters. The argument <strong>border</strong> is used to specify the border colors for the rectangles:</p>
+<pre class="r"><code>plot(res.hc, cex = 0.6)
+rect.hclust(res.hc, k = 4, border = 2:5)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-hierarchical-clustering-cut-tree-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+<p>Using the function <strong>fviz_cluster()</strong> [in <strong>factoextra</strong>], we can also visualize the result in a scatter plot. Observations are represented by points in the plot, using principal components. A frame is drawn around each cluster.</p>
+<pre class="r"><code>library(factoextra)
+fviz_cluster(list(data = df, cluster = grp))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-hierarchical-clustering-principal-component-analysis-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+<p>The function <strong>cutree()</strong> can be used also to cut the tree generated with agnes() and diana() as follow:</p>
+<pre class="r"><code># Cut agnes() tree into 4 groups
+cutree(res.agnes, k = 4)
+
+# Cut diana() tree into 4 groups
+cutree(as.hclust(res.diana), k = 4)</code></pre>
+</div>
+<div id="hierarchical-clustering-and-correlation-based-distance" class="section level1">
+<h1><span class="header-section-number">7</span> Hierarchical clustering and correlation based distance</h1>
+<p>The different functions for hierarchical clustering use <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>Euclidean</strong> distance measures</a> as default metric. It’s also possible to use <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning">correlation-based distance measures</a>. Firstly, pairwise correlation matrix between items is computed using the function <strong>cor()</strong> which can calculate either “pearson”, “spearman” or “kendall” correlation method. Next, the correlation matrix is converted as a distance matrix and finally clustering can be computed on the resulting distance matrix.</p>
+<pre class="r"><code>res.cor &lt;- cor(t(df), method = &quot;pearson&quot;)
+d.cor &lt;- as.dist(1 - res.cor)
+plot(hclust(d.cor, method = &quot;ward.D2&quot;), cex = 0.6)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-correlation-distance-hclust-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="what-type-of-distance-measures-should-we-choose" class="section level1">
+<h1><span class="header-section-number">8</span> What type of distance measures should we choose?</h1>
+<p>The choice of <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning">dissimilarity measures</a> is very important, as it has a strong influence on the resulting dendrogram.</p>
+<p>In many of the examples described above, we used Euclidean distance as the dissimilarity measure. Depending on the type of the data and the researcher questions, other dissimilarity measures might be preferred such as <strong>correlation-based distance</strong>.</p>
+<p>Correlation-based distance considers two observations to be similar if their features are highly correlated, even though the observed values may be far apart in terms of Euclidean distance.</p>
+<p>If we want to identify clusters of observations with the same overall profiles regardless of their magnitudes, then we should go with <strong>correlation-based distance</strong> as a dissimilarity measure. This is particularly the case in <strong>gene expression data analysis</strong>, where we might want to consider genes similar when they are “up” and “down” together. It is also the case, in marketing if we want to identify group of shoppers with the same preference in term of items, regardless of the volume of items they bought.</p>
+<p>If Euclidean distance is chosen, then observations with high values of features will be clustered together. The same holds true for observations with low values of features.</p>
+<br/><br />
+<div class="block">
+<p>Note that, when the data are standardized, there is a functional relationship between the Pearson correlation coefficient <span class="math">\(r(x, y)\)</span> and the Euclidean distance.</p>
+<p>With some maths, the relationship can be defined as follow:</p>
+<p><span class="math">\[
+d_{euc}(x, y) = \sqrt{2m[1 - r(x, y)]}
+\]</span></p>
+<p>Where x and y are two standardized <em>m-vectors</em> with zero mean and unit length.</p>
+For example, the standard <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">k-means clustering</a> uses the Euclidean distance measure. So, If you want to compute K-means using correlation distance, you just have to normalize the points before clustering.<br />
+</div>
+<p><br/></p>
+</div>
+<div id="comparing-two-dendrograms" class="section level1">
+<h1><span class="header-section-number">9</span> Comparing two dendrograms</h1>
+<p>We’ll use the package <strong>dendextend</strong> which contains many functions for comparing two dendrograms, including: <strong>dend_diff(), tanglegram(), entanglement(), all.equal.dendrogram(), cor.dendlist()</strong>.</p>
+<p>The function <strong>tanglegram()</strong> and <strong>cor.dendlist()</strong> are described in this section.</p>
+<p>A random subset of the dataset will be used in the following example. The function <strong>sample()</strong> is used to randomly select 10 observations among the 50 observations contained in the data set</p>
+<pre class="r"><code># Subset containing 10 rows
+set.seed(123)
+ss &lt;- sample(1:50, 10)
+df &lt;- df[ss,]</code></pre>
+<p>In the R code below, we’ll start by computing pairwise distance matrix using the function <strong>dist()</strong>. Next, hierarchical clustering (HC) is computed using two different linkage methods (“average” and “ward.D2”). Finally the results of HC are transformed as dendrograms:</p>
+<pre class="r"><code>library(dendextend)
+# Compute distance matrix
+res.dist &lt;- dist(df, method = &quot;euclidean&quot;)
+
+# Compute 2 hierarchical clusterings
+hc1 &lt;- hclust(res.dist, method = &quot;average&quot;)
+hc2 &lt;- hclust(res.dist, method = &quot;ward.D2&quot;)
+
+# Create two dendrograms
+dend1 &lt;- as.dendrogram (hc1)
+dend2 &lt;- as.dendrogram (hc2)
+
+# Create a list of dendrograms
+dend_list &lt;- dendlist(dend1, dend2)</code></pre>
+<div id="tanglegram" class="section level2">
+<h2><span class="header-section-number">9.1</span> Tanglegram</h2>
+<p>The function <strong>tanglegram()</strong> plots two dendrograms, side by side, with their labels connected by lines. It can be used for visually comparing two methods of Hierarchical clustering as follow:</p>
+<pre class="r"><code>tanglegram(dend1, dend2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-compare-dendrogram-tanglegram-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+<p><span class="notice">Note that “unique” nodes, with a combination of labels/items not present in the other tree, are highlighted with dashed lines. </span></p>
+<p>The quality of the alignment of the two trees can be measured using the function <strong>entanglement()</strong>. The output of <strong>tanglegram()</strong> can be customized using many other options as follow:</p>
+<pre class="r"><code>tanglegram(dend1, dend2,
+  highlight_distinct_edges = FALSE, # Turn-off dashed lines
+  common_subtrees_color_lines = FALSE, # Turn-off line colors
+  common_subtrees_color_branches = TRUE, # Color common branches 
+  main = paste(&quot;entanglement =&quot;, round(entanglement(dend_list), 2))
+  )</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-compare-dendrogram-customize-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+<p><span class="warning">Entanglement is a measure between 1 (full entanglement) and 0 (no entanglement). A lower entanglement coefficient corresponds to a good alignment</span></p>
+</div>
+<div id="correlation-matrix-between-a-list-of-dendrogram" class="section level2">
+<h2><span class="header-section-number">9.2</span> Correlation matrix between a list of dendrogram</h2>
+<p>The function <strong>cor.dendlist()</strong> is used to compute “<strong>Baker</strong>” or <strong>“Cophenetic”</strong> correlation matrix between a list of trees.</p>
+<pre class="r"><code># Cophenetic correlation matrix
+cor.dendlist(dend_list, method = &quot;cophenetic&quot;)</code></pre>
+<pre><code>##           [,1]      [,2]
+## [1,] 1.0000000 0.9646883
+## [2,] 0.9646883 1.0000000</code></pre>
+<pre class="r"><code># Baker correlation matrix
+cor.dendlist(dend_list, method = &quot;baker&quot;)</code></pre>
+<pre><code>##           [,1]      [,2]
+## [1,] 1.0000000 0.9622885
+## [2,] 0.9622885 1.0000000</code></pre>
+<p>The correlation between two trees can be also computed as follow:</p>
+<pre class="r"><code># Cophenetic correlation coefficient
+cor_cophenetic(dend1, dend2)</code></pre>
+<pre><code>## [1] 0.9646883</code></pre>
+<pre class="r"><code># Baker correlation coefficient
+cor_bakers_gamma(dend1, dend2)</code></pre>
+<pre><code>## [1] 0.9622885</code></pre>
+<p>It’s also possible to compare simultaneously multiple dendrograms. A chaining operator <strong>%&gt;%</strong> (available in <strong>dendextend</strong>) is used to run multiple function at the same time. It’s useful for simplifying the code:</p>
+<pre class="r"><code># Subset data
+set.seed(123)
+ss &lt;- sample(1:150, 10 )
+# Create multiple dendrograms by chaining
+dend1 &lt;- df %&gt;% dist %&gt;% hclust(&quot;com&quot;) %&gt;% as.dendrogram
+dend2 &lt;- df %&gt;% dist %&gt;% hclust(&quot;single&quot;) %&gt;% as.dendrogram
+dend3 &lt;- df %&gt;% dist %&gt;% hclust(&quot;ave&quot;) %&gt;% as.dendrogram
+dend4 &lt;- df %&gt;% dist %&gt;% hclust(&quot;centroid&quot;) %&gt;% as.dendrogram
+# Compute correlation matrix
+dend_list &lt;- dendlist(&quot;Complete&quot; = dend1, &quot;Single&quot; = dend2,
+                      &quot;Average&quot; = dend3, &quot;Centroid&quot; = dend4)
+cors &lt;- cor.dendlist(dend_list)
+# Print correlation matrix
+round(cors, 2)</code></pre>
+<pre><code>##          Complete Single Average Centroid
+## Complete     1.00   0.76    0.99     0.75
+## Single       0.76   1.00    0.80     0.84
+## Average      0.99   0.80    1.00     0.74
+## Centroid     0.75   0.84    0.74     1.00</code></pre>
+<pre class="r"><code># Visualize the correlation matrix using corrplot package
+library(corrplot)
+corrplot(cors, &quot;pie&quot;, &quot;lower&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-clustering-compare-multiple-dendrograms-1.png" title="Hierarchical Clustering - Unsupervised Machine Learning" alt="Hierarchical Clustering - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">10</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--====================== stop here when you copy to sthda================-->
+
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 6371 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="159a474491cf8bb9">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

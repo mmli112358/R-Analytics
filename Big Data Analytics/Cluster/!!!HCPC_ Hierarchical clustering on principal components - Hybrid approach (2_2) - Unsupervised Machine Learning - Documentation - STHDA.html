@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "e9f83407c516cc46";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=245&amp;com=0"><i class="fa fa-comments-o"></i> Discussion</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=245" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=245" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+
+<div id="TOC">
+<ul>
+<li><a href="#why-combining-principal-component-and-clustering-methods"><span class="toc-section-number">1</span> Why combining principal component and clustering methods?</a><ul>
+<li><a href="#case-of-continuous-variables-use-pca-as-denoising-step"><span class="toc-section-number">1.1</span> Case of continuous variables: Use PCA as denoising step</a></li>
+<li><a href="#case-of-categorical-variables-use-ca-or-mca-before-clustering"><span class="toc-section-number">1.2</span> Case of categorical variables: Use CA or MCA before clustering</a></li>
+</ul></li>
+<li><a href="#algorithm-of-hierachical-clustering-on-principal-component-hcpc"><span class="toc-section-number">2</span> Algorithm of hierachical clustering on principal component (HCPC)</a></li>
+<li><a href="#computing-hcpc-in-r"><span class="toc-section-number">3</span> Computing HCPC in R</a><ul>
+<li><a href="#required-r-packages"><span class="toc-section-number">3.1</span> Required R packages</a></li>
+<li><a href="#r-function-for-hcpc"><span class="toc-section-number">3.2</span> R function for HCPC</a></li>
+<li><a href="#case-of-continuous-variables"><span class="toc-section-number">3.3</span> Case of continuous variables</a><ul>
+<li><a href="#data-preparation"><span class="toc-section-number">3.3.1</span> Data preparation</a></li>
+<li><a href="#compute-principal-component-analysis"><span class="toc-section-number">3.3.2</span> Compute principal component analysis</a></li>
+<li><a href="#compute-hierarchical-clustering-on-the-pca-results"><span class="toc-section-number">3.3.3</span> Compute hierarchical clustering on the PCA results</a></li>
+<li><a href="#visualize-the-results-of-hcpc-using-base-plot"><span class="toc-section-number">3.3.4</span> Visualize the results of HCPC using base plot</a></li>
+<li><a href="#visualize-the-results-of-hcpc-using-factoextra"><span class="toc-section-number">3.3.5</span> Visualize the results of HCPC using factoextra</a></li>
+</ul></li>
+<li><a href="#case-of-categorical-variables"><span class="toc-section-number">3.4</span> Case of categorical variables</a></li>
+</ul></li>
+<li><a href="#infos"><span class="toc-section-number">4</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/> There are three standards methods for exploring multidimensional data:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Principal component methods</strong>, used to summarize and to visualize the information contained in a multivariate data table. Individuals and variables with same profiles are grouped together in the plot. Principal component methods include:
+<ul>
+<li><a href="http://www.sthda.com/english/wiki/factominer-and-factoextra-principal-component-analysis-visualization-r-software-and-data-mining">Principal Component Analysis (PCA)</a>, used for analyzing a data set containing <strong>continuous variables</strong></li>
+<li><a href="http://www.sthda.com/english/wiki/correspondence-analysis-in-r-the-ultimate-guide-for-the-analysis-the-visualization-and-the-interpretation-r-software-and-data-mining">Correspondence Analysis (CA)</a>, an extension of <strong>PCA</strong> suited to handle a <strong>contingency table</strong> formed by two <strong>qualitative variables</strong> (or categorical data).</li>
+<li><a href="http://www.sthda.com/english/wiki/multiple-correspondence-analysis-essentials-interpretation-and-application-to-investigate-the-associations-between-categories-of-multiple-qualitative-variables-r-software-and-data-mining">Multiple Correspondence Analysis (MCA)</a>, an extension of simple <strong>CA</strong> for analyzing a data table containing more than two categorical variables.</li>
+</ul></li>
+<li><a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering</a>, used for identifying groups of similar observations in a data set.</li>
+<li><a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning clustering</a> such as <strong>k-means</strong>, used for splitting a data set into several groups.</li>
+</ol>
+<p>In my previous article, <a href="http://www.sthda.com/english/wiki/hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering</a>, I described HOW and WHY, we should combine hierarchical clustering and k-means clustering.</p>
+<p><span class="success"> In the present article, I will show how to combine the three methods: principal component methods, hierarchical clustering and partitioning methods such as k-means to better describe and visualize the similarity between observations. The approach described here has been implemented in the R package <strong>FactoMineR</strong> (<a href="http://factominer.free.fr/docs/HCPC_husson_josse.pdf">F. Husson et al., 2010</a>). It’s named HCPC for Hierarchical Clustering on Principal Components.</span></p>
+<div id="why-combining-principal-component-and-clustering-methods" class="section level1">
+<h1><span class="header-section-number">1</span> Why combining principal component and clustering methods?</h1>
+<div id="case-of-continuous-variables-use-pca-as-denoising-step" class="section level2">
+<h2><span class="header-section-number">1.1</span> Case of continuous variables: Use PCA as denoising step</h2>
+<p>In the case of a multidimensional data set containing continuous variables, <strong>principal component analysis</strong> (PCA) can be used to reduce the dimensionality of the data into few continuous variables (i.e, <strong>principal components</strong>) containing the most important information in the data.<br /><span class="success"><strong>PCA</strong> step can be considered as denoising step which can lead to a more stable clustering. This is very useful if you have a large data set with multiple variables, such as in gene expression data.</span></p>
+</div>
+<div id="case-of-categorical-variables-use-ca-or-mca-before-clustering" class="section level2">
+<h2><span class="header-section-number">1.2</span> Case of categorical variables: Use CA or MCA before clustering</h2>
+<p><strong>CA</strong> (for analyzing contingency table formed by two categorical variables) and <strong>MCA</strong> (for analyzing multidimensional categorical variables) can be used to transform categorical variables into a set of few continuous variables (the principal components) and to remove the noise in the data.</p>
+<p><span class="success"><strong>CA</strong> and <strong>MCA</strong> can be considered as pre-processing steps which allow to compute clustering on categorical data</span></p>
+</div>
+</div>
+<div id="algorithm-of-hierachical-clustering-on-principal-component-hcpc" class="section level1">
+<h1><span class="header-section-number">2</span> Algorithm of hierachical clustering on principal component (HCPC)</h1>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li><strong>Compute principal component methods</strong>
+<ul>
+<li>Use <a href="http://www.sthda.com/english/wiki/factominer-and-factoextra-principal-component-analysis-visualization-r-software-and-data-mining">Principal Component Analysis (PCA)</a> for continuous variables</li>
+<li>Use <a href="http://www.sthda.com/english/wiki/correspondence-analysis-in-r-the-ultimate-guide-for-the-analysis-the-visualization-and-the-interpretation-r-software-and-data-mining">Correspondence Analysis (CA)</a> for a contingency table formed by two categorical variables</li>
+<li>Use <a href="http://www.sthda.com/english/wiki/multiple-correspondence-analysis-essentials-interpretation-and-application-to-investigate-the-associations-between-categories-of-multiple-qualitative-variables-r-software-and-data-mining">Multiple Correspondence Analysis (MCA)</a> for a data set containing multiple categorical variables.</li>
+</ul></li>
+<li><p><strong>Compute hierarchical clustering</strong>: <a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering</a> is performed using <strong>Ward’s criterion</strong> on the selected principal components. Ward criterion has to be used in the hierarchical clustering because it is based on the multidimensional variance (i.e.inertia) as well as principal component analysis.</p></li>
+<li><p><strong>Choose the number of clusters based on the hierarchical tree</strong>: An initial partitioning is performed by cutting the hierarchical tree.</p></li>
+<li><strong>K-means clustering</strong> is performed to improve the initial partition obtained from hierarchical clustering. The final partitioning solution, obtained after consolidation with k-means, can be (slightly) different from the one obtained with the hierarchical clustering. The importance of combining hierarchical clustering and k-means clustering has been described in my previous post: <a href="http://www.sthda.com/english/wiki/hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering</a></li>
+</ol>
+</div>
+<p><br/></p>
+</div>
+<div id="computing-hcpc-in-r" class="section level1">
+<h1><span class="header-section-number">3</span> Computing HCPC in R</h1>
+<div id="required-r-packages" class="section level2">
+<h2><span class="header-section-number">3.1</span> Required R packages</h2>
+<p>We’ll use <strong>FactoMineR</strong> for computing <strong>HCPC()</strong> and <strong>factoextra</strong> for data visualizations.</p>
+<p>Install <strong>factoextra</strong> package as follow:</p>
+<pre class="r"><code>if(!require(devtools)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<p>FactoMineR can be installed as follow:</p>
+<pre class="r"><code>install.packages(&quot;FactoMineR&quot;)</code></pre>
+<p>Load the packages:</p>
+<pre class="r"><code>library(factoextra)
+library(FactoMineR)</code></pre>
+</div>
+<div id="r-function-for-hcpc" class="section level2">
+<h2><span class="header-section-number">3.2</span> R function for HCPC</h2>
+<p>The function HCPC()[in <strong>FactoMineR</strong> package] can be used to compute <strong>hierarchical clustering on principal components</strong>.</p>
+<p>A simplified format is:</p>
+<pre class="r"><code>HCPC(res, nb.clust = 0, iter.max = 10, min = 3, max = NULL, graph = TRUE)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>res</strong>: a PCA result or a data frame</li>
+<li><strong>nb.clust</strong>: an integer specifying the number of clusters. Possible values are:
+<ul>
+<li><strong>0</strong>: the tree is cut at the level the user clicks on</li>
+<li><strong>-1</strong>: the tree is automatically cut at the suggested level</li>
+<li><strong>Any positive integer</strong>: the tree is cut with nb.clusters clusters</li>
+</ul></li>
+<li><strong>iter.max</strong>: the maximum number of iterations for k-means</li>
+<li><strong>min, max</strong>: the minimum and the maximum number of clusters to be generated, respectively</li>
+<li><strong>graph</strong>: if TRUE, graphics are displayed</li>
+</ul>
+</div>
+<p><br/></p>
+</div>
+<div id="case-of-continuous-variables" class="section level2">
+<h2><span class="header-section-number">3.3</span> Case of continuous variables</h2>
+<p>We start by computing again the <strong>principal component analysis</strong>(PCA) is performed on the data set. The argument <strong>ncp = 3</strong> is used in the function <strong>PCA()</strong> to keep only the first three principal components. Next HCPC is applied on the result of the PCA.</p>
+<div id="data-preparation" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Data preparation</h3>
+<p>We’ll use USArrest data set and we start by scaling the data:</p>
+<pre class="r"><code># Load the data
+data(USArrests)
+# Scale the data
+df &lt;- scale(USArrests)
+head(df)</code></pre>
+<pre><code>##                Murder   Assault   UrbanPop         Rape
+## Alabama    1.24256408 0.7828393 -0.5209066 -0.003416473
+## Alaska     0.50786248 1.1068225 -1.2117642  2.484202941
+## Arizona    0.07163341 1.4788032  0.9989801  1.042878388
+## Arkansas   0.23234938 0.2308680 -1.0735927 -0.184916602
+## California 0.27826823 1.2628144  1.7589234  2.067820292
+## Colorado   0.02571456 0.3988593  0.8608085  1.864967207</code></pre>
+<p><span class="warning"> If you want to understand why the data are scaled before the analysis, then you should read this section: <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning#distances-and-scaling">Distances and scaling</a>.</span></p>
+</div>
+<div id="compute-principal-component-analysis" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Compute principal component analysis</h3>
+<p>We’ll use the package <strong>FactoMineR</strong> for computing <strong>HCPC</strong> and <strong>factoextra</strong> for the visualization of the output.</p>
+<pre class="r"><code># Compute principal component analysis
+library(FactoMineR)
+res.pca &lt;- PCA(USArrests, ncp = 5, graph=FALSE)
+# Percentage of information retained by each
+# dimensions
+library(factoextra)
+fviz_eig(res.pca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hcpc-hierarchical-clustering-on-principal-component-principal-component-analysis-1.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Visualize variables
+fviz_pca_var(res.pca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hcpc-hierarchical-clustering-on-principal-component-principal-component-analysis-2.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Visualize individuals
+fviz_pca_ind(res.pca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hcpc-hierarchical-clustering-on-principal-component-principal-component-analysis-3.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<p>The first three dimensions of the PCA retains 96% of the total variance (i.e information) contained in the data:</p>
+<pre class="r"><code>get_eig(res.pca)</code></pre>
+<pre><code>##       eigenvalue variance.percent cumulative.variance.percent
+## Dim.1  2.4802416        62.006039                    62.00604
+## Dim.2  0.9897652        24.744129                    86.75017
+## Dim.3  0.3565632         8.914080                    95.66425
+## Dim.4  0.1734301         4.335752                   100.00000</code></pre>
+<p><span class="warning">Read more about PCA: <a href="http://www.sthda.com/english/wiki/factominer-and-factoextra-principal-component-analysis-visualization-r-software-and-data-mining">Principal Component Analysis (PCA)</a></span></p>
+</div>
+<div id="compute-hierarchical-clustering-on-the-pca-results" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Compute hierarchical clustering on the PCA results</h3>
+<p>The function HCPC() is used:</p>
+<pre class="r"><code># Compute PCA with ncp = 3
+res.pca &lt;- PCA(USArrests, ncp = 3, graph = FALSE)
+# Compute HCPC
+res.hcpc &lt;- HCPC(res.pca, graph = FALSE)</code></pre>
+<p>The function <strong>HCPC()</strong> returns a list containing:</p>
+<ul>
+<li><strong>data.clust</strong>: The original data with a supplementary row called class containing the partition.</li>
+<li><strong>desc.var</strong>: The variables describing clusters</li>
+<li><strong>call$t$res</strong>: The outputs of the principal component analysis</li>
+<li><strong>call$t$tree</strong>: The outputs of <strong>agnes()</strong> function [in <strong>cluster</strong> package]</li>
+<li><strong>call$t$nb.clust</strong>: The number of optimal clusters estimated</li>
+</ul>
+<pre class="r"><code># Data with cluster assignements
+head(res.hcpc$data.clust, 10)</code></pre>
+<pre><code>##             Murder Assault UrbanPop Rape clust
+## Alabama       13.2     236       58 21.2     3
+## Alaska        10.0     263       48 44.5     4
+## Arizona        8.1     294       80 31.0     4
+## Arkansas       8.8     190       50 19.5     3
+## California     9.0     276       91 40.6     4
+## Colorado       7.9     204       78 38.7     4
+## Connecticut    3.3     110       77 11.1     2
+## Delaware       5.9     238       72 15.8     2
+## Florida       15.4     335       80 31.9     4
+## Georgia       17.4     211       60 25.8     3</code></pre>
+<pre class="r"><code># Variable describing clusters
+res.hcpc$desc.var</code></pre>
+<pre><code>## $quanti.var
+##               Eta2      P-value
+## Assault  0.7841402 2.376392e-15
+## Murder   0.7771455 4.927378e-15
+## Rape     0.7029807 3.480110e-12
+## UrbanPop 0.5846485 7.138448e-09
+## 
+## $quanti
+## $quanti$`1`
+##             v.test Mean in category Overall mean sd in category Overall sd
+## UrbanPop -3.898420         52.07692       65.540       9.691087  14.329285
+## Murder   -4.030171          3.60000        7.788       2.269870   4.311735
+## Rape     -4.052061         12.17692       21.232       3.130779   9.272248
+## Assault  -4.638172         78.53846      170.760      24.700095  82.500075
+##               p.value
+## UrbanPop 9.682222e-05
+## Murder   5.573624e-05
+## Rape     5.076842e-05
+## Assault  3.515038e-06
+## 
+## $quanti$`2`
+##             v.test Mean in category Overall mean sd in category Overall sd
+## UrbanPop  2.793185         73.87500       65.540       8.652131  14.329285
+## Murder   -2.374121          5.65625        7.788       1.594902   4.311735
+##              p.value
+## UrbanPop 0.005219187
+## Murder   0.017590794
+## 
+## $quanti$`3`
+##             v.test Mean in category Overall mean sd in category Overall sd
+## Murder    4.357187          13.9375        7.788       2.433587   4.311735
+## Assault   2.698255         243.6250      170.760      46.540137  82.500075
+## UrbanPop -2.513667          53.7500       65.540       7.529110  14.329285
+##               p.value
+## Murder   1.317449e-05
+## Assault  6.970399e-03
+## UrbanPop 1.194833e-02
+## 
+## $quanti$`4`
+##            v.test Mean in category Overall mean sd in category Overall sd
+## Rape     5.352124         33.19231       21.232       6.996643   9.272248
+## Assault  4.356682        257.38462      170.760      41.850537  82.500075
+## UrbanPop 3.028838         76.00000       65.540      10.347798  14.329285
+## Murder   2.913295         10.81538        7.788       2.001863   4.311735
+##               p.value
+## Rape     8.692769e-08
+## Assault  1.320491e-05
+## UrbanPop 2.454964e-03
+## Murder   3.576369e-03
+## 
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;catdes&quot; &quot;list &quot;</code></pre>
+</div>
+<div id="visualize-the-results-of-hcpc-using-base-plot" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> Visualize the results of HCPC using base plot</h3>
+<p>The function <strong>plot.HCPC()</strong> [in <strong>FactoMineR</strong>] is used:</p>
+<pre class="r"><code>plot(x, axes = c(1,2), choice = &quot;3D.map&quot;, 
+     draw.tree = TRUE, ind.names = TRUE, title = NULL,
+     tree.barplot = TRUE, centers.plot = FALSE)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: an object of class HCPC</li>
+<li><strong>axes</strong>: the principal components to be plotted</li>
+<li><strong>choice</strong>: a string. Possible values are:
+<ul>
+<li><strong>“tree”</strong>: plots the tree (dendrogram)</li>
+<li><strong>“bar”</strong>: plots bars of inertia gains</li>
+<li><strong>“map”</strong>: plots a factor map. Individuals are colored by cluster</li>
+<li><strong>“3D.map”</strong>: plots the factor map. The tree is added on the plot</li>
+</ul></li>
+<li><strong>draw.tree</strong>: a logical value. If TRUE, the tree is plotted on the factor map if choice = “map”</li>
+<li><strong>ind.names</strong>: a logical value. If TRUE, individual names are shown</li>
+<li><strong>title</strong>: the title of the grap</li>
+<li><strong>tree.barplot</strong>: a logical value. If TRUE, the barplot of intra inertia losses is added on the tree graph.</li>
+<li><strong>centers.plot</strong>: a logical value. If TRUE, the centers of clusters are drawn on the factor maps</li>
+</ul>
+</div>
+<p><br/></p>
+<pre class="r"><code># Principal components + tree
+plot(res.hcpc, choice = &quot;3D.map&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hcpc-hierarchical-clustering-on-principal-component-hierarchical-clustering-on-principal-component-visualization-1.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Plot the dendrogram only
+plot(res.hcpc, choice =&quot;tree&quot;, cex = 0.6)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hcpc-hierarchical-clustering-on-principal-component-hierarchical-clustering-on-principal-component-visualization-2.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Draw only the factor map
+plot(res.hcpc, choice =&quot;map&quot;, draw.tree = FALSE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hcpc-hierarchical-clustering-on-principal-component-hierarchical-clustering-on-principal-component-visualization-3.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Remove labels and add cluster centers
+plot(res.hcpc, choice =&quot;map&quot;, draw.tree = FALSE,
+     ind.names = FALSE, centers.plot = TRUE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hcpc-hierarchical-clustering-on-principal-component-hierarchical-clustering-on-principal-component-visualization-4.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="visualize-the-results-of-hcpc-using-factoextra" class="section level3">
+<h3><span class="header-section-number">3.3.5</span> Visualize the results of HCPC using factoextra</h3>
+<p>The function <strong>fviz_cluster()</strong> can be used:</p>
+<pre class="r"><code>fviz_cluster(res.hcpc)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hcpc-hierarchical-clustering-on-principal-component-hierarchical-clustering-on-principal-component-ggplot2-1.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+</div>
+<div id="case-of-categorical-variables" class="section level2">
+<h2><span class="header-section-number">3.4</span> Case of categorical variables</h2>
+<p>Compute CA or MCA and then apply the function HCPC() on the results as described above. If you want to learn more about CA and MCA, read the following articles:</p>
+<ul>
+<li><a href="http://www.sthda.com/english/wiki/correspondence-analysis-in-r-the-ultimate-guide-for-the-analysis-the-visualization-and-the-interpretation-r-software-and-data-mining">Correspondence Analysis (CA)</a></li>
+<li><a href="http://www.sthda.com/english/wiki/multiple-correspondence-analysis-essentials-interpretation-and-application-to-investigate-the-associations-between-categories-of-multiple-qualitative-variables-r-software-and-data-mining">Multiple Correspondence Analysis (MCA)</a></li>
+</ul>
+</div>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">4</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+<ul>
+<li>Husson, F., Josse, J. &amp; Pagès J. (2010). Principal component methods - hierarchical clustering - partitional clustering: why would we need to choose for visualizing data?. Technical report. <a href="http://factominer.free.fr/docs/HCPC_husson_josse.pdf">pdf</a></li>
+</ul>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+<!--====================== stop here when you copy to sthda================-->
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 1893 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="e9f83407c516cc46">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

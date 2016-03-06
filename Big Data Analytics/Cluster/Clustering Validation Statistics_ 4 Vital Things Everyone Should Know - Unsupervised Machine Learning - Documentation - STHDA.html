@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "74c136fb55c47d73";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=241&amp;com=0"><i class="fa fa-comments-o"></i> Discussion</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=241" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=241" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+  
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+<div id="TOC">
+<ul>
+<li><a href="#required-packages"><span class="toc-section-number">1</span> Required packages</a></li>
+<li><a href="#data-preparation"><span class="toc-section-number">2</span> Data preparation</a></li>
+<li><a href="#relative-measures-determine-the-optimal-number-of-clusters"><span class="toc-section-number">3</span> Relative measures: Determine the optimal number of clusters</a></li>
+<li><a href="#clustering-analysis"><span class="toc-section-number">4</span> Clustering analysis</a><ul>
+<li><a href="#example-of-partitioning-method-results"><span class="toc-section-number">4.1</span> Example of partitioning method results</a></li>
+<li><a href="#example-of-hierarchical-clustering-results"><span class="toc-section-number">4.2</span> Example of hierarchical clustering results</a></li>
+</ul></li>
+<li><a href="#internal-clustering-validation-measures"><span class="toc-section-number">5</span> Internal clustering validation measures</a><ul>
+<li><a href="#silhouette-analysis"><span class="toc-section-number">5.1</span> Silhouette analysis</a><ul>
+<li><a href="#concept-and-algorithm"><span class="toc-section-number">5.1.1</span> Concept and algorithm</a></li>
+<li><a href="#interpretation-of-silhouette-width"><span class="toc-section-number">5.1.2</span> Interpretation of silhouette width</a></li>
+<li><a href="#r-functions-for-silhouette-analysis"><span class="toc-section-number">5.1.3</span> R functions for silhouette analysis</a></li>
+<li><a href="#silhouette-plot-for-k-means-clustering"><span class="toc-section-number">5.1.4</span> Silhouette plot for k-means clustering</a></li>
+<li><a href="#silhouette-plot-for-pam-clustering"><span class="toc-section-number">5.1.5</span> Silhouette plot for PAM clustering</a></li>
+<li><a href="#silhouette-plot-for-hierarchical-clustering"><span class="toc-section-number">5.1.6</span> Silhouette plot for hierarchical clustering</a></li>
+<li><a href="#samples-with-a-negative-silhouette-coefficient"><span class="toc-section-number">5.1.7</span> Samples with a negative silhouette coefficient</a></li>
+</ul></li>
+<li><a href="#dunn-index"><span class="toc-section-number">5.2</span> Dunn index</a><ul>
+<li><a href="#concept-and-algorithm-1"><span class="toc-section-number">5.2.1</span> Concept and algorithm</a></li>
+<li><a href="#r-function-for-computing-dunn-index"><span class="toc-section-number">5.2.2</span> R function for computing Dunn index</a></li>
+</ul></li>
+<li><a href="#clustering-validation-statistics"><span class="toc-section-number">5.3</span> Clustering validation statistics</a></li>
+</ul></li>
+<li><a href="#external-clustering-validation"><span class="toc-section-number">6</span> External clustering validation</a></li>
+<li><a href="#infos"><span class="toc-section-number">7</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/></p>
+<p><strong>Clustering</strong> is an <strong>unsupervised machine learning</strong> method for partitioning dataset into a set of groups or clusters. A big issue is that <strong>clustering methods</strong> will return clusters even if the data does not contain any clusters. Therefore, it’s necessary i) to <a href="http://www.sthda.com/english/wiki/assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning"><strong>assess clustering tendency</strong></a> before the analysis and ii) to validate the quality of the result after clustering.</p>
+<p>A variety of measures has been proposed in the literature for evaluating clustering results. The term <strong>clustering validation</strong> is used to design the procedure of evaluating the results of a clustering algorithm.</p>
+<p>Generally, clustering validation statistics can be categorized into 4 classes (Theodoridis and Koutroubas, 2008; G. Brock et al., 2008, Charrad et al., 2014):</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li><p><strong>Relative clustering validation</strong>, which evaluates the clustering structure by varying different parameter values for the same algorithm (e.g.,: varying the number of clusters k). It’s generally used for determining the <a href="http://www.sthda.com/english/wiki/determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">optimal number of clusters</a>.</p></li>
+<li><p><strong>External clustering validation</strong>, which consists in comparing the results of a cluster analysis to an externally known result, such as externally provided class labels. Since we know the “true” cluster number in advance, this approach is mainly used for selecting the right clustering algorithm for a specific dataset.</p></li>
+<li><p><strong>Internal clustering validation</strong>, which use the internal information of the clustering process to evaluate the goodness of a clustering structure without reference to external information. It can be also used for estimating the number of clusters and the appropriate clustering algorithm without any external data.</p></li>
+<li><strong>Clustering stability validation</strong>, which is a special version of internal validation. It evaluates the consistency of a clustering result by comparing it with the clusters obtained after each column is removed, one at a time. <strong>Clustering stability measures</strong> will be described in a future chapter.</li>
+</ol>
+</div>
+<p><br/></p>
+<p>The aim of this article is to:</p>
+<ul>
+<li>describe the different methods for clustering validation</li>
+<li>compare the quality of clustering results obtained with different clustering algorithms</li>
+<li>provide R lab section for validating clustering results</li>
+</ul>
+<p><span class="notice"> In all the examples presented here, we’ll apply <strong>k-means</strong>, <strong>PAM</strong> and <strong>hierarchical</strong> clustering. Note that, the functions used in this article can be applied to evaluate the validity of any other clustering methods.</span></p>
+<div id="required-packages" class="section level1">
+<h1><span class="header-section-number">1</span> Required packages</h1>
+<p>The following packages will be used:</p>
+<ul>
+<li><strong>cluster</strong> for computing <strong>PAM clustering</strong> and for analyzing <strong>cluster silhouettes</strong></li>
+<li><strong>factoextra</strong> for simplifying clustering workflows and for visualizing clusters using <strong>ggplot2</strong> plotting system</li>
+<li><strong>NbClust</strong> for determining the optimal number of clusters in the data</li>
+<li><strong>fpc</strong> for computing clustering validation statistics</li>
+</ul>
+<p>Install <strong>factoextra</strong> package as follow:</p>
+<pre class="r"><code>if(!require(devtools)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<p>The remaining packages can be installed using the code below:</p>
+<pre class="r"><code>pkgs &lt;- c(&quot;cluster&quot;, &quot;fpc&quot;, &quot;NbClust&quot;)
+install.packages(pkgs)</code></pre>
+<p>Load packages:</p>
+<pre class="r"><code>library(factoextra)
+library(cluster)
+library(fpc)
+library(NbClust)</code></pre>
+</div>
+<div id="data-preparation" class="section level1">
+<h1><span class="header-section-number">2</span> Data preparation</h1>
+<p>The data set <em>iris</em> is used. We start by excluding the column “Species” and scaling the data using the function <strong>scale()</strong>:</p>
+<pre class="r"><code># Load the data
+data(iris)
+head(iris)</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code># Remove species column (5) and scale the data
+iris.scaled &lt;- scale(iris[, -5])</code></pre>
+<p><span class="notice">Iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.</span></p>
+</div>
+<div id="relative-measures-determine-the-optimal-number-of-clusters" class="section level1">
+<h1><span class="header-section-number">3</span> Relative measures: Determine the optimal number of clusters</h1>
+<p>Many indices (more than 30) has been published in the literature for finding the right number of clusters in a dataset. The process has been covered in my previous article: <a href="http://www.sthda.com/english/wiki/determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters</a>.</p>
+<p>In this section we’ll use the package <strong>NbClust</strong> which will compute, with a single function call, 30 indices for deciding the right number of clusters in the dataset:</p>
+<pre class="r"><code># Compute the number of clusters
+library(NbClust)
+nb &lt;- NbClust(iris.scaled, distance = &quot;euclidean&quot;, min.nc = 2,
+        max.nc = 10, method = &quot;complete&quot;, index =&quot;all&quot;)</code></pre>
+<pre class="r"><code># Visualize the result
+library(factoextra)
+fviz_nbclust(nb) + theme_minimal()</code></pre>
+<pre><code>## Among all indices: 
+## ===================
+## * 2 proposed  0 as the best number of clusters
+## * 1 proposed  1 as the best number of clusters
+## * 2 proposed  2 as the best number of clusters
+## * 18 proposed  3 as the best number of clusters
+## * 3 proposed  10 as the best number of clusters
+## 
+## Conclusion
+## =========================
+## * Accoridng to the majority rule, the best number of clusters is  3 .</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/clustering-validation-statistics-nbclust-factoextra-1.png" title="Clustering validation statistics - Unsupervised Machine Learning" alt="Clustering validation statistics - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="clustering-analysis" class="section level1">
+<h1><span class="header-section-number">4</span> Clustering analysis</h1>
+<p>We’ll use the function <strong>eclust()</strong> [in <strong>factoextra</strong>] which provides several advantages as described in the previous chapter: <a href="http://www.sthda.com/english/wiki/visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis</a>.</p>
+<p><strong>eclust()</strong> stands for enhanced clustering. It simplifies the workflow of clustering analysis and, it can be used to compute <a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">hierarchical clustering</a> and <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">partititioning clustering</a> in a single line function call.</p>
+<div id="example-of-partitioning-method-results" class="section level2">
+<h2><span class="header-section-number">4.1</span> Example of partitioning method results</h2>
+<p><strong>K-means</strong> and <strong>PAM</strong> clustering are described in this section. We’ll split the data into 3 clusters as follow:</p>
+<pre class="r"><code># K-means clustering
+km.res &lt;- eclust(iris.scaled, &quot;kmeans&quot;, k = 3,
+                 nstart = 25, graph = FALSE)
+# k-means group number of each observation
+km.res$cluster</code></pre>
+<pre><code>##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3
+##  [71] 2 3 3 3 3 2 2 2 3 3 3 3 3 3 3 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2
+## [106] 2 3 2 2 2 2 2 2 3 3 2 2 2 2 3 2 3 2 3 2 2 3 2 2 2 2 2 2 3 3 2 2 2 3 2
+## [141] 2 2 3 2 2 2 3 2 2 3</code></pre>
+<pre class="r"><code># Visualize k-means clusters
+fviz_cluster(km.res, geom = &quot;point&quot;, frame.type = &quot;norm&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/clustering-validation-statistics-k-means-pam-clusterings-visualization-1.png" title="Clustering validation statistics - Unsupervised Machine Learning" alt="Clustering validation statistics - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># PAM clustering
+pam.res &lt;- eclust(iris.scaled, &quot;pam&quot;, k = 3, graph = FALSE)
+pam.res$cluster</code></pre>
+<pre><code>##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3
+##  [71] 3 3 3 3 3 2 2 2 3 3 3 3 3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2
+## [106] 2 3 2 2 2 2 2 2 3 2 2 2 2 2 3 2 3 2 3 2 2 3 3 2 2 2 2 2 3 3 2 2 2 3 2
+## [141] 2 2 3 2 2 2 3 2 2 3</code></pre>
+<pre class="r"><code># Visualize pam clusters
+fviz_cluster(pam.res, geom = &quot;point&quot;, frame.type = &quot;norm&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/clustering-validation-statistics-k-means-pam-clusterings-visualization-2.png" title="Clustering validation statistics - Unsupervised Machine Learning" alt="Clustering validation statistics - Unsupervised Machine Learning" width="518.4" /></p>
+<p>Read more about partitioning methods: <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning clustering</a></p>
+</div>
+<div id="example-of-hierarchical-clustering-results" class="section level2">
+<h2><span class="header-section-number">4.2</span> Example of hierarchical clustering results</h2>
+<pre class="r"><code># Enhanced hierarchical clustering
+res.hc &lt;- eclust(iris.scaled, &quot;hclust&quot;, k = 3,
+                method = &quot;complete&quot;, graph = FALSE) 
+head(res.hc$cluster, 15)</code></pre>
+<pre><code>##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</code></pre>
+<pre class="r"><code># Dendrogram
+fviz_dend(res.hc, rect = TRUE, show_labels = FALSE) </code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/clustering-validation-statistics-unnamed-chunk-5-1.png" title="Clustering validation statistics - Unsupervised Machine Learning" alt="Clustering validation statistics - Unsupervised Machine Learning" width="518.4" /></p>
+<p>Read more about hierarchical clustering: <a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical clustering</a></p>
+</div>
+</div>
+<div id="internal-clustering-validation-measures" class="section level1">
+<h1><span class="header-section-number">5</span> Internal clustering validation measures</h1>
+<p>In this section, we describe the most widely used clustering validation indices. Recall that the goal of <strong>clustering algorithms</strong> is to split the dataset into clusters of objects, such that:</p>
+<ul>
+<li>the objects in the same cluster are similar as much as possible,</li>
+<li>and the objects in different clusters are highly distinct</li>
+</ul>
+<p><span class="success"> That is, we want the <strong>average distance within cluster</strong> to be as small as possible; and the <strong>average distance between clusters</strong> to be as large as possible.</span></p>
+<p>Internal validation measures reflect often the <strong>compactness</strong>, the <strong>connectedness</strong> and <strong>separation</strong> of the cluster partitions.</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li><p><strong>Compactness measures</strong> evaluate how close are the objects within the same cluster. A lower <strong>within-cluster variation</strong> is an indicator of a good compactness (i.e., a good clustering). The different indices for evaluating the compactness of clusters are base on distance measures such as the cluster-wise within average/median distances between observations.</p></li>
+<li><strong>Separation measures</strong> determine how well-separated a cluster is from other clusters. The indices used as separation measures include:
+<ul>
+<li>distances between cluster centers</li>
+<li>the pairwise minimum distances between objects in different clusters</li>
+</ul></li>
+<li><strong>Connectivity</strong> corresponds to what extent items are placed in the same cluster as their nearest neighbors in the data space. The connectivity has a value between 0 and infinity and should be minimized.</li>
+</ol>
+</div>
+<p><br/></p>
+<p>Generally most of the indices used for internal clustering validation combine compactness and separation measures as follow:</p>
+<p><span class="math">\[
+Index = \frac{(\alpha \times Separation)}{(\beta \times Compactness)}
+\]</span></p>
+<p>Where <span class="math">\(\alpha\)</span> and <span class="math">\(\beta\)</span> are weights.</p>
+<p><span class="success"> In this section, we’ll describe the two commonly used indices for assessing the goodness of clustering: <strong>silhouette width</strong> and <strong>Dunn index</strong>.</span></p>
+<p><span class="notice">Recall that, more than 30 indices has been published in literature. They can be easily computed using the function <strong>NbClust</strong> which has been described in my previous article: <a href="http://www.sthda.com/english/wiki/determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters</a>.</span></p>
+<div id="silhouette-analysis" class="section level2">
+<h2><span class="header-section-number">5.1</span> Silhouette analysis</h2>
+<div id="concept-and-algorithm" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Concept and algorithm</h3>
+<p><strong>Silhouette analysis</strong> measures how well an observation is clustered and it estimates the <strong>average distance between clusters</strong>. The silhouette plot displays a measure of how close each point in one cluster is to points in the neighboring clusters.</p>
+<p>For each observation <span class="math">\(i\)</span>, the silhouette width <span class="math">\(s_i\)</span> is calculated as follows:</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li>For each observation <span class="math">\(i\)</span>, calculate the average dissimilarity <span class="math">\(a_i\)</span> between <span class="math">\(i\)</span> and all other points of the cluster to which i belongs.<br /></li>
+<li><p>For all other clusters <span class="math">\(C\)</span>, to which i does not belong, calculate the average dissimilarity <span class="math">\(d(i, C)\)</span> of <span class="math">\(i\)</span> to all observations of C. The smallest of these <span class="math">\(d(i,C)\)</span> is defined as <span class="math">\(b_i= \min_C d(i,C)\)</span>. The value of <span class="math">\(b_i\)</span> can be seen as the dissimilarity between <span class="math">\(i\)</span> and its “neighbor” cluster, i.e., the nearest one to which it does not belong.</p></li>
+<li>Finally the <strong>silhouette width</strong> of the observation <span class="math">\(i\)</span> is defined by the formula: <span class="math">\(S_i = (b_i - a_i)/max(a_i, b_i)\)</span>.<br /></li>
+</ol>
+</div>
+<p><br/></p>
+</div>
+<div id="interpretation-of-silhouette-width" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Interpretation of silhouette width</h3>
+<p>Silhouette width can be interpreted as follow:</p>
+<br/>
+<div class="block">
+<ul>
+<li><p>Observations with a large <span class="math">\(S_i\)</span> (almost 1) are very well clustered</p></li>
+<li><p>A small <span class="math">\(S_i\)</span> (around 0) means that the observation lies between two clusters</p></li>
+<li>Observations with a negative <span class="math">\(S_i\)</span> are probably placed in the wrong cluster.<br /></li>
+</ul>
+</div>
+<p><br/></p>
+</div>
+<div id="r-functions-for-silhouette-analysis" class="section level3">
+<h3><span class="header-section-number">5.1.3</span> R functions for silhouette analysis</h3>
+<p>The silhouette coefficient of observations can be computed using the function <strong>silhouette()</strong> [in <strong>cluster</strong> package]:</p>
+<pre class="r"><code>silhouette(x, dist, ...)</code></pre>
+<ul>
+<li><strong>x</strong>: an integer vector containing the cluster assignment of observations</li>
+<li><strong>dist</strong>: a dissimilarity object created by the function <strong>dist()</strong></li>
+</ul>
+<p>The function <strong>silhouette()</strong> returns an object, of class <strong>silhouette</strong> containing:</p>
+<ul>
+<li>The <strong>cluster</strong> number of each observation i</li>
+<li>The <strong>neighbor</strong> cluster of i (the cluster, not containing i, for which the average dissimilarity between its observations and i is minimal)</li>
+<li>The <strong>silhouette width</strong> <span class="math">\(s_i\)</span> of each observation</li>
+</ul>
+<p>The R code below computes silhouette analysis and draw the result using R base plot:</p>
+<pre class="r"><code># Silhouette coefficient of observations
+library(&quot;cluster&quot;)
+sil &lt;- silhouette(km.res$cluster, dist(iris.scaled))
+head(sil[, 1:3], 10)</code></pre>
+<pre><code>##       cluster neighbor sil_width
+##  [1,]       1        3 0.7341949
+##  [2,]       1        3 0.5682739
+##  [3,]       1        3 0.6775472
+##  [4,]       1        3 0.6205016
+##  [5,]       1        3 0.7284741
+##  [6,]       1        3 0.6098848
+##  [7,]       1        3 0.6983835
+##  [8,]       1        3 0.7308169
+##  [9,]       1        3 0.4882100
+## [10,]       1        3 0.6315409</code></pre>
+<pre class="r"><code># Silhouette plot
+plot(sil, main =&quot;Silhouette plot - K-means&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/clustering-validation-statistics-k-means-clustering-silhouette-1.png" title="Clustering validation statistics - Unsupervised Machine Learning" alt="Clustering validation statistics - Unsupervised Machine Learning" width="518.4" /></p>
+<p>Use <strong>factoextra</strong> for elegant data visualization:</p>
+<pre class="r"><code>library(factoextra)
+fviz_silhouette(sil)</code></pre>
+<p>The summary of the <strong>silhouette analysis</strong> can be computed using the function <strong>summary.silhouette()</strong> as follow:</p>
+<pre class="r"><code># Summary of silhouette analysis
+si.sum &lt;- summary(sil)
+# Average silhouette width of each cluster
+si.sum$clus.avg.widths</code></pre>
+<pre><code>##         1         2         3 
+## 0.6363162 0.3473922 0.3933772</code></pre>
+<pre class="r"><code># The total average (mean of all individual silhouette widths)
+si.sum$avg.width</code></pre>
+<pre><code>## [1] 0.4599482</code></pre>
+<pre class="r"><code># The size of each clusters
+si.sum$clus.sizes</code></pre>
+<pre><code>## cl
+##  1  2  3 
+## 50 47 53</code></pre>
+<p><span class="warning">Note that, if the clustering analysis is done using the function <strong>eclust()</strong>, cluster silhouettes are computed automatically and stored in the object <strong>silinfo</strong>. The results can be easily visualized as shown in the next sections.</span></p>
+</div>
+<div id="silhouette-plot-for-k-means-clustering" class="section level3">
+<h3><span class="header-section-number">5.1.4</span> Silhouette plot for k-means clustering</h3>
+<p>It’s possible to draw <strong>silhouette plot</strong> using the function <strong>fviz_silhouette()</strong> [in <strong>factoextra</strong> package], which will also print a summary of the silhouette analysis output. To avoid this, you can use the option <strong>print.summary = FALSE</strong>.</p>
+<pre class="r"><code># Default plot
+fviz_silhouette(km.res)</code></pre>
+<pre><code>##   cluster size ave.sil.width
+## 1       1   50          0.64
+## 2       2   47          0.35
+## 3       3   53          0.39</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/clustering-validation-statistics-cluster-silhouette-plot-ggplot2-factoextra-2-1.png" title="Clustering validation statistics - Unsupervised Machine Learning" alt="Clustering validation statistics - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Change the theme and color
+fviz_silhouette(km.res, print.summary = FALSE) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  theme_minimal()+
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/clustering-validation-statistics-cluster-silhouette-plot-ggplot2-factoextra-2-2.png" title="Clustering validation statistics - Unsupervised Machine Learning" alt="Clustering validation statistics - Unsupervised Machine Learning" width="518.4" /></p>
+<p>Silhouette information can be extracted as follow:</p>
+<pre class="r"><code># Silhouette information
+silinfo &lt;- km.res$silinfo
+names(silinfo)</code></pre>
+<pre><code>## [1] &quot;widths&quot;          &quot;clus.avg.widths&quot; &quot;avg.width&quot;</code></pre>
+<pre class="r"><code># Silhouette widths of each observation
+head(silinfo$widths[, 1:3], 10)</code></pre>
+<pre><code>##    cluster neighbor sil_width
+## 1        1        3 0.7341949
+## 41       1        3 0.7333345
+## 8        1        3 0.7308169
+## 18       1        3 0.7287522
+## 5        1        3 0.7284741
+## 40       1        3 0.7247047
+## 38       1        3 0.7244191
+## 12       1        3 0.7217939
+## 28       1        3 0.7215103
+## 29       1        3 0.7145192</code></pre>
+<pre class="r"><code># Average silhouette width of each cluster
+silinfo$clus.avg.widths</code></pre>
+<pre><code>## [1] 0.6363162 0.3473922 0.3933772</code></pre>
+<pre class="r"><code># The total average (mean of all individual silhouette widths)
+silinfo$avg.width</code></pre>
+<pre><code>## [1] 0.4599482</code></pre>
+<pre class="r"><code># The size of each clusters
+km.res$size</code></pre>
+<pre><code>## [1] 50 47 53</code></pre>
+</div>
+<div id="silhouette-plot-for-pam-clustering" class="section level3">
+<h3><span class="header-section-number">5.1.5</span> Silhouette plot for PAM clustering</h3>
+<pre class="r"><code>fviz_silhouette(pam.res)</code></pre>
+<pre><code>##   cluster size ave.sil.width
+## 1       1   50          0.63
+## 2       2   45          0.35
+## 3       3   55          0.38</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/clustering-validation-statistics-pam-cluster-silhouette-1.png" title="Clustering validation statistics - Unsupervised Machine Learning" alt="Clustering validation statistics - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="silhouette-plot-for-hierarchical-clustering" class="section level3">
+<h3><span class="header-section-number">5.1.6</span> Silhouette plot for hierarchical clustering</h3>
+<pre class="r"><code>fviz_silhouette(res.hc)</code></pre>
+<pre><code>##   cluster size ave.sil.width
+## 1       1   49          0.75
+## 2       2   75          0.37
+## 3       3   26          0.51</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/clustering-validation-statistics-hierarchical-clustering-silhouette-1.png" title="Clustering validation statistics - Unsupervised Machine Learning" alt="Clustering validation statistics - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="samples-with-a-negative-silhouette-coefficient" class="section level3">
+<h3><span class="header-section-number">5.1.7</span> Samples with a negative silhouette coefficient</h3>
+<p>It can be seen that several samples have a negative silhouette coefficient in the hierarchical clustering. <strong>This means that they are not in the right cluster</strong>.</p>
+<p>We can find the name of these samples and determine the clusters they are closer (neighbor cluster), as follow:</p>
+<pre class="r"><code># Silhouette width of observation
+sil &lt;- res.hc$silinfo$widths[, 1:3]
+# Objects with negative silhouette
+neg_sil_index &lt;- which(sil[, &#39;sil_width&#39;] &lt; 0)
+sil[neg_sil_index, , drop = FALSE]</code></pre>
+<pre><code>##     cluster neighbor   sil_width
+## 51        2        3 -0.02848264
+## 148       2        3 -0.03799687
+## 129       2        3 -0.09622863
+## 111       2        3 -0.14461589
+## 109       2        3 -0.14991556
+## 133       2        3 -0.18730218
+## 42        2        1 -0.39515010</code></pre>
+</div>
+</div>
+<div id="dunn-index" class="section level2">
+<h2><span class="header-section-number">5.2</span> Dunn index</h2>
+<div id="concept-and-algorithm-1" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Concept and algorithm</h3>
+<p><strong>Dunn index</strong> is another internal clustering validation measure which can be computed as follow:</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li>For each cluster, compute the distance between each of the objects in the cluster and the objects in the other clusters</li>
+<li><p>Use the minimum of this pairwise distance as the inter-cluster separation (<strong>min.separation</strong>)</p></li>
+<li>For each cluster, compute the distance between the objects in the same cluster.</li>
+<li><p>Use the maximal intra-cluster distance (i.e maximum diameter) as the intra-cluster compactness</p></li>
+<li><p>Calculate <strong>Dunn index</strong> (D) as follow:</p></li>
+</ol>
+<p><span class="math">\[
+D = \frac{min.separation}{max.diameter}
+\]</span></p>
+</div>
+<p><br/></p>
+<p><span class="success">If the data set contains compact and well-separated clusters, the diameter of the clusters is expected to be small and the distance between the clusters is expected to be large. Thus, Dunn index should be maximized.</span></p>
+</div>
+<div id="r-function-for-computing-dunn-index" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> R function for computing Dunn index</h3>
+<p>The function <strong>cluster.stats()</strong> [in <strong>fpc</strong> package] and the function <strong>NbClust()</strong> [in <strong>NbClust</strong> package] can be used to compute <strong>Dunn index</strong> and many other indices.</p>
+<p>The function <strong>cluster.stats()</strong> is described in the next section.</p>
+</div>
+</div>
+<div id="clustering-validation-statistics" class="section level2">
+<h2><span class="header-section-number">5.3</span> Clustering validation statistics</h2>
+<p>In this section, we’ll describe the R function <strong>cluster.stats()</strong> [in <strong>fpc</strong> package] for computing a number of distance based statistics which can be used either for cluster validation, comparison between clustering and decision about the number of clusters.</p>
+<p>The simplified format is:</p>
+<pre class="r"><code>cluster.stats(d = NULL, clustering, al.clustering = NULL)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>d</strong>: a distance object between cases as generated by the <strong>dist()</strong> function</li>
+<li><strong>clustering</strong>: vector containing the cluster number of each observation</li>
+<li><strong>alt.clustering</strong>: vector such as for clustering, indicating an alternative clustering</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The function <strong>cluster.stats()</strong> returns a list containing many components useful for analyzing the <strong>intrinsic characteristics</strong> of a clustering:</p>
+<ul>
+<li><strong>cluster.number</strong>: number of clusters</li>
+<li><strong>cluster.size</strong>: vector containing the number of points in each cluster</li>
+<li><strong>average.distance</strong>, <strong>median.distance</strong>: vector containing the cluster-wise within average/median distances</li>
+<li><strong>average.between</strong>: average distance between clusters. We want it to be as large as possible</li>
+<li><strong>average.within</strong>: average distance within clusters. We want it to be as small as possible</li>
+<li><strong>clus.avg.silwidths</strong>: vector of cluster average silhouette widths. Recall that, the <strong>silhouette width</strong> is also an estimate of the average distance between clusters. Its value is comprised between 1 and -1 with a value of 1 indicating a very good cluster.</li>
+<li><strong>within.cluster.ss</strong>: a generalization of the within clusters sum of squares (k-means objective function), which is obtained if d is a Euclidean distance matrix.</li>
+<li><strong>dunn, dunn2</strong>: Dunn index</li>
+<li><strong>corrected.rand, vi</strong>: Two indexes to assess the similarity of two clustering: the corrected Rand index and Meila’s VI</li>
+</ul>
+<p>All the above elements can be used to evaluate the internal quality of clustering.</p>
+<p>In the following sections, we’ll compute the clustering quality statistics for k-means, pam and hierarchical clustering. Look at the <strong>within.cluster.ss</strong> (within clusters sum of squares), the <strong>average.within</strong> (average distance within clusters) and <strong>clus.avg.silwidths</strong> (vector of cluster average silhouette widths).</p>
+<div id="cluster-statistics-for-k-means-clustering" class="section level4">
+<h4><span class="header-section-number">5.3.0.1</span> Cluster statistics for k-means clustering</h4>
+<pre class="r"><code>library(fpc)
+# Compute pairwise-distance matrices
+dd &lt;- dist(iris.scaled, method =&quot;euclidean&quot;)
+# Statistics for k-means clustering
+km_stats &lt;- cluster.stats(dd,  km.res$cluster)
+# (k-means) within clusters sum of squares
+km_stats$within.cluster.ss</code></pre>
+<pre><code>## [1] 138.8884</code></pre>
+<pre class="r"><code># (k-means) cluster average silhouette widths
+km_stats$clus.avg.silwidths</code></pre>
+<pre><code>##         1         2         3 
+## 0.6363162 0.3473922 0.3933772</code></pre>
+<pre class="r"><code># Display all statistics
+km_stats</code></pre>
+<pre><code>## $n
+## [1] 150
+## 
+## $cluster.number
+## [1] 3
+## 
+## $cluster.size
+## [1] 50 47 53
+## 
+## $min.cluster.size
+## [1] 47
+## 
+## $noisen
+## [1] 0
+## 
+## $diameter
+## [1] 5.034198 3.343671 2.922371
+## 
+## $average.distance
+## [1] 1.175155 1.307716 1.197061
+## 
+## $median.distance
+## [1] 0.9884177 1.2383531 1.1559887
+## 
+## $separation
+## [1] 1.5533592 0.1333894 0.1333894
+## 
+## $average.toother
+## [1] 3.647912 3.081212 2.674298
+## 
+## $separation.matrix
+##          [,1]      [,2]      [,3]
+## [1,] 0.000000 2.4150235 1.5533592
+## [2,] 2.415024 0.0000000 0.1333894
+## [3,] 1.553359 0.1333894 0.0000000
+## 
+## $ave.between.matrix
+##          [,1]     [,2]     [,3]
+## [1,] 0.000000 4.129179 3.221129
+## [2,] 4.129179 0.000000 2.092563
+## [3,] 3.221129 2.092563 0.000000
+## 
+## $average.between
+## [1] 3.130708
+## 
+## $average.within
+## [1] 1.222246
+## 
+## $n.between
+## [1] 7491
+## 
+## $n.within
+## [1] 3684
+## 
+## $max.diameter
+## [1] 5.034198
+## 
+## $min.separation
+## [1] 0.1333894
+## 
+## $within.cluster.ss
+## [1] 138.8884
+## 
+## $clus.avg.silwidths
+##         1         2         3 
+## 0.6363162 0.3473922 0.3933772 
+## 
+## $avg.silwidth
+## [1] 0.4599482
+## 
+## $g2
+## NULL
+## 
+## $g3
+## NULL
+## 
+## $pearsongamma
+## [1] 0.679696
+## 
+## $dunn
+## [1] 0.02649665
+## 
+## $dunn2
+## [1] 1.600166
+## 
+## $entropy
+## [1] 1.097412
+## 
+## $wb.ratio
+## [1] 0.3904057
+## 
+## $ch
+## [1] 241.9044
+## 
+## $cwidegap
+## [1] 1.3892251 0.9432249 0.7824508
+## 
+## $widestgap
+## [1] 1.389225
+## 
+## $sindex
+## [1] 0.3524812
+## 
+## $corrected.rand
+## NULL
+## 
+## $vi
+## NULL</code></pre>
+<p><span class="notice"> Read the documentation of <strong>cluster.stats()</strong> for details about all the available indices.</span></p>
+<p>The same statistics can be computed for <strong>pam clustering</strong> and <strong>hierarchical clustering</strong>.</p>
+</div>
+<div id="cluster-statistics-for-pam-clustering" class="section level4">
+<h4><span class="header-section-number">5.3.0.2</span> Cluster statistics for PAM clustering</h4>
+<pre class="r"><code># Statistics for pam clustering
+pam_stats &lt;- cluster.stats(dd,  pam.res$cluster)
+# (pam) within clusters sum of squares
+pam_stats$within.cluster.ss</code></pre>
+<pre><code>## [1] 140.2856</code></pre>
+<pre class="r"><code># (pam) cluster average silhouette widths
+pam_stats$clus.avg.silwidths</code></pre>
+<pre><code>##         1         2         3 
+## 0.6346397 0.3496332 0.3823817</code></pre>
+</div>
+<div id="cluster-statistics-for-hierarchical-clustering" class="section level4">
+<h4><span class="header-section-number">5.3.0.3</span> Cluster statistics for hierarchical clustering</h4>
+<pre class="r"><code># Statistics for hierarchical clustering
+hc_stats &lt;- cluster.stats(dd,  res.hc$cluster)
+# (HCLUST) within clusters sum of squares
+hc_stats$within.cluster.ss</code></pre>
+<pre><code>## [1] 152.7107</code></pre>
+<pre class="r"><code># (HCLUST) cluster average silhouette widths
+hc_stats$clus.avg.silwidths</code></pre>
+<pre><code>##         1         2         3 
+## 0.6688130 0.3154184 0.4488197</code></pre>
+</div>
+</div>
+</div>
+<div id="external-clustering-validation" class="section level1">
+<h1><span class="header-section-number">6</span> External clustering validation</h1>
+<p>The aim is to compare the identified clusters (by k-means, pam or hierarchical clustering) to a reference.</p>
+<p>To compare two cluster solutions, use the <strong>cluster.stats()</strong> function as follow:</p>
+<pre class="r"><code>res.stat &lt;- cluster.stats(d, solution1$cluster, solution2$cluster)</code></pre>
+<p>Among the values returned by the function <strong>cluster.stats()</strong>, there are two indexes to assess the similarity of two clustering, namely the corrected Rand index and Meila’s VI.</p>
+<p>We know that the <em>iris</em> data contains exactly 3 groups of species.</p>
+<p><span class="question">Does the K-means clustering matches with the true structure of the data?</span></p>
+<p>We can use the function <strong>cluster.stats()</strong> to answer to this question.</p>
+<p>A cross-tabulation can be computed as follow:</p>
+<pre class="r"><code>table(iris$Species, km.res$cluster)</code></pre>
+<pre><code>##             
+##               1  2  3
+##   setosa     50  0  0
+##   versicolor  0 11 39
+##   virginica   0 36 14</code></pre>
+<p>It can be seen that:</p>
+<ul>
+<li>All setosa species (n = 50) has been classified in cluster 1</li>
+<li>A large number of versicor species (n = 39 ) has been classified in cluster 3. Some of them ( n = 11) have been classified in cluster 2.</li>
+<li>A large number of virginica species (n = 36 ) has been classified in cluster 2. Some of them (n = 14) have been classified in cluster 3.</li>
+</ul>
+<p>It’s possible to quantify the agreement between Species and k-means clusters using either the corrected Rand index and Meila’s VI provided as follow:</p>
+<pre class="r"><code>library(&quot;fpc&quot;)
+# Compute cluster stats
+species &lt;- as.numeric(iris$Species)
+clust_stats &lt;- cluster.stats(d = dist(iris.scaled), 
+                             species, km.res$cluster)
+# Corrected Rand index
+clust_stats$corrected.rand</code></pre>
+<pre><code>## [1] 0.6201352</code></pre>
+<pre class="r"><code># VI
+clust_stats$vi</code></pre>
+<pre><code>## [1] 0.7477749</code></pre>
+<p><span class="success">The corrected <strong>Rand index</strong> provides a measure for assessing the similarity between two partitions, adjusted for chance. Its range is -1 (no agreement) to 1 (perfect agreement). Agreement between the specie types and the cluster solution is 0.62 using <strong>Rand index</strong> and 0.748 using Meila’s VI</span></p>
+<p>The same analysis can be computed for both <strong>pam</strong> and <strong>hierarchical clustering</strong>:</p>
+<pre class="r"><code># Agreement between species and pam clusters
+table(iris$Species, pam.res$cluster)</code></pre>
+<pre><code>##             
+##               1  2  3
+##   setosa     50  0  0
+##   versicolor  0  9 41
+##   virginica   0 36 14</code></pre>
+<pre class="r"><code>cluster.stats(d = dist(iris.scaled), 
+              species, pam.res$cluster)$vi</code></pre>
+<pre><code>## [1] 0.7129034</code></pre>
+<pre class="r"><code># Agreement between species and HC clusters
+table(iris$Species, res.hc$cluster)</code></pre>
+<pre><code>##             
+##               1  2  3
+##   setosa     49  1  0
+##   versicolor  0 50  0
+##   virginica   0 24 26</code></pre>
+<pre class="r"><code>cluster.stats(d = dist(iris.scaled), 
+              species, res.hc$cluster)$vi</code></pre>
+<pre><code>## [1] 0.6097098</code></pre>
+<p><span class="success">External clustering validation, can be used to select suitable clustering algorithm for a given dataset.</span></p>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">7</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+<ul>
+<li>Malika Charrad, Nadia Ghazzali, Veronique Boiteau, Azam Niknafs (2014). NbClust: An R Package for Determining the Relevant Number of Clusters in a Data Set. Journal of Statistical Software, 61(6), 1-36. URL <a href="http://www.jstatsoft.org/v61/i06/" class="uri">http://www.jstatsoft.org/v61/i06/</a>.</li>
+<li>Theodoridis S, Koutroubas K (2008). Pattern Recognition. 4th edition. Academic Press.</li>
+</ul>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</div><!--end rdoc-->
+<!--====================== stop here when you copy to sthda================-->
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 2532 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="74c136fb55c47d73">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

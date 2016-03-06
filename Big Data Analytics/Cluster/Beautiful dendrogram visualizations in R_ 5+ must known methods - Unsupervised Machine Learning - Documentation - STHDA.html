@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "7a2fd5ea4fdff54e";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=254&amp;com=0"><i class="fa fa-comments-o"></i> Discussion (2)</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=254" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=254" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+<div id="TOC">
+<ul>
+<li><a href="#plot.hclust-r-base-function"><span class="toc-section-number">1</span> plot.hclust(): R base function</a></li>
+<li><a href="#plot.dendrogram-function"><span class="toc-section-number">2</span> plot.dendrogram() function</a></li>
+<li><a href="#phylogenetic-trees"><span class="toc-section-number">3</span> Phylogenetic trees</a></li>
+<li><a href="#ggdendro-package-ggplot2-and-dendrogram"><span class="toc-section-number">4</span> ggdendro package : ggplot2 and dendrogram</a><ul>
+<li><a href="#installation-and-loading"><span class="toc-section-number">4.1</span> Installation and loading</a></li>
+<li><a href="#visualize-dendrogram-using-ggdendrogram-function"><span class="toc-section-number">4.2</span> Visualize dendrogram using ggdendrogram() function</a></li>
+<li><a href="#extract-dendrogram-plot-data"><span class="toc-section-number">4.3</span> Extract dendrogram plot data</a></li>
+</ul></li>
+<li><a href="#dendextend-package-extending-rs-dendrogram-functionality"><span class="toc-section-number">5</span> dendextend package: Extending R’s dendrogram functionality</a><ul>
+<li><a href="#chaining"><span class="toc-section-number">5.1</span> Chaining</a></li>
+<li><a href="#installation-and-loading-1"><span class="toc-section-number">5.2</span> Installation and loading</a></li>
+<li><a href="#how-to-change-a-dendrogram"><span class="toc-section-number">5.3</span> How to change a dendrogram</a></li>
+<li><a href="#create-a-simple-dendrogram"><span class="toc-section-number">5.4</span> Create a simple dendrogram</a></li>
+<li><a href="#change-labels"><span class="toc-section-number">5.5</span> Change labels</a></li>
+<li><a href="#change-the-points-of-a-dendrogram-nodesleaves"><span class="toc-section-number">5.6</span> Change the points of a dendrogram nodes/leaves</a></li>
+<li><a href="#change-the-color-of-branches"><span class="toc-section-number">5.7</span> Change the color of branches</a></li>
+<li><a href="#adding-colored-rectangles"><span class="toc-section-number">5.8</span> Adding colored rectangles</a></li>
+<li><a href="#adding-colored-bars"><span class="toc-section-number">5.9</span> Adding colored bars</a></li>
+<li><a href="#ggplot2-integration"><span class="toc-section-number">5.10</span> ggplot2 integration</a></li>
+<li><a href="#pvclust-and-dendextend"><span class="toc-section-number">5.11</span> pvclust and dendextend</a></li>
+</ul></li>
+<li><a href="#infos"><span class="toc-section-number">6</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/></p>
+<p>A variety of functions exists in <strong>R</strong> for visualizing and customizing <strong>dendrogram</strong>. The aim of this article is to describe 5+ methods for <strong>drawing</strong> a beautiful dendrogram using <strong>R software</strong>.</p>
+<p>We start by computing <a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning"><strong>hierarchical clustering</strong></a> using the data set USArrests:</p>
+<pre class="r"><code># Load data
+data(USArrests)
+
+# Compute distances and hierarchical clustering
+dd &lt;- dist(scale(USArrests), method = &quot;euclidean&quot;)
+hc &lt;- hclust(dd, method = &quot;ward.D2&quot;)</code></pre>
+<div id="plot.hclust-r-base-function" class="section level1">
+<h1><span class="header-section-number">1</span> plot.hclust(): R base function</h1>
+<p>As you already know, the standard R function <strong>plot.hclust()</strong> can be used to draw a dendrogram from the results of hierarchical clustering analyses (computed using <strong>hclust()</strong> function).</p>
+<p>A simplified format is:</p>
+<pre class="r"><code>plot(x, labels = NULL, hang = 0.1, 
+     main = &quot;Cluster dendrogram&quot;, sub = NULL,
+     xlab = NULL, ylab = &quot;Height&quot;, ...)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: an object of the type produced by hclust()</li>
+<li><strong>labels</strong>: A character vector of labels for the leaves of the tree. The default value is row names. if <strong>labels = FALSE</strong>, no labels are drawn.</li>
+<li><strong>hang</strong>: The fraction of the plot height by which labels should hang below the rest of the plot. A negative value will cause the labels to hang down from 0.</li>
+<li><strong>main, sub, xlab, ylab</strong>: character strings for title.</li>
+</ul>
+</div>
+<p><br/></p>
+<pre class="r"><code># Default plot
+plot(hc)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-plot-hierarchical-clustoring-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Put the labels at the same height: hang = -1
+plot(hc, hang = -1, cex = 0.6)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-plot-hierarchical-clustoring-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="plot.dendrogram-function" class="section level1">
+<h1><span class="header-section-number">2</span> plot.dendrogram() function</h1>
+<p>In order to visualize the result of a hierarchical clustering analysis using the function <strong>plot.dendrogram()</strong>, we must firstly convert it as a dendrogram.</p>
+<p>The format of the function <strong>plot.dendrogram()</strong> is:</p>
+<pre class="r"><code>plot(x, type = c(&quot;rectangle&quot;, &quot;triangle&quot;), horiz = FALSE)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: an object of class dendrogram</li>
+<li><strong>type</strong> of plot. Possible values are “rectangle” or “triangle”</li>
+<li><strong>horiz</strong>: logical indicating if the dendrogram should be drawn horizontally or no</li>
+</ul>
+</div>
+<p><br/></p>
+<pre class="r"><code># Convert hclust into a dendrogram and plot
+hcd &lt;- as.dendrogram(hc)
+# Default plot
+plot(hcd, type = &quot;rectangle&quot;, ylab = &quot;Height&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-plot-dendrogram-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Triangle plot
+plot(hcd, type = &quot;triangle&quot;, ylab = &quot;Height&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-plot-dendrogram-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Zoom in to the first dendrogram
+plot(hcd, xlim = c(1, 20), ylim = c(1,8))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-plot-dendrogram-3.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<p>The above dendrogram can be customized using the arguments:</p>
+<ul>
+<li><strong>nodePar</strong>: a list of plotting parameters to use for the nodes (see <strong>?points</strong>). Default value is NULL. The list may contain components named pch, cex, col, xpd, and/or bg each of which can have length two for specifying separate attributes for inner nodes and leaves.</li>
+<li><strong>edgePar</strong>: a list of plotting parameters to use for the edge segments (see <strong>?segments</strong>). The list may contain components named col, lty and lwd (for the segments). As with nodePar, each can have length two for differentiating leaves and inner nodes.</li>
+<li><strong>leaflab</strong>: a string specifying how leaves are labeled. The default “perpendicular” write text vertically; “textlike” writes text horizontally (in a rectangle), and “none” suppresses leaf labels.</li>
+</ul>
+<pre class="r"><code># Define nodePar
+nodePar &lt;- list(lab.cex = 0.6, pch = c(NA, 19), 
+                cex = 0.7, col = &quot;blue&quot;)
+# Customized plot; remove labels
+plot(hcd, ylab = &quot;Height&quot;, nodePar = nodePar, leaflab = &quot;none&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-prolt-dendrogram-customize-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Horizontal plot
+plot(hcd,  xlab = &quot;Height&quot;,
+     nodePar = nodePar, horiz = TRUE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-prolt-dendrogram-customize-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Change edge color
+plot(hcd,  xlab = &quot;Height&quot;, nodePar = nodePar, 
+     edgePar = list(col = 2:3, lwd = 2:1))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-prolt-dendrogram-customize-3.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="phylogenetic-trees" class="section level1">
+<h1><span class="header-section-number">3</span> Phylogenetic trees</h1>
+<p>The package <strong>ape</strong> (Analyses of Phylogenetics and Evolution) can be used to produce a more sophisticated dendrogram.</p>
+<p>The function <strong>plot.phylo()</strong> can be used for plotting a dendrogram. A simplified format is:</p>
+<pre class="r"><code>plot(x, type = &quot;phylogram&quot;, show.tip.label = TRUE,
+     edge.color = &quot;black&quot;, edge.width = 1, edge.lty = 1,
+     tip.color = &quot;black&quot;)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: an object of class “phylo”</li>
+<li><strong>type</strong>: the type of phylogeny to be drawn. Possible values are: “phylogram” (the default), “cladogram”, “fan”, “unrooted” and “radial”</li>
+<li><strong>show.tip.label</strong>: if true labels are shown</li>
+<li><strong>edge.color, edge.width, edge.lty</strong>: line color, width and type to be used for edge</li>
+<li><strong>tip.color</strong>: color used for labels</li>
+</ul>
+</div>
+<p><br/></p>
+<pre class="r"><code># install.packages(&quot;ape&quot;)
+library(&quot;ape&quot;)
+# Default plot
+plot(as.phylo(hc), cex = 0.6, label.offset = 0.5)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-phylogenetic-trees-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Cladogram
+plot(as.phylo(hc), type = &quot;cladogram&quot;, cex = 0.6, 
+     label.offset = 0.5)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-phylogenetic-trees-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Unrooted
+plot(as.phylo(hc), type = &quot;unrooted&quot;, cex = 0.6,
+     no.margin = TRUE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-phylogenetic-trees-3.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Fan
+plot(as.phylo(hc), type = &quot;fan&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-phylogenetic-trees-4.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Radial
+plot(as.phylo(hc), type = &quot;radial&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-phylogenetic-trees-5.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Cut the dendrogram into 4 clusters
+colors = c(&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;, &quot;black&quot;)
+clus4 = cutree(hc, 4)
+plot(as.phylo(hc), type = &quot;fan&quot;, tip.color = colors[clus4],
+     label.offset = 1, cex = 0.7)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-phylogenetic-trees-6.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Change the appearance
+# change edge and label (tip)
+plot(as.phylo(hc), type = &quot;cladogram&quot;, cex = 0.6,
+     edge.color = &quot;steelblue&quot;, edge.width = 2, edge.lty = 2,
+     tip.color = &quot;steelblue&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-phylogenetic-trees-7.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="ggdendro-package-ggplot2-and-dendrogram" class="section level1">
+<h1><span class="header-section-number">4</span> ggdendro package : ggplot2 and dendrogram</h1>
+<p>The R package <strong>ggdendro</strong> can be used to extract the plot data from dendrogram and for drawing a dendrogram using <strong>ggplot2</strong>.</p>
+<div id="installation-and-loading" class="section level2">
+<h2><span class="header-section-number">4.1</span> Installation and loading</h2>
+<p><strong>ggdendro</strong> can be installed as follow:</p>
+<pre class="r"><code>install.packages(&quot;ggdendro&quot;)</code></pre>
+<p><span class="warning"> <strong>ggdendro</strong> requires the package <strong>ggplot2</strong>. Make sure that <strong>ggplot2</strong> is installed and loaded before using <strong>ggdendro</strong>.</span></p>
+<p>Load <strong>ggdendro</strong> as follow:</p>
+<pre class="r"><code>library(&quot;ggplot2&quot;)
+library(&quot;ggdendro&quot;)</code></pre>
+</div>
+<div id="visualize-dendrogram-using-ggdendrogram-function" class="section level2">
+<h2><span class="header-section-number">4.2</span> Visualize dendrogram using ggdendrogram() function</h2>
+<p>The function <strong>ggdendrogram()</strong> creates dendrogram plot using <strong>ggplot2</strong>.</p>
+<pre class="r"><code># Visualization using the default theme named theme_dendro()
+ggdendrogram(hc)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-ggdendrogram-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Rotate the plot and remove default theme
+ggdendrogram(hc, rotate = TRUE, theme_dendro = FALSE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-ggdendrogram-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="extract-dendrogram-plot-data" class="section level2">
+<h2><span class="header-section-number">4.3</span> Extract dendrogram plot data</h2>
+<p>The function <strong>dendro_data()</strong> can be used for extracting the data. It returns a list of data frames which can be extracted using the functions below:</p>
+<ul>
+<li><strong>segment()</strong>: To extract the data for dendrogram line segments</li>
+<li><strong>label()</strong>: To extract the labels</li>
+</ul>
+<pre class="r"><code># Build dendrogram object from hclust results
+dend &lt;- as.dendrogram(hc)
+
+# Extract the data (for rectangular lines)
+# Type can be &quot;rectangle&quot; or &quot;triangle&quot;
+dend_data &lt;- dendro_data(dend, type = &quot;rectangle&quot;)
+# What contains dend_data
+names(dend_data)</code></pre>
+<pre><code>## [1] &quot;segments&quot;    &quot;labels&quot;      &quot;leaf_labels&quot; &quot;class&quot;</code></pre>
+<pre class="r"><code># Extract data for line segments
+head(dend_data$segments)</code></pre>
+<pre><code>##           x         y     xend      yend
+## 1 19.771484 13.516242 8.867188 13.516242
+## 2  8.867188 13.516242 8.867188  6.461866
+## 3  8.867188  6.461866 4.125000  6.461866
+## 4  4.125000  6.461866 4.125000  2.714554
+## 5  4.125000  2.714554 2.500000  2.714554
+## 6  2.500000  2.714554 2.500000  1.091092</code></pre>
+<pre class="r"><code># Extract data for labels
+head(dend_data$labels)</code></pre>
+<pre><code>##   x y          label
+## 1 1 0        Alabama
+## 2 2 0      Louisiana
+## 3 3 0        Georgia
+## 4 4 0      Tennessee
+## 5 5 0 North Carolina
+## 6 6 0    Mississippi</code></pre>
+<p><strong>dend_data</strong> can be used to draw a customized dendrogram using ggplot2:</p>
+<pre class="r"><code># Plot line segments and add labels
+p &lt;- ggplot(dend_data$segments) + 
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend))+
+  geom_text(data = dend_data$labels, aes(x, y, label = label),
+            hjust = 1, angle = 90, size = 3)+
+  ylim(-3, 15)
+print(p)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-ggplot2-dendrogram-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+</div>
+<div id="dendextend-package-extending-rs-dendrogram-functionality" class="section level1">
+<h1><span class="header-section-number">5</span> dendextend package: Extending R’s dendrogram functionality</h1>
+<p>The package <strong>dendextend</strong> contains many functions for changing the appearance of a dendrogram and for comparing dendrograms.</p>
+<p>In this section we’ll use the <strong>chaining operator</strong> (<strong>%&gt;%</strong>) to simplify our code.</p>
+<div id="chaining" class="section level2">
+<h2><span class="header-section-number">5.1</span> Chaining</h2>
+<p>The <strong>chaining</strong> operator (<strong>%&gt;%</strong>) turns <strong>x %&gt;% f(y)</strong> into f(x, y) so you can use it to rewrite multiple operations such that they can be read from left-to-right, top-to-bottom. For instance, the results of the two R codes below are equivalent.</p>
+<p><strong>Standard R code for creating a dendrogram</strong>:</p>
+<pre class="r"><code>data &lt;- scale(USArrests)
+dist.res &lt;- dist(data)
+hc &lt;- hclust(dist.res, method = &quot;ward.D2&quot;)
+dend &lt;- as.dendrogram(hc)
+plot(dend)</code></pre>
+<p><strong>R code for creating a dendrogram using chaining operator</strong>:</p>
+<pre class="r"><code>dend &lt;- USArrests[1:5,] %&gt;% # data
+        scale %&gt;% # Scale the data
+        dist %&gt;% # calculate a distance matrix, 
+        hclust(method = &quot;ward.D2&quot;) %&gt;% # Hierarchical clustering 
+        as.dendrogram # Turn the object into a dendrogram.
+plot(dend)</code></pre>
+</div>
+<div id="installation-and-loading-1" class="section level2">
+<h2><span class="header-section-number">5.2</span> Installation and loading</h2>
+<p>Install the stable version as follow:</p>
+<pre class="r"><code>install.packages(&#39;dendextend&#39;)</code></pre>
+<p>Loading:</p>
+<pre class="r"><code>library(dendextend)</code></pre>
+</div>
+<div id="how-to-change-a-dendrogram" class="section level2">
+<h2><span class="header-section-number">5.3</span> How to change a dendrogram</h2>
+<p>The function <strong>set()</strong> can be used to change the parameters with dendextend.</p>
+<p>The format is:</p>
+<pre class="r"><code>set(object, what, value)</code></pre>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li><strong>object</strong>: a dendrogram object</li>
+<li><strong>what</strong>: a character indicating what is the property of the tree that should be set/updated</li>
+<li><strong>value</strong>: a vector with the value to set in the tree (the type of the value depends on the “what”).</li>
+</ol>
+</div>
+<p><br/></p>
+<p>Possible values for the argument <strong>what</strong> include:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Value for the argument <strong>what</strong></th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>labels</strong></td>
+<td align="left">set the labels</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>labels_colors</strong> and <strong>labels_cex</strong></td>
+<td align="left">Set the color and the size of labels, respectively</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>leaves_pch</strong>, <strong>leaves_cex</strong> and <strong>leaves_col</strong></td>
+<td align="left">set the point type, size and color for leaves, respectively</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>nodes_pch</strong>, <strong>nodes_cex</strong> and <strong>nodes_col</strong></td>
+<td align="left">set the point type, size and color for nodes, respectively</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>hang_leaves</strong></td>
+<td align="left">hang the leaves</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>branches_k_color</strong></td>
+<td align="left">color the branches</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>branches_col</strong>, <strong>branches_lwd </strong>, <strong>branches_lty</strong></td>
+<td align="left">Set the color, the line width and the line type of branches, respectively</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>by_labels_branches_col</strong>, <strong>by_labels_branches_lwd</strong> and <strong>by_labels_branches_lty </strong></td>
+<td align="left">Set the color, the line width and the line type of branches with specific labels, respectively</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>clear_branches</strong> and <strong>clear_leaves</strong></td>
+<td align="left">Clear branches and leaves, respectively</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="create-a-simple-dendrogram" class="section level2">
+<h2><span class="header-section-number">5.4</span> Create a simple dendrogram</h2>
+<pre class="r"><code># Create a dendrogram and plot it
+dend &lt;- USArrests[1:5,] %&gt;%  scale %&gt;% 
+        dist %&gt;% hclust %&gt;% as.dendrogram
+
+dend %&gt;% plot</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-simple-dendrogram-dendextend-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="240" /></p>
+<pre class="r"><code># Get the labels of the tree
+labels(dend)</code></pre>
+<pre><code>## [1] &quot;Alaska&quot;     &quot;Arizona&quot;    &quot;California&quot; &quot;Alabama&quot;    &quot;Arkansas&quot;</code></pre>
+</div>
+<div id="change-labels" class="section level2">
+<h2><span class="header-section-number">5.5</span> Change labels</h2>
+<p>This section describes how to change label names as well as the color and the size for labels.</p>
+<pre class="r"><code># Change the labels, and then plot:
+dend %&gt;% set(&quot;labels&quot;, c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;)) %&gt;% plot</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-change-labels-dendrogram-dendextend-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="240" /></p>
+<pre class="r"><code># Change color and size for labels
+dend %&gt;% set(&quot;labels_col&quot;, c(&quot;green&quot;, &quot;blue&quot;)) %&gt;% # change color
+  set(&quot;labels_cex&quot;, 2) %&gt;% # Change size
+  plot(main = &quot;Change the color \nand size&quot;) # plot</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-change-labels-dendrogram-dendextend-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="240" /></p>
+<pre class="r"><code># Color labels by specifying the number of cluster (k)
+dend %&gt;% set(&quot;labels_col&quot;, value = c(&quot;green&quot;, &quot;blue&quot;), k=2) %&gt;% 
+          plot(main = &quot;Color labels \nper cluster&quot;)
+abline(h = 2, lty = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-change-labels-dendrogram-dendextend-3.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="240" /></p>
+<p><span class="warning">In the R code above, the value of color vectors are too short. Hence, it’s recycled.</span></p>
+</div>
+<div id="change-the-points-of-a-dendrogram-nodesleaves" class="section level2">
+<h2><span class="header-section-number">5.6</span> Change the points of a dendrogram nodes/leaves</h2>
+<pre class="r"><code># Change the type, the color and the size of node points
+# +++++++++++++++++++++++++++++
+dend %&gt;% set(&quot;nodes_pch&quot;, 19) %&gt;%  # node point type
+  set(&quot;nodes_cex&quot;, 2) %&gt;%  # node point size
+  set(&quot;nodes_col&quot;, &quot;blue&quot;) %&gt;% # node point color
+  plot(main = &quot;Node points&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-change-dendrogram-nodes-leaves-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="288" /></p>
+<pre class="r"><code># Change the type, the color and the size of leave points
+# +++++++++++++++++++++++++++++
+dend %&gt;% set(&quot;leaves_pch&quot;, 19) %&gt;%  # node point type
+  set(&quot;leaves_cex&quot;, 2) %&gt;%  # node point size
+  set(&quot;leaves_col&quot;, &quot;blue&quot;) %&gt;% # node point color
+  plot(main = &quot;Leaves points&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-change-dendrogram-nodes-leaves-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="288" /></p>
+<pre class="r"><code># Specify different point types and colors for each leave
+dend %&gt;% set(&quot;leaves_pch&quot;, c(17, 18, 19)) %&gt;%  # node point type
+  set(&quot;leaves_cex&quot;, 2) %&gt;%  # node point size
+  set(&quot;leaves_col&quot;, c(&quot;blue&quot;, &quot;red&quot;, &quot;green&quot;)) %&gt;% #node point color
+  plot(main = &quot;Leaves points&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-change-dendrogram-nodes-leaves-3.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="288" /></p>
+</div>
+<div id="change-the-color-of-branches" class="section level2">
+<h2><span class="header-section-number">5.7</span> Change the color of branches</h2>
+<p>The color for branches can be controlled using <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning"><strong>k-means</strong> clustering</a>:</p>
+<pre class="r"><code># Default colors
+dend %&gt;% set(&quot;branches_k_color&quot;, k = 2) %&gt;% 
+  plot(main = &quot;Default colors&quot;)
+
+# Customized colors
+dend %&gt;% set(&quot;branches_k_color&quot;, 
+             value = c(&quot;red&quot;, &quot;blue&quot;), k = 2) %&gt;% 
+   plot(main = &quot;Customized colors&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-color-branches-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="240" /><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-color-branches-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="240" /></p>
+<p><span class="notice">It’s also possible to use the function <strong>color_branches()</strong>.</span></p>
+</div>
+<div id="adding-colored-rectangles" class="section level2">
+<h2><span class="header-section-number">5.8</span> Adding colored rectangles</h2>
+<p>Clusters can be highlighted by adding colored rectangles. This is done using the <strong>rect.dendrogram()</strong> function (modeled based on the <strong>rect.hclust()</strong> function). One advantage of rect.dendrogram over rect.hclust, is that it also works on horizontally plotted trees:</p>
+<pre class="r"><code># Vertical plot
+dend %&gt;% set(&quot;branches_k_color&quot;, k = 3) %&gt;% plot
+dend %&gt;% rect.dendrogram(k=3, border = 8, lty = 5, lwd = 2)
+
+# Horizontal plot
+dend %&gt;% set(&quot;branches_k_color&quot;, k = 3) %&gt;% plot(horiz = TRUE)
+dend %&gt;% rect.dendrogram(k = 3, horiz = TRUE, border = 8, lty = 5, lwd = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-dendrogram-add-rectangle-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="259.2" /><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-dendrogram-add-rectangle-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="259.2" /></p>
+</div>
+<div id="adding-colored-bars" class="section level2">
+<h2><span class="header-section-number">5.9</span> Adding colored bars</h2>
+<p>This is useful for annotating the items in the clusters:</p>
+<pre class="r"><code>grp &lt;- c(1,1,1, 2,2)
+k_3 &lt;- cutree(dend,k = 3, order_clusters_as_data = FALSE) 
+# The FALSE above makes sure we get the clusters in the order of the
+# dendrogram, and not in that of the original data. It is like:
+# cutree(dend, k = 3)[order.dendrogram(dend)]
+
+the_bars &lt;- cbind(grp, k_3)
+
+dend %&gt;% set(&quot;labels&quot;, &quot;&quot;) %&gt;% plot
+colored_bars(colors = the_bars, dend = dend)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-annotating-items-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="288" /></p>
+</div>
+<div id="ggplot2-integration" class="section level2">
+<h2><span class="header-section-number">5.10</span> ggplot2 integration</h2>
+<p>The following 2 steps are used:</p>
+<ol style="list-style-type: decimal">
+<li>Transform a dendrogram into a <strong>ggdend object</strong> using <strong>as.ggdend()</strong> function</li>
+<li>Make the plot using the function <strong>ggplot()</strong></li>
+</ol>
+<pre class="r"><code>dend &lt;- iris[1:30,-5] %&gt;% scale %&gt;% dist %&gt;% 
+   hclust %&gt;% as.dendrogram %&gt;%
+   set(&quot;branches_k_color&quot;, k=3) %&gt;% set(&quot;branches_lwd&quot;, 1.2) %&gt;%
+   set(&quot;labels_colors&quot;) %&gt;% set(&quot;labels_cex&quot;, c(.9,1.2)) %&gt;% 
+   set(&quot;leaves_pch&quot;, 19) %&gt;% set(&quot;leaves_col&quot;, c(&quot;blue&quot;, &quot;red&quot;))
+# plot the dend in usual &quot;base&quot; plotting engine:
+plot(dend)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-ggplot2-dendrogram-2-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<p>Produce the same plot in <strong>ggplot2</strong> using the function:</p>
+<pre class="r"><code>library(ggplot2)
+# Rectangle dendrogram using ggplot2
+ggd1 &lt;- as.ggdend(dend)
+ggplot(ggd1) </code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-dendrogram-ggplot2-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Change the theme to the default ggplot2 theme
+ggplot(ggd1, horiz = TRUE, theme = NULL) </code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-dendrogram-ggplot2-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Theme minimal
+ggplot(ggd1, theme = theme_minimal()) </code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-dendrogram-ggplot2-3.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Create a radial plot and remove labels
+ggplot(ggd1, labels = FALSE) + 
+  scale_y_reverse(expand = c(0.2, 0)) +
+  coord_polar(theta=&quot;x&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-dendrogram-ggplot2-4.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="pvclust-and-dendextend" class="section level2">
+<h2><span class="header-section-number">5.11</span> pvclust and dendextend</h2>
+<p>The package <strong>dendextend</strong> can be used to enhance many packages including <a href="http://www.sthda.com/english/wiki/clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning"><strong>pvclust</strong></a>. Recall that, pvclust is for calculating <strong>p-values</strong> for <strong>hierarchical clustering</strong>.</p>
+<p><strong>pvclust</strong> can be used as follow:</p>
+<pre class="r"><code>library(pvclust)
+data(lung) # 916 genes for 73 subjects
+set.seed(1234)
+result &lt;- pvclust(lung[1:100, 1:10], method.dist=&quot;cor&quot;, 
+                  method.hclust=&quot;average&quot;, nboot=10)</code></pre>
+<pre><code>## Bootstrap (r = 0.5)... Done.
+## Bootstrap (r = 0.6)... Done.
+## Bootstrap (r = 0.7)... Done.
+## Bootstrap (r = 0.8)... Done.
+## Bootstrap (r = 0.9)... Done.
+## Bootstrap (r = 1.0)... Done.
+## Bootstrap (r = 1.1)... Done.
+## Bootstrap (r = 1.2)... Done.
+## Bootstrap (r = 1.3)... Done.
+## Bootstrap (r = 1.4)... Done.</code></pre>
+<pre class="r"><code># Default plot of the result
+plot(result)
+pvrect(result)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-pvclust-1.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># pvclust and dendextend
+result %&gt;% as.dendrogram %&gt;% 
+  set(&quot;branches_k_color&quot;, k = 2, value = c(&quot;purple&quot;, &quot;orange&quot;)) %&gt;%
+  plot
+result %&gt;% text
+result %&gt;% pvrect</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dendrogram-visualization-pvclust-2.png" title="dendrogram visualization - Unsupervised Machine Learning" alt="dendrogram visualization - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">6</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+<!--====================== stop here when you copy to sthda================-->
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 3428 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="7a2fd5ea4fdff54e">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

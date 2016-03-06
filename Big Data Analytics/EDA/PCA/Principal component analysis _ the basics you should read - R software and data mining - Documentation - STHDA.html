@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Principal component analysis : the basics you should read - R software and data mining - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "6009a2a2da40591b";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="factor-analysis" title="Factor analysis" itemprop="url">
+									<span itemprop="title">Factor analysis</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Principal component analysis : the basics you should read - R software and data mining</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/32" title="Syndication" class="fa fa-syndication"></a>
+					Principal component analysis : the basics you should read - R software and data mining
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=206&amp;com=0"><i class="fa fa-comments-o"></i> Discussion</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=206" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=206" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+
+<div id="TOC">
+<ul>
+<li><a href="#what-is-principal-component-analysis">What is principal component analysis?</a></li>
+<li><a href="#pca-basics">PCA basics</a></li>
+<li><a href="#main-purpose-of-pca">Main purpose of PCA</a></li>
+<li><a href="#basic-statistics---covariance-between-two-variables">Basic statistics - Covariance between two variables</a></li>
+<li><a href="#covariancecorrelation-matrix">Covariance/correlation matrix</a></li>
+<li><a href="#interpretention-of-the-covariance-matrix">Interpretention of the covariance matrix</a></li>
+<li><a href="#how-to-minimize-the-distortion-in-the-data">How to minimize the distortion in the data ?</a></li>
+<li><a href="#pca-terminologies-eigenvalues-eigenvectors">PCA terminologies : Eigenvalues / eigenvectors</a></li>
+<li><a href="#steps-for-principal-component-analysis">Steps for principal component analysis</a></li>
+<li><a href="#compute-principal-component-analysis-step-by-step">Compute principal component analysis (step by step)</a></li>
+<li><a href="#packages-in-r-for-the-principal-component-analysis">Packages in R for the principal component analysis</a></li>
+<li><a href="#infos">Infos</a></li>
+</ul>
+</div>
+
+<div id="what-is-principal-component-analysis" class="section level1">
+<h1>What is principal component analysis?</h1>
+<p><strong>Principal component analysis</strong> (<strong>PCA</strong>) is used to summarize the information in a data set described by multiple variables.</p>
+<p><span class="notice">Note that, the information in a data is the total <strong>variation</strong> it contains.</span></p>
+<p><strong>PCA reduces the dimensionality</strong> of data containing a large set of variables. This is achieved by transforming the initial variables into a new small set of variables without loosing the most important information in the original data set.</p>
+<p><span class="success">These new variables corresponds to a <strong>linear combination</strong> of the originals and are called <strong>principal components</strong>.</span></p>
+<p>This article describes, step by step, how PCA works using <strong>R software</strong>.</p>
+</div>
+<div id="pca-basics" class="section level1">
+<h1>PCA basics</h1>
+<p>Understanding the details of PCA requires knowledge of linear algebra. In this section, we’ll explain the basics with simple graphical representation of the data.</p>
+<p>In the Figure 1A below, the data are represented in the X-Y coordinate system. The dimension reduction is achieved by identifying the principal directions, called <strong>principal components</strong>, in which the data varies.</p>
+<p><strong>PCA</strong> assumes that the directions with the largest variances are the most “important” (i.e, the most principal).</p>
+<p>In the figure below, the <em>PC1 axis</em> is the <strong>first principal direction</strong> along which the samples show the largest variation. The <strong>PC2 axis</strong> is the <strong>second most important direction</strong> and it is <strong>orthogonal</strong> to the PC1 axis.</p>
+<p>The dimensionality of our two-dimensional data can be reduced to a single dimension by projecting each sample onto the first principal component (Figure 1B)</p>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/principal-component-analysis-basics-scatter-plot-data-mining-1.png" title="Principal component analysis basics - R software and data mining" alt="Principal component analysis basics - R software and data mining" width="240" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/principal-component-analysis-basics-scatter-plot-data-mining-2.png" title="Principal component analysis basics - R software and data mining" alt="Principal component analysis basics - R software and data mining" width="240" style="margin-bottom:10px;" /></p>
+</div>
+<div id="main-purpose-of-pca" class="section level1">
+<h1>Main purpose of PCA</h1>
+<p>The main goals of <strong>principal component analysis</strong> is :</p>
+<ul>
+<li>to identify hidden pattern in a data set</li>
+<li>to reduce the dimensionnality of the data by removing the noise and redundancy in the data</li>
+<li>to identify correlated variables</li>
+</ul>
+<p><span class="notice">PCA method is particularly useful when the variables within the data set are highly correlated. </span></p>
+<p><strong>Correlation</strong> indicates that there is <strong>redundancy</strong> in the data. Due to this redundancy, PCA can be used to reduce the original variables into a smaller number of new variables ( = <strong>principal components</strong>) explaining most of the variance in the original variables.</p>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/principal-component-analysis-basics-unnamed-chunk-1-1.png" title="Principal component analysis basics - R software and data mining" alt="Principal component analysis basics - R software and data mining" width="240" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/principal-component-analysis-basics-unnamed-chunk-1-2.png" title="Principal component analysis basics - R software and data mining" alt="Principal component analysis basics - R software and data mining" width="240" style="margin-bottom:10px;" /></p>
+<p><span class="question">How to remove the redundancy?</span></p>
+<p>PCA is traditionally performed on covariance matrix or correlation matrix.</p>
+</div>
+<div id="basic-statistics---covariance-between-two-variables" class="section level1">
+<h1>Basic statistics - Covariance between two variables</h1>
+<p>Let x and y be two variables with length n.</p>
+<p>The variance of x is :</p>
+<p><span class="math">\[\sigma^2_{xx} = \frac{\sum_i(x_i - m_x)(x_i - m_x)}{n - 1}\]</span></p>
+<p>The variance of y is :</p>
+<p><span class="math">\[\sigma^2_{yy} = \frac{\sum_i(y_i - m_y)(y_i - m_y)}{n - 1}\]</span></p>
+<p>The covariance of x and y is :</p>
+<p><span class="math">\[\sigma^2_{xy} = \frac{\sum_i(x_i - m_x)(y_i - m_y)}{n - 1}\]</span></p>
+<p><span class="math">\(m_x\)</span> and <span class="math">\(m_y\)</span> are the means of x and y variables, respectively.</p>
+<p><span class="success">The covariance measures the degree of the relationship between x and y.</span></p>
+</div>
+<div id="covariancecorrelation-matrix" class="section level1">
+<h1>Covariance/correlation matrix</h1>
+<p>A covariance matrix contains the covariances between all possible pairs of variables in the data set :</p>
+<pre class="r"><code>df &lt;- iris[, -5]
+res.cov &lt;- cov(df)
+round(res.cov,2)</code></pre>
+<pre><code>             Sepal.Length Sepal.Width Petal.Length Petal.Width
+Sepal.Length         0.69       -0.04         1.27        0.52
+Sepal.Width         -0.04        0.19        -0.33       -0.12
+Petal.Length         1.27       -0.33         3.12        1.30
+Petal.Width          0.52       -0.12         1.30        0.58</code></pre>
+<p><span class="warning">Note that, the covariance matrix is symmetric. In the table above, covariance between Sepal.Length and Sepal.Width = covariance between Sepal.Width and Sepal.Length.</span></p>
+</div>
+<div id="interpretention-of-the-covariance-matrix" class="section level1">
+<h1>Interpretention of the covariance matrix</h1>
+<ol style="list-style-type: decimal">
+<li>The diagonal elements are the <strong>variances</strong> of the different variables. <strong>A large diagonal values correspond to strong signal</strong>.</li>
+</ol>
+<pre class="r"><code>diag(res.cov)</code></pre>
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+   0.6856935    0.1899794    3.1162779    0.5810063 </code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>The off-diagonal values are the <strong>covariances</strong> between variables. They reflect distortions in the data (noise, redundancy, …). <strong>Large off-diagonal values correspond to high distortions in our data</strong>.</li>
+</ol>
+<p><span class="success">The aim of PCA is to minimize this distortions and to summarize the essential information in the data</span></p>
+</div>
+<div id="how-to-minimize-the-distortion-in-the-data" class="section level1">
+<h1>How to minimize the distortion in the data ?</h1>
+<p>In the covariance table above, the off-diagonal values are different from zero. This indicates the presence of redundancy in the data. In other words, there is a certain amount of correlation between variables.</p>
+<p><span class="success">This kind of matrix, with non-zero off-diagonal values, is called <strong>“non-diagonal” matrix</strong>.</span></p>
+<p>We need to redefine our initial variables (x, y, z, ….) in order to diagonalize the covariance matrix.</p>
+<p>This means that we want to change the covariance matrix so that the off–diagonal elements are close to zero (i.e, zero correlation between pairs of distinct variables).</p>
+<p>The new variables (x’, y’, z’, …) are a linear combination of the old ones :</p>
+<p><span class="math">\[X&#39; = a_1X + a_2Y + a_3Z, ...\]</span></p>
+<p><span class="math">\[Y&#39; = b_1X + b_2Y + b_3Z, ...\]</span></p>
+<p><span class="notice">In PCA, the constants a1, a2, an, b1, b2, bn are calculated such that the covariance matrix is diagonal.</span></p>
+</div>
+<div id="pca-terminologies-eigenvalues-eigenvectors" class="section level1">
+<h1>PCA terminologies : Eigenvalues / eigenvectors</h1>
+<p><strong>Eigenvalues</strong> : The numbers on the diagonal of the diagonalized covariance matrix are called eigenvalues of the covariance matrix. Large eigenvalues correspond to large variances.</p>
+<p><strong>Eigenvectors</strong> : The directions of the new rotated axes are called the eigenvectors of the covariance matrix.</p>
+<p><strong>Eigenvalues</strong> and <strong>eigenvectors</strong> can be easily calculated in R as follow :</p>
+<pre class="r"><code>eigen(res.cov)</code></pre>
+<pre><code>$values
+[1] 4.22824171 0.24267075 0.07820950 0.02383509
+
+$vectors
+            [,1]        [,2]        [,3]       [,4]
+[1,]  0.36138659 -0.65658877 -0.58202985  0.3154872
+[2,] -0.08452251 -0.73016143  0.59791083 -0.3197231
+[3,]  0.85667061  0.17337266  0.07623608 -0.4798390
+[4,]  0.35828920  0.07548102  0.54583143  0.7536574</code></pre>
+<p><span class="success">The <strong>first principal components</strong> of the data are the first directions explaining maximum variances. This is equivalent to the first eigenvectors of the covariance matrix.</span></p>
+</div>
+<div id="steps-for-principal-component-analysis" class="section level1">
+<h1>Steps for principal component analysis</h1>
+<p>The procedure includes 5 simple steps :</p>
+<ol style="list-style-type: decimal">
+<li><strong>Prepare the data</strong> :</li>
+</ol>
+<ul>
+<li><em>Center the data</em> : subtract the mean from each variables. This produces a data set whose mean is zero.</li>
+<li><em>Scale the data</em> : If the variances of the variables in your data are significantly different, it’s a good idea to scale the data to unit variance. This is achieved by dividing each variables by its standard deviation.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Calculate the covariance/correlation matrix</strong></li>
+<li><strong>Calculate the eigenvectors and the eigenvalues</strong> of the covariance matrix</li>
+<li><strong>Choose principal components</strong> : eigenvectors are ordered by eigenvalues from the highest to the lowest. The number of chosen eigenvectors will be the number of dimensions of the new data set. eigenvectors = (eig_1, eig_2,…, eig_n)</li>
+<li><strong>compute the new dataset</strong> :</li>
+</ol>
+<ul>
+<li><em>transpose eigeinvectors</em> : rows are eigenvectors</li>
+<li><em>transpose the adjusted dat</em>a (rows are variables and columns are individuals)</li>
+<li><em>new.data</em> = eigenvectors.transposed X adjustedData.transposed</li>
+</ul>
+</div>
+<div id="compute-principal-component-analysis-step-by-step" class="section level1">
+<h1>Compute principal component analysis (step by step)</h1>
+<p>The data set <em>iris</em> is used : columns are variables and rows are observations:</p>
+<pre class="r"><code>df &lt;- iris[, -5]
+head(df)</code></pre>
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width
+1          5.1         3.5          1.4         0.2
+2          4.9         3.0          1.4         0.2
+3          4.7         3.2          1.3         0.2
+4          4.6         3.1          1.5         0.2
+5          5.0         3.6          1.4         0.2
+6          5.4         3.9          1.7         0.4</code></pre>
+<p><strong>1. Center and scale the data</strong></p>
+<pre class="r"><code>df.scaled &lt;- scale(df, center = TRUE, scale = TRUE)</code></pre>
+<p><strong>2. Compute the correlation matrix</strong> :</p>
+<pre class="r"><code># 1. Correlation matrix
+res.cor &lt;- cor(df.scaled)
+round(res.cor, 2)</code></pre>
+<pre><code>             Sepal.Length Sepal.Width Petal.Length Petal.Width
+Sepal.Length         1.00       -0.12         0.87        0.82
+Sepal.Width         -0.12        1.00        -0.43       -0.37
+Petal.Length         0.87       -0.43         1.00        0.96
+Petal.Width          0.82       -0.37         0.96        1.00</code></pre>
+<p><strong>3. Calculate the eigenvectors/eigenvalues</strong> of the correlation matrix :</p>
+<pre class="r"><code># 2. Calculate eigenvectors/eigenvalues
+res.eig &lt;- eigen(res.cor)
+res.eig</code></pre>
+<pre><code>$values
+[1] 2.91849782 0.91403047 0.14675688 0.02071484
+
+$vectors
+           [,1]        [,2]       [,3]       [,4]
+[1,]  0.5210659 -0.37741762  0.7195664  0.2612863
+[2,] -0.2693474 -0.92329566 -0.2443818 -0.1235096
+[3,]  0.5804131 -0.02449161 -0.1421264 -0.8014492
+[4,]  0.5648565 -0.06694199 -0.6342727  0.5235971</code></pre>
+<p><span class="success">The first eigenvalue (<em>2.9</em>) is much larger than the second (<em>0.9</em>), and so on…. The highest eigenvalues correspond to the first data principal components.</span></p>
+<p><strong>5. compute the new dataset</strong> :</p>
+<pre class="r"><code># Transpose eigeinvectors
+eigenvectors.t &lt;- t(res.eig$vectors)
+# Transpose the adjusted data
+df.scaled.t &lt;- t(df.scaled)
+# The new dataset
+df.new &lt;- eigenvectors.t %*% df.scaled.t
+# Transpose new data ad rename columns
+df.new &lt;- t(df.new)
+colnames(df.new) &lt;- c(&quot;PC1&quot;, &quot;PC2&quot;, &quot;PC3&quot;, &quot;PC4&quot;)
+head(df.new)</code></pre>
+<pre><code>           PC1        PC2         PC3          PC4
+[1,] -2.257141 -0.4784238  0.12727962  0.024087508
+[2,] -2.074013  0.6718827  0.23382552  0.102662845
+[3,] -2.356335  0.3407664 -0.04405390  0.028282305
+[4,] -2.291707  0.5953999 -0.09098530 -0.065735340
+[5,] -2.381863 -0.6446757 -0.01568565 -0.035802870
+[6,] -2.068701 -1.4842053 -0.02687825  0.006586116</code></pre>
+</div>
+<div id="packages-in-r-for-the-principal-component-analysis" class="section level1">
+<h1>Packages in R for the principal component analysis</h1>
+<p>There are several functions from different packages for performing PCA :</p>
+<ul>
+<li>The functions <strong>prcomp()</strong> and <strong>princomp()</strong> from the built-in <strong>R stats</strong> package. Read more here: <a href="http://www.sthda.com/english/wiki/principal-component-analysis-the-basics-you-should-read-r-software-and-data-mining">prcomp and princomp</a></li>
+<li><strong>PCA()</strong> from <strong>FactoMineR</strong> package. Read more here : <a href="http://www.sthda.com/english/wiki/factominer-and-factoextra-principal-component-analysis-visualization-r-software-and-data-mining">PCA with FactoMineR</a></li>
+<li><strong>dudi.pca()</strong> from <strong>ade4</strong> package. Read more here : <a href="http://www.sthda.com/english/wiki/ade4-and-factoextra-principal-component-analysis-r-software-and-data-mining">PCA with ade4</a></li>
+</ul>
+</div>
+<div id="infos" class="section level1">
+<h1>Infos</h1>
+<p><span class="warning"> This analysis has been performed using <strong>R software</strong> (ver. 3.1.2) and <strong>ggplot2</strong> (ver. 1.0.0) </span></p>
+<p>Read more :</p>
+<ul>
+<li>Gregory B. Anderson, principal component analysis in R, <a href="https://www.ime.usp.br/~pavan/pdf/MAE0330-PCA-R-2013">https://www.ime.usp.br/~pavan/pdf/MAE0330-PCA-R-2013</a></li>
+<li>Wikibooks, <a href="http://en.wikibooks.org/wiki/Data_Mining_Algorithms_In_R/Dimensionality_Reduction/Principal_Component_Analysis">http://en.wikibooks.org/wiki/Data_Mining_Algorithms_In_R/Dimensionality_Reduction/Principal_Component_Analysis</a></li>
+<li>Carlos Pinto, Data reduction, <a href="https://medicine.tcd.ie/neuropsychiatric-genetics/assets/pdf/2009_7_PCA_+_Factor_analyses.pdf">https://medicine.tcd.ie/neuropsychiatric-genetics/assets/pdf/2009_7_PCA_+_Factor_analyses.pdf</a></li>
+</ul>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</div><!--end rdoc-->
+<!--====================== stop here when you copy to sthda================-->
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="principal-component-analysis-in-r-prcomp-vs-princomp-r-software-and-data-mining">Principal component analysis in R : prcomp() vs. princomp() - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="correspondence-analysis-in-r-the-ultimate-guide-for-the-analysis-the-visualization-and-the-interpretation-r-software-and-data-mining">Correspondence Analysis in R: The Ultimate Guide for the Analysis, the Visualization and the Interpretation - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="factominer-and-factoextra-principal-component-analysis-visualization-r-software-and-data-mining">FactoMineR and factoextra : Principal Component Analysis Visualization - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining">Principal Component Analysis: How to reveal the most important variables in your data? - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="ade4-and-factoextra-principal-component-analysis-r-software-and-data-mining">ade4 and factoextra : Principal Component Analysis - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="multiple-correspondence-analysis-essentials-interpretation-and-application-to-investigate-the-associations-between-categories-of-multiple-qualitative-variables-r-software-and-data-mining">Multiple Correspondence Analysis Essentials: Interpretation and application to investigate the associations between categories of multiple qualitative variables  - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="correspondence-analysis-basics-r-software-and-data-mining">Correspondence analysis basics - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="factor-analysis">Factor analysis</a><br /> <i class="fa fa-file"></i> <a href="ade4-and-factoextra-correspondence-analysis-r-software-and-data-mining">ade4 and factoextra : Correspondence Analysis - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="ca-package-and-factoextra-correspondence-analysis-r-software-and-data-mining">ca package and factoextra : Correspondence Analysis - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="mass-package-and-factoextra-correspondence-analysis-r-software-and-data-mining">MASS package and factoextra : Correspondence Analysis - R software and data mining</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 6217 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="6009a2a2da40591b">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

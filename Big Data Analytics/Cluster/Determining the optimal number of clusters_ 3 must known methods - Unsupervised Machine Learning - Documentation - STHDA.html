@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "ba34621a6e909146";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=239&amp;com=0"><i class="fa fa-comments-o"></i> Discussion (2)</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=239" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=239" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+            
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+<div id="TOC">
+<ul>
+<li><a href="#required-packages"><span class="toc-section-number">1</span> Required packages</a></li>
+<li><a href="#data-preparation"><span class="toc-section-number">2</span> Data preparation</a></li>
+<li><a href="#example-of-partitioning-method-results"><span class="toc-section-number">3</span> Example of partitioning method results</a></li>
+<li><a href="#example-of-hierarchical-clustering-results"><span class="toc-section-number">4</span> Example of hierarchical clustering results</a></li>
+<li><a href="#three-popular-methods-for-determining-the-optimal-number-of-clusters"><span class="toc-section-number">5</span> Three popular methods for determining the optimal number of clusters</a><ul>
+<li><a href="#elbow-method"><span class="toc-section-number">5.1</span> Elbow method</a><ul>
+<li><a href="#concept"><span class="toc-section-number">5.1.1</span> Concept</a></li>
+<li><a href="#algorithm"><span class="toc-section-number">5.1.2</span> Algorithm</a></li>
+<li><a href="#r-codes"><span class="toc-section-number">5.1.3</span> R codes</a></li>
+</ul></li>
+<li><a href="#average-silhouette-method"><span class="toc-section-number">5.2</span> Average silhouette method</a><ul>
+<li><a href="#concept-1"><span class="toc-section-number">5.2.1</span> Concept</a></li>
+<li><a href="#algorithm-1"><span class="toc-section-number">5.2.2</span> Algorithm</a></li>
+<li><a href="#r-codes-1"><span class="toc-section-number">5.2.3</span> R codes</a></li>
+</ul></li>
+<li><a href="#conclusions-about-elbow-and-silhouette-methods"><span class="toc-section-number">5.3</span> Conclusions about elbow and silhouette methods</a></li>
+<li><a href="#gap-statistic-method"><span class="toc-section-number">5.4</span> Gap statistic method</a><ul>
+<li><a href="#concept-2"><span class="toc-section-number">5.4.1</span> Concept</a></li>
+<li><a href="#algorithm-2"><span class="toc-section-number">5.4.2</span> Algorithm</a></li>
+<li><a href="#r-codes-2"><span class="toc-section-number">5.4.3</span> R codes</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#nbclust-a-package-providing-30-indices-for-determining-the-best-number-of-clusters"><span class="toc-section-number">6</span> NbClust: A Package providing 30 indices for determining the best number of clusters</a><ul>
+<li><a href="#overview-of-nbclust-package"><span class="toc-section-number">6.1</span> Overview of NbClust package</a></li>
+<li><a href="#nbclust-r-function"><span class="toc-section-number">6.2</span> NbClust R function</a></li>
+<li><a href="#examples-of-usage"><span class="toc-section-number">6.3</span> Examples of usage</a><ul>
+<li><a href="#compute-only-an-index-of-interest"><span class="toc-section-number">6.3.1</span> Compute only an index of interest</a></li>
+<li><a href="#compute-all-the-30-indices"><span class="toc-section-number">6.3.2</span> Compute all the 30 indices</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#infos"><span class="toc-section-number">7</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/> The first step in <strong>clustering analysis</strong> is to assess whether the dataset is clusterable. This has been described in a chapter entitled: <a href="http://www.sthda.com/english/wiki/assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing Clustering Tendency</a>.</p>
+<p><a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning"><strong>Partitioning methods</strong></a>, such as <strong>k-means clustering</strong> require also the users to specify the number of clusters to be generated.</p>
+<p><span class="question">One fundamental question is: If the data is clusterable, then how to choose the right number of expected clusters (k)?</span></p>
+<p>Unfortunately, there is no definitive answer to this question. The <strong>optimal clustering</strong> is somehow subjective and depend on the method used for measuring similarities and the parameters used for partitioning.</p>
+<p>A simple and popular solution consists of inspecting the dendrogram produced using <strong>hierarchical clustering</strong> to see if it suggests a particular number of clusters. Unfortunately this approach is, again, subjective.</p>
+<p>In this article, we’ll describe different methods for <strong>determining the optimal number of clusters</strong> for <strong>k-means</strong>, <strong>PAM</strong> and <strong>hierarchical</strong> clustering . These methods include <strong>direct methods</strong> and <strong>statistical testing methods</strong>.</p>
+<br/>
+<div class="block">
+<ul>
+<li><strong>Direct methods</strong> consists of optimizing a criterion, such as the <strong>within cluster sums of squares</strong> or the <strong>average silhouette</strong>. The corresponding methods are named <em>elbow</em> and <em>silhouette</em> methods, respectively.</li>
+<li><strong>Testing methods</strong> consists of comparing evidence against null hypothesis. An example is the <strong>gap statistic</strong>.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>In addition to <strong>elbow</strong>, <strong>silhouette</strong> and <strong>gap statistic</strong> methods, there are more than thirty other indices and methods that have been published for identifying the <strong>optimal number of clusters</strong>. We’ll provide <strong>R codes</strong> for computing all these 30 indices in order to decide the best number of clusters using the “majority rule”.</p>
+<p>For each of these methods:</p>
+<ul>
+<li>We’ll describe the basic idea, the algorithm and the key mathematical concept</li>
+<li>We’ll provide easy-o-use <strong>R codes</strong> with many examples for determining the optimal number of clusters and visualizing the output</li>
+</ul>
+<div id="required-packages" class="section level1">
+<h1><span class="header-section-number">1</span> Required packages</h1>
+<p>The following package will be used:</p>
+<ul>
+<li><strong>cluster</strong> for computing <strong>pam</strong> and for analyzing cluster silhouettes</li>
+<li><strong>factoextra</strong> for visualizing clusters using <strong>ggplot2</strong> plotting system</li>
+<li><strong>NbClust</strong> for finding the optimal number of clusters</li>
+</ul>
+<p>Install <strong>factoextra</strong> package as follow:</p>
+<pre class="r"><code>if(!require(devtools)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<p>The remaining packages can be installed using the code below:</p>
+<pre class="r"><code>pkgs &lt;- c(&quot;cluster&quot;,  &quot;NbClust&quot;)
+install.packages(pkgs)</code></pre>
+<p>Load packages:</p>
+<pre class="r"><code>library(factoextra)
+library(cluster)
+library(NbClust)</code></pre>
+</div>
+<div id="data-preparation" class="section level1">
+<h1><span class="header-section-number">2</span> Data preparation</h1>
+<p>The data set <em>iris</em> is used. We start by excluding the species column and scaling the data using the function <strong>scale()</strong>:</p>
+<pre class="r"><code># Load the data
+data(iris)
+head(iris)</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code># Remove species column (5) and scale the data
+iris.scaled &lt;- scale(iris[, -5])</code></pre>
+<p><span class="notice">This iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.</span></p>
+</div>
+<div id="example-of-partitioning-method-results" class="section level1">
+<h1><span class="header-section-number">3</span> Example of partitioning method results</h1>
+<p>The functions <strong>kmeans()</strong> [in <strong>stats</strong> package] and <strong>pam()</strong> [in <strong>cluster</strong> package] are described in this section. We’ll split the data into 3 clusters as follow:</p>
+<pre class="r"><code># K-means clustering
+set.seed(123)
+km.res &lt;- kmeans(iris.scaled, 3, nstart = 25)
+# k-means group number of each observation
+km.res$cluster</code></pre>
+<pre><code>##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3
+##  [71] 2 3 3 3 3 2 2 2 3 3 3 3 3 3 3 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2
+## [106] 2 3 2 2 2 2 2 2 3 3 2 2 2 2 3 2 3 2 3 2 2 3 2 2 2 2 2 2 3 3 2 2 2 3 2
+## [141] 2 2 3 2 2 2 3 2 2 3</code></pre>
+<pre class="r"><code># Visualize k-means clusters
+fviz_cluster(km.res, data = iris.scaled, geom = &quot;point&quot;,
+             stand = FALSE, frame.type = &quot;norm&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-k-means-pam-clusterings-visualization-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<pre class="r"><code># PAM clustering
+library(&quot;cluster&quot;)
+pam.res &lt;- pam(iris.scaled, 3)
+pam.res$cluster</code></pre>
+<pre><code>##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3
+##  [71] 3 3 3 3 3 2 2 2 3 3 3 3 3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2
+## [106] 2 3 2 2 2 2 2 2 3 2 2 2 2 2 3 2 3 2 3 2 2 3 3 2 2 2 2 2 3 3 2 2 2 3 2
+## [141] 2 2 3 2 2 2 3 2 2 3</code></pre>
+<pre class="r"><code># Visualize pam clusters
+fviz_cluster(pam.res, stand = FALSE, geom = &quot;point&quot;,
+             frame.type = &quot;norm&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-k-means-pam-clusterings-visualization-2.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p>Read more about partitioning methods: <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning clustering</a></p>
+</div>
+<div id="example-of-hierarchical-clustering-results" class="section level1">
+<h1><span class="header-section-number">4</span> Example of hierarchical clustering results</h1>
+<p>The built-in R function <strong>hclust()</strong> is used:</p>
+<pre class="r"><code># Compute pairewise distance matrices
+dist.res &lt;- dist(iris.scaled, method = &quot;euclidean&quot;)
+# Hierarchical clustering results
+hc &lt;- hclust(dist.res, method = &quot;complete&quot;)
+# Visualization of hclust
+plot(hc, labels = FALSE, hang = -1)
+# Add rectangle around 3 groups
+rect.hclust(hc, k = 3, border = 2:4) </code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-hierarchical-clustering-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<pre class="r"><code># Cut into 3 groups
+hc.cut &lt;- cutree(hc, k = 3)
+head(hc.cut, 20)</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</code></pre>
+<p>Read more about hierarchical clustering: <a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical clustering</a></p>
+</div>
+<div id="three-popular-methods-for-determining-the-optimal-number-of-clusters" class="section level1">
+<h1><span class="header-section-number">5</span> Three popular methods for determining the optimal number of clusters</h1>
+<p>In this section we describe the three most popular methods including: i) Elbow method, ii) silhouette method and iii) gap statistic.</p>
+<div id="elbow-method" class="section level2">
+<h2><span class="header-section-number">5.1</span> Elbow method</h2>
+<div id="concept" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Concept</h3>
+<p>Recall that, the basic idea behind partitioning methods, such as <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning"><strong>k-means clustering</strong></a>, is to define clusters such that the <strong>total intra-cluster variation</strong> (known as <strong>total within-cluster variation</strong> or <strong>total within-cluster sum of square</strong>) is minimized:</p>
+<p><span class="math">\(minimize\left(\sum\limits_{k=1}^k W(C_k)\right)\)</span>,</p>
+<p>Where <span class="math">\(C_k\)</span> is the <span class="math">\(k_{th}\)</span> cluster and <span class="math">\(W(C_k)\)</span> is the <strong>within-cluster variation</strong>.</p>
+<p><span class="success">The <strong>total within-cluster sum of square (wss)</strong> measures the compactness of the clustering and we want it to be as small as possible.</span></p>
+</div>
+<div id="algorithm" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Algorithm</h3>
+<p>The optimal number of clusters can be defined as follow:</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li>Compute clustering algorithm (e.g., k-means clustering) for different values of k. For instance, by varying k from 1 to 10 clusters</li>
+<li>For each k, calculate the total within-cluster sum of square (wss)</li>
+<li>Plot the curve of <strong>wss</strong> according to the number of clusters k.</li>
+<li>The location of a bend (knee) in the plot is generally considered as an indicator of the appropriate number of clusters.</li>
+</ol>
+</div>
+<p><br/></p>
+</div>
+<div id="r-codes" class="section level3">
+<h3><span class="header-section-number">5.1.3</span> R codes</h3>
+<div id="elbow-method-for-k-means-clustering" class="section level4">
+<h4><span class="header-section-number">5.1.3.1</span> Elbow method for k-means clustering</h4>
+<pre class="r"><code>set.seed(123)
+# Compute and plot wss for k = 2 to k = 15
+k.max &lt;- 15 # Maximal number of clusters
+data &lt;- iris.scaled
+wss &lt;- sapply(1:k.max, 
+        function(k){kmeans(data, k, nstart=10 )$tot.withinss})
+
+plot(1:k.max, wss,
+       type=&quot;b&quot;, pch = 19, frame = FALSE, 
+       xlab=&quot;Number of clusters K&quot;,
+       ylab=&quot;Total within-clusters sum of squares&quot;)
+abline(v = 3, lty =2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-optimal-number-of-cluster-elbow-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">The elbow method suggests 3 cluster solutions.</span></p>
+<p>The elbow method is implemented in <strong>factoextra</strong> package and can be easily computed using the function <strong>fviz_nbclust()</strong>, which format is:</p>
+<pre class="r"><code>fviz_nbclust(x, FUNcluster, method = c(&quot;silhouette&quot;, &quot;wss&quot;))</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: numeric matrix or data frame</li>
+<li><strong>FUNcluster</strong>: a partitioning function such as kmeans, pam, clara etc</li>
+<li><strong>method</strong>: the method to be used for determining the optimal number of clusters.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The R code below computes the elbow method for kmeans():</p>
+<pre class="r"><code>fviz_nbclust(iris.scaled, kmeans, method = &quot;wss&quot;) +
+    geom_vline(xintercept = 3, linetype = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-k-means-optimal-clusters-wss-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">Three clusters are suggested.</span></p>
+</div>
+<div id="elbow-method-for-pam-clustering" class="section level4">
+<h4><span class="header-section-number">5.1.3.2</span> Elbow method for PAM clustering</h4>
+<p>It’s possible to use the function <strong>fviz_nbclust()</strong> as follow:</p>
+<pre class="r"><code>fviz_nbclust(iris.scaled, pam, method = &quot;wss&quot;) +
+  geom_vline(xintercept = 3, linetype = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-pam-optimal-clusters-wss-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">Three clusters are suggested.</span></p>
+</div>
+<div id="elbow-method-for-hierarchical-clustering" class="section level4">
+<h4><span class="header-section-number">5.1.3.3</span> Elbow method for hierarchical clustering</h4>
+<p>We’ll use a helper function <strong>hcut()</strong> [in <strong>factoextra</strong> package] which will compute hierarchical clustering (HC) algorithm and cut the dendrogram in k clusters:</p>
+<pre class="r"><code>fviz_nbclust(iris.scaled, hcut, method = &quot;wss&quot;) +
+  geom_vline(xintercept = 3, linetype = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-hierarchical-clustering-optimal-clusters-wss-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">Three clusters are suggested.</span></p>
+<p><span class="warning">Note that, the <strong>elbow</strong> method is sometimes ambiguous. An alternative is the average silhouette method (Kaufman and Rousseeuw [1990]) which can be also used with any clustering approach.</span></p>
+</div>
+</div>
+</div>
+<div id="average-silhouette-method" class="section level2">
+<h2><span class="header-section-number">5.2</span> Average silhouette method</h2>
+<div id="concept-1" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Concept</h3>
+<p>The <strong>average silhouette approach</strong> we’ll be described comprehensively in the chapter <strong>cluster validation statistics</strong>. Briefly, it measures the quality of a clustering. That is, it determines how well each object lies within its cluster. A high average silhouette width indicates a good clustering.</p>
+<p>Average silhouette method computes the average silhouette of observations for different values of k. The optimal number of clusters k is the one that maximize the average silhouette over a range of possible values for k (Kaufman and Rousseeuw [1990]).</p>
+</div>
+<div id="algorithm-1" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Algorithm</h3>
+<p>The algorithm is similar to the elbow method and can be computed as follow:</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li>Compute clustering algorithm (e.g., k-means clustering) for different values of k. For instance, by varying k from 1 to 10 clusters</li>
+<li>For each k, calculate the average silhouette of observations (<strong>avg.sil</strong>)</li>
+<li>Plot the curve of <strong>avg.sil</strong> according to the number of clusters k.</li>
+<li>The location of the maximum is considered as the appropriate number of clusters.</li>
+</ol>
+</div>
+<p><br/></p>
+</div>
+<div id="r-codes-1" class="section level3">
+<h3><span class="header-section-number">5.2.3</span> R codes</h3>
+<p>The function <strong>silhouette()</strong> [in <strong>cluster</strong> package] is used to compute the average silhouette width.</p>
+<div id="average-silhouette-method-for-k-means-clustering" class="section level4">
+<h4><span class="header-section-number">5.2.3.1</span> Average silhouette method for k-means clustering</h4>
+<p>The R code below determine the optimal number of clusters K for k-means clustering:</p>
+<pre class="r"><code>library(cluster)
+k.max &lt;- 15
+data &lt;- iris.scaled
+sil &lt;- rep(0, k.max)
+
+# Compute the average silhouette width for 
+# k = 2 to k = 15
+for(i in 2:k.max){
+  km.res &lt;- kmeans(data, centers = i, nstart = 25)
+  ss &lt;- silhouette(km.res$cluster, dist(data))
+  sil[i] &lt;- mean(ss[, 3])
+}
+
+# Plot the  average silhouette width
+plot(1:k.max, sil, type = &quot;b&quot;, pch = 19, 
+     frame = FALSE, xlab = &quot;Number of clusters k&quot;)
+abline(v = which.max(sil), lty = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-k-means-optimal-number-of-clusters-average-silhouette-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p>The function <strong>fviz_nbclust()</strong> [in <strong>factoextra</strong> package] can be also used. It just requires the <strong>cluster</strong> package to be installed:</p>
+<pre class="r"><code>require(cluster)
+fviz_nbclust(iris.scaled, kmeans, method = &quot;silhouette&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-k-means-optimal-number-of-clusters-average-silhouette-ggplot-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">Two clusters are suggested.</span></p>
+</div>
+<div id="average-silhouette-method-for-pam-clustering" class="section level4">
+<h4><span class="header-section-number">5.2.3.2</span> Average silhouette method for PAM clustering</h4>
+<pre class="r"><code>require(cluster)
+fviz_nbclust(iris.scaled, pam, method = &quot;silhouette&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-pam-optimal-number-of-clusters-average-silhouette-ggplot-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">Two clusters are suggested.</span></p>
+</div>
+<div id="average-silhouette-method-for-hierarchical-clustering" class="section level4">
+<h4><span class="header-section-number">5.2.3.3</span> Average silhouette method for hierarchical clustering</h4>
+<pre class="r"><code>require(cluster)
+fviz_nbclust(iris.scaled, hcut, method = &quot;silhouette&quot;,
+             hc_method = &quot;complete&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-hierarchical-clustering-optimal-number-of-clusters-average-silhouette-ggplot-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">Three clusters are suggested.</span></p>
+</div>
+</div>
+</div>
+<div id="conclusions-about-elbow-and-silhouette-methods" class="section level2">
+<h2><span class="header-section-number">5.3</span> Conclusions about elbow and silhouette methods</h2>
+<ul>
+<li>Three cluster solutions are suggested using <strong>k-means</strong>, <strong>PAM</strong> and <strong>hierarchical</strong> clustering in combination with the <strong>elbow method</strong>.</li>
+<li>The average silhouette method gives two cluster solutions using <strong>k-means</strong> and <strong>PAM</strong> algorithms. Combining hierarchical clustering and silhouette method returns 3 clusters</li>
+</ul>
+<p><span class="success">According to these observations, it’s possible to define k = 3 as the optimal number of clusters in the data.</span></p>
+<p><span class="warning">The disadvantage of elbow and average silhouette methods is that, they measure a global clustering characteristic only. A more sophisticated method is to use the <strong>gap statistic</strong> which provides a statistical procedure to formalize the elbow/silhouette heuristic in order to estimate the optimal number of clusters.</span></p>
+</div>
+<div id="gap-statistic-method" class="section level2">
+<h2><span class="header-section-number">5.4</span> Gap statistic method</h2>
+<div id="concept-2" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> Concept</h3>
+<p>The <strong>gap statistic</strong> has been published by <a href="http://web.stanford.edu/~hastie/Papers/gap.pdf">R. Tibshirani, G. Walther, and T. Hastie (Standford University, 2001)</a>. The approach can be applied to any clustering method (<a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">K-means clustering</a>, <a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">hierarchical clustering</a>, …).</p>
+<p>The gap statistic compares the total within intracluster variation for different values of k with their expected values under null reference distribution of the data, i.e. a distribution with no obvious clustering.</p>
+<p><span class="notice">Recall that, the total within intra-cluster variation for a given k clusters is the total within sum of square (<span class="math">\(w_k\)</span>).</span></p>
+<p>The reference dataset is generated using Monte Carlo simulations of the sampling process. That is, for each variable (<span class="math">\(x_i\)</span>) in the data set we compute its range [<span class="math">\(min(x_i), max(x_j)\)</span>] and generate values for the n points uniformly from the interval min to max.</p>
+<p><span class="notice">Note that, the function <strong>runif(n, min, max)</strong> can be used to generate random uniform distribution.</span></p>
+<p>For the observed data and the the reference data, the total intracluster variation is computed using different values of k. The <strong>gap statistic</strong> for a given k is defined as follow:</p>
+<p><span class="math">\[
+Gap_n(k) = E_n^*\{log(W_k)\} - log(W_k)
+\]</span></p>
+<p>Where <span class="math">\(E_n^*\)</span> denotes the expectation under a sample of size <span class="math">\(n\)</span> from the reference distribution. <span class="math">\(E_n^*\)</span> is defined via bootstrapping (B) by generating B copies of the reference datasets and, by computing the average <span class="math">\(log(W_k^*)\)</span>.</p>
+<p><span class="notice">Note that, the logarithm of the <span class="math">\(W_k\)</span> values is used, as they can be quite large.</span></p>
+<p>The gap statistic measures the deviation of the observed <span class="math">\(W_k\)</span> value from its expected value under the null hypothesis.</p>
+<p><span class="success">The estimate of the optimal clusters <span class="math">\(\hat{k}\)</span> will be value that maximize <span class="math">\(Gap_n(k)\)</span> (i.e, that yields the largest gap statistic). This means that the clustering structure is far away from the uniform distribution of points.</span></p>
+<p><span class="notice">Note that, using <strong>B = 500</strong> gives quite precise results so that the gap plot is basically unchanged after an another run.</span></p>
+<p>The standard deviation (<span class="math">\(sd_k\)</span>) of <span class="math">\(log(W_k^*)\)</span> is also computed in order to define the standard error (<span class="math">\(s_k\)</span>) of the simulation as follow:</p>
+<p><span class="math">\[
+s_k = sd_k \times \sqrt{1 + 1/B} 
+\]</span></p>
+<br/>
+<div class="block">
+<p>Finally, a more robust approach is to choose the optimal number of clusters K as the smallest k such that:</p>
+<p><span class="math">\[Gap(k) \geq Gap(k+1) - s_{k+1}\]</span></p>
+That is, we choose the smallest value of k such that the gap statistic is within one standard deviation of the gap at k+1.
+</div>
+<p><br/></p>
+</div>
+<div id="algorithm-2" class="section level3">
+<h3><span class="header-section-number">5.4.2</span> Algorithm</h3>
+<p>The algorithm involves the following steps (<a href="http://web.stanford.edu/~hastie/Papers/gap.pdf">Read the original paper of the gap statistic</a>):</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li>Cluster the observed data, varying the number of clusters from k = 1, …, <span class="math">\(k_{max}\)</span>, and compute the corresponding <span class="math">\(W_k\)</span>.</li>
+<li>Generate B reference data sets and cluster each of them with varying number of clusters k = 1, …, <span class="math">\(k_{max}\)</span>. Compute the estimated gap statistic <span class="math">\(Gap(k) = \frac{1}{B} \sum\limits_{b=1}^B log(W_{kb}^*) - log(W_k)\)</span>.</li>
+<li>Let <span class="math">\(\bar{w} = (1/B) \sum_b log(W^*_{kb})\)</span>, compute the standard deviation <span class="math">\(sd(k) = \sqrt{(1/B) \sum_b (log(W^*_{kb}) - \bar{w})^2}\)</span> and define <span class="math">\(s_k = sd_k \times \sqrt{1 + 1/B}\)</span>.</li>
+<li>Choose the number of clusters as the smallest k such that <span class="math">\(Gap(k) \geq Gap(k+1) - s_{k+1}\)</span>.</li>
+</ol>
+</div>
+<p><br/></p>
+</div>
+<div id="r-codes-2" class="section level3">
+<h3><span class="header-section-number">5.4.3</span> R codes</h3>
+<div id="r-function-for-computing-the-gap-statistic" class="section level4">
+<h4><span class="header-section-number">5.4.3.1</span> R function for computing the gap statistic</h4>
+<p>The R function <strong>clusGap()</strong> [in <strong>cluster</strong> package ] can be used to estimate the number of clusters in the data by applying the <strong>gap statistic</strong>.</p>
+<p>A simplified format is:</p>
+<pre class="r"><code>clusGap(x, FUNcluster, K.max, B = 100, verbose = TRUE, ...)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: numeric matrix or data frame</li>
+<li><strong>FUNcluster</strong>: a function (e.g.: kmeans, pam, …) which accepts i) a data matrix like <em>x</em> as first argument; ii) the number of clusters desired (k &gt; = 2) as a second argument; and returns a list containing a component named <strong>cluster</strong> which is a vector of length <span class="math">\(n = nrow(x)\)</span> of integers in 1:k determining the clustering or grouping of the n observations.</li>
+<li><strong>K.max</strong>: the maximum number of clusters to consider, must be at least two.</li>
+<li><strong>B</strong>: the number of Monte Carlo (“bootstrap”) samples.</li>
+<li><strong>verbose</strong>: if TRUE, the computing progression is shown.</li>
+<li><strong>…</strong>: Further arguments for FUNcluster(), see kmeans example below.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><span class="success"> <strong>clusGap()</strong> function returns an object of class “clusGap” which main component is <strong>Tab</strong> with <strong>K.max</strong> rows and 4 columns, named “logW”, “E.logW”, “gap” and “SE.sim”. Recall that <span class="math">\(gap = E.logW - logW\)</span> and SE.sim is the standard error of gap.</span></p>
+</div>
+<div id="gap-statistic-for-k-means-clustering" class="section level4">
+<h4><span class="header-section-number">5.4.3.2</span> Gap statistic for k-means clustering</h4>
+<p>The R code below shows some example using the <strong>clustGap()</strong> function.</p>
+<p><span class="notice">We’ll use B = 50 to keep the function speedy. Note that, it’s recommended to use B = 500 for your analysis.</span></p>
+<p>The output of <strong>clusGap()</strong> function can be visualized using the function <strong>fviz_gap_stat()</strong> [in <strong>factoextra</strong>].</p>
+<pre class="r"><code># Compute gap statistic
+library(cluster)
+set.seed(123)
+gap_stat &lt;- clusGap(iris.scaled, FUN = kmeans, nstart = 25,
+                    K.max = 10, B = 50)
+
+# Print the result
+print(gap_stat, method = &quot;firstmax&quot;)</code></pre>
+<pre><code>## Clustering Gap statistic [&quot;clusGap&quot;].
+## B=50 simulated reference sets, k = 1..10
+##  --&gt; Number of clusters (method &#39;firstmax&#39;): 3
+##           logW   E.logW       gap     SE.sim
+##  [1,] 4.534565 4.754595 0.2200304 0.02504585
+##  [2,] 4.021316 4.489687 0.4683711 0.02742112
+##  [3,] 3.806577 4.295715 0.4891381 0.02384746
+##  [4,] 3.699263 4.143675 0.4444115 0.02093871
+##  [5,] 3.589284 4.052262 0.4629781 0.02036366
+##  [6,] 3.519726 3.972254 0.4525278 0.02049566
+##  [7,] 3.448288 3.905945 0.4576568 0.02106987
+##  [8,] 3.398210 3.850807 0.4525967 0.01969193
+##  [9,] 3.334279 3.802315 0.4680368 0.01905974
+## [10,] 3.250246 3.759661 0.5094149 0.01928183</code></pre>
+<pre class="r"><code># Base plot of gap statistic
+plot(gap_stat, frame = FALSE, xlab = &quot;Number of clusters k&quot;)
+abline(v = 3, lty = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-gap-statistic-k-means-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<pre class="r"><code># Use factoextra
+fviz_gap_stat(gap_stat)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-gap-statistic-k-means-2.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">In our example, the algorithm suggests k = 3</span></p>
+<p>The optimal number of clusters, k, is computed using the “firstmax” method (see <strong>?cluster::maxSE</strong>). The criterion proposed by Tibshirani et al (2001) can be used as follow:</p>
+<pre class="r"><code># Print
+print(gap_stat, method = &quot;Tibs2001SEmax&quot;)
+# Plot
+fviz_gap_stat(gap_stat, 
+              maxSE = list(method = &quot;Tibs2001SEmax&quot;))
+# Relaxed the gap test to be within two standard deviations
+fviz_gap_stat(gap_stat, 
+          maxSE = list(method = &quot;Tibs2001SEmax&quot;, SE.factor = 2))</code></pre>
+</div>
+<div id="gap-statistic-for-pam-clustering" class="section level4">
+<h4><span class="header-section-number">5.4.3.3</span> Gap statistic for PAM clustering</h4>
+<p><span class="notice">We don’t need the argument “nstart” which is specific to kmeans() function.</span></p>
+<pre class="r"><code># Compute gap statistic
+set.seed(123)
+gap_stat &lt;- clusGap(iris.scaled, FUN = pam, K.max = 10, B = 50)
+# Plot gap statistic
+fviz_gap_stat(gap_stat)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-gap-statistic-pam-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">Three cluster solutions are suggested.</span></p>
+</div>
+<div id="gap-statistic-for-hierarchical-clustering" class="section level4">
+<h4><span class="header-section-number">5.4.3.4</span> Gap statistic for hierarchical clustering</h4>
+<pre class="r"><code># Compute gap statistic
+set.seed(123)
+gap_stat &lt;- clusGap(iris.scaled, FUN = hcut, K.max = 10, B = 50)
+# Plot gap statistic
+fviz_gap_stat(gap_stat)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-gap-statistic-hierarchical-clustering-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<p><span class="success">Three cluster solutions are suggested.</span></p>
+</div>
+</div>
+</div>
+</div>
+<div id="nbclust-a-package-providing-30-indices-for-determining-the-best-number-of-clusters" class="section level1">
+<h1><span class="header-section-number">6</span> NbClust: A Package providing 30 indices for determining the best number of clusters</h1>
+<div id="overview-of-nbclust-package" class="section level2">
+<h2><span class="header-section-number">6.1</span> Overview of NbClust package</h2>
+<p>As mentioned in the introduction of this article, many indices have been proposed in the literature for determining the optimal number of clusters in a partitioning of a data set during the clustering process.</p>
+<p><strong>NbClust</strong> package, published by <a href="http://www.jstatsoft.org/v61/i06/paper">Charrad et al., 2014</a>, provides 30 indices for determining the relevant number of clusters and proposes to users the best clustering scheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods.</p>
+<p>An important advantage of NbClust is that the user can simultaneously computes multiple indices and determine the number of clusters in a single function call.</p>
+<p>The indices provided in <strong>NbClust</strong> package includes the gap statistic, the silhouette method and 28 other indices described comprehensively in the original paper of <a href="http://www.jstatsoft.org/v61/i06/paper">Charrad et al., 2014</a>.</p>
+</div>
+<div id="nbclust-r-function" class="section level2">
+<h2><span class="header-section-number">6.2</span> NbClust R function</h2>
+<p>The simplified format of the function <strong>NbClust()</strong> is:</p>
+<pre class="r"><code>NbClust(data = NULL, diss = NULL, distance = &quot;euclidean&quot;,
+        min.nc = 2, max.nc = 15, method = NULL, index = &quot;all&quot;)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>data</strong>: matrix</li>
+<li><strong>diss</strong>: dissimilarity matrix to be used. By default, diss=NULL, but if it is replaced by a dissimilarity matrix, distance should be “NULL”</li>
+<li><strong>distance</strong>: the distance measure to be used to compute the dissimilarity matrix. Possible values include “euclidean”, “manhattan” or “NULL”.</li>
+<li><strong>min.nc, max.nc</strong>: minimal and maximal number of clusters, respectively</li>
+<li><strong>method</strong>: The cluster analysis method to be used including “ward.D”, “ward.D2”, “single”, “complete”, “average” and more</li>
+<li><strong>index</strong>: the index to be calculated including “silhouette”, “gap” and more.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The value of <strong>NbClust()</strong> function includes the following elements:</p>
+<ul>
+<li><strong>All.index</strong>: Values of indices for each partition of the dataset obtained with a number of clusters between min.nc and max.nc</li>
+<li><strong>All.CriticalValues</strong>: Critical values of some indices for each partition obtained with a number of clusters between min.nc and max.nc</li>
+<li><strong>Best.nc</strong>: Best number of clusters proposed by each index and the corresponding index value</li>
+<li><strong>Best.partition</strong>: Partition that corresponds to the best number of clusters</li>
+</ul>
+</div>
+<div id="examples-of-usage" class="section level2">
+<h2><span class="header-section-number">6.3</span> Examples of usage</h2>
+<p>Note that, user can request indices one by one, by setting the argument <em>index</em> to the name of the <strong>index</strong> of interest, for example <strong>index = “gap”</strong>.</p>
+<p>In this case, <strong>NbClust</strong> function displays:</p>
+<ul>
+<li>the gap statistic values of the partitions obtained with number of clusters varying from <strong>min.nc</strong> to <strong>max.nc</strong> (<strong>$All.index</strong>)</li>
+<li>the optimal number of clusters (<strong>$Best.nc</strong>)</li>
+<li>and the partition corresponding to the best number of clusters (<strong>$Best.partition</strong>)</li>
+</ul>
+<div id="compute-only-an-index-of-interest" class="section level3">
+<h3><span class="header-section-number">6.3.1</span> Compute only an index of interest</h3>
+<p>The following example determine the number of clusters using <strong>gap</strong> statistics:</p>
+<pre class="r"><code>library(&quot;NbClust&quot;)
+set.seed(123)
+res.nb &lt;- NbClust(iris.scaled, distance = &quot;euclidean&quot;,
+                  min.nc = 2, max.nc = 10, 
+                  method = &quot;complete&quot;, index =&quot;gap&quot;) 
+res.nb # print the results</code></pre>
+<pre><code>## $All.index
+##       2       3       4       5       6       7       8       9      10 
+## -0.2899 -0.2303 -0.6915 -0.8606 -1.0506 -1.3223 -1.3303 -1.4759 -1.5551 
+## 
+## $All.CriticalValues
+##       2       3       4       5       6       7       8       9      10 
+## -0.0539  0.4694  0.1787  0.2009  0.2848  0.0230  0.1631  0.0988  0.1708 
+## 
+## $Best.nc
+## Number_clusters     Value_Index 
+##          3.0000         -0.2303 
+## 
+## $Best.partition
+##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [36] 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 3 3 3 2 3 2 3 2 3 2 2 3 2 3 3 3 3 2 2 2
+##  [71] 3 3 3 3 3 3 3 3 3 2 2 2 2 3 3 3 3 2 3 2 2 3 2 2 2 3 3 3 2 2 3 3 3 3 3
+## [106] 3 2 3 3 3 3 3 3 3 3 3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+## [141] 3 3 3 3 3 3 3 3 3 3</code></pre>
+<p>The elements returned by the function <strong>NbClust()</strong> are accessible using the R code below:</p>
+<pre class="r"><code># All gap statistic values
+res.nb$All.index
+
+# Best number of clusters
+res.nb$Best.nc
+
+# Best partition
+res.nb$Best.partition</code></pre>
+</div>
+<div id="compute-all-the-30-indices" class="section level3">
+<h3><span class="header-section-number">6.3.2</span> Compute all the 30 indices</h3>
+<p>The following example compute <strong>all</strong> the 30 indices, in a single function call, for determining the number of clusters and suggests to user the best clustering scheme. The description of the indices are available in NbClust documentation (see <strong>?NbClust</strong>).</p>
+<p>To compute multiple indices simultaneously, the possible values for the argument <strong>index</strong> can be i) <strong>“alllong”</strong> or ii) <strong>“all”</strong>. The option <strong>“alllong”</strong> requires more time, as the run of some indices, such as <em>Gamma, Tau, Gap and Gplus</em>, is computationally very expensive. The user can avoid computing these four indices by setting the argument index to <strong>“all”</strong>. In this case, only 26 indices are calculated.</p>
+<p>With the <strong>“alllong”</strong> option, the output of the <strong>NbClust</strong> function contains:</p>
+<br/>
+<div class="block">
+<ul>
+<li>all validation indices</li>
+<li>critical values for Duda, Gap, PseudoT2 and Beale indices</li>
+<li>the number of clusters corresponding to the optimal score for each indice</li>
+<li>the best number of clusters proposed by NbClust according to the majority rule</li>
+<li>the best partition</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The R code below computes <strong>NbClust()</strong> with <strong>index = “all”</strong>:</p>
+<pre class="r"><code>nb &lt;- NbClust(iris.scaled, distance = &quot;euclidean&quot;, min.nc = 2,
+        max.nc = 10, method = &quot;complete&quot;, index =&quot;all&quot;)</code></pre>
+<pre class="r"><code># Print the result
+nb</code></pre>
+<p>It’s possible to visualize the result using the function <strong>fviz_nbclust()</strong> [in <strong>factoextra</strong>], as follow:</p>
+<pre class="r"><code>fviz_nbclust(nb) + theme_minimal()</code></pre>
+<pre><code>## Among all indices: 
+## ===================
+## * 2 proposed  0 as the best number of clusters
+## * 1 proposed  1 as the best number of clusters
+## * 2 proposed  2 as the best number of clusters
+## * 18 proposed  3 as the best number of clusters
+## * 3 proposed  10 as the best number of clusters
+## 
+## Conclusion
+## =========================
+## * Accoridng to the majority rule, the best number of clusters is  3 .</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/determining-the-number-of-clusters-nbclust-ggplot2-1.png" title="Optimal number of clusters - R data visualization" alt="Optimal number of clusters - R data visualization" width="518.4" /></p>
+<br/>
+<div class="success">
+<ul>
+<li>….</li>
+<li>2 proposed 2 as the best number of clusters</li>
+<li>18 indices proposed 3 as the best number of clusters.</li>
+<li>3 proposed 10 as the best number of clusters</li>
+</ul>
+<strong>According to the majority rule, the best number of clusters is 3</strong>
+</div>
+<p><br/></p>
+</div>
+</div>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">7</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+<ul>
+<li>Charrad M., Ghazzali N., Boiteau V., Niknafs A. (2014). NbClust: An R Package for Determining the Relevant Number of Clusters in a Data Set. Journal of Statistical Software, 61(6), 1-36.</li>
+<li>Kaufman, L. and Rousseeuw, P.J. (1990). Finding Groups in Data: An Introduction to Cluster Analysis. Wiley, New York.</li>
+<li>Tibshirani, R., Walther, G. and Hastie, T. (2001). Estimating the number of data clusters via the Gap statistic. Journal of the Royal Statistical Society B, 63, 411–423. <a href="http://web.stanford.edu/~hastie/Papers/gap.pdf">PDF</a></li>
+</ul>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+  
+<!--====================== stop here when you copy to sthda================-->
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 6395 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="ba34621a6e909146">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

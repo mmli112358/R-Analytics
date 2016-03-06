@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Clarifying distance measures - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "c3a018d47e0a0824";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Clarifying distance measures - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					Clarifying distance measures - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=235&amp;com=0"><i class="fa fa-comments-o"></i> Discussion (2)</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=235" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=235" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+<div id="TOC">
+<ul>
+<li><a href="#methods-for-measuring-distances"><span class="toc-section-number">1</span> Methods for measuring distances</a></li>
+<li><a href="#distances-and-scaling"><span class="toc-section-number">2</span> Distances and scaling</a></li>
+<li><a href="#data-preparation"><span class="toc-section-number">3</span> Data preparation</a><ul>
+<li><a href="#descriptive-statistics"><span class="toc-section-number">3.1</span> Descriptive statistics</a></li>
+</ul></li>
+<li><a href="#r-functions-for-computing-distances"><span class="toc-section-number">4</span> R functions for computing distances</a><ul>
+<li><a href="#the-standard-dist-function"><span class="toc-section-number">4.1</span> The standard dist() function</a></li>
+<li><a href="#correlation-based-distance-measures"><span class="toc-section-number">4.2</span> Correlation based distance measures</a></li>
+<li><a href="#the-function-daisy-in-cluster-package"><span class="toc-section-number">4.3</span> The function daisy() in cluster package</a></li>
+</ul></li>
+<li><a href="#visualizing-distance-matrices"><span class="toc-section-number">5</span> Visualizing distance matrices</a></li>
+<li><a href="#infos"><span class="toc-section-number">6</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/> Large amounts of data are collected every day from satellite images, bio-medical, security, marketing, web search, geo-spatial or other automatic equipment. Mining knowledge from these <strong>big data</strong> far exceeds human’s abilities. Consequently, unsupervised <strong>machine learning</strong> tools (i.e, <strong>clustering</strong>) for discovering knowledge becomes more and more important for big data analyses.</p>
+<p><strong>Clustering</strong> corresponds to a set of tools used in order to classify data samples into groups (i.e clusters). Each groups contains objects with similar profiles. The classification of observations into groups, requires some methods for measuring the <strong>distance</strong> or the (dis)<strong>similarity</strong> between the observations. This means that, no unsupervised <strong>machine learning algorithms</strong> can take place without some notion of distances.</p>
+<p>In this article, we describe the common <strong>distance measures</strong> used for assessing <strong>similarity</strong> between observations. Some <strong>R codes</strong>, for computing pairwise-distances between observations, are also provided. You’ll learn also some methods for visualizing distance measures in <strong>R software</strong>.</p>
+<div id="methods-for-measuring-distances" class="section level1">
+<h1><span class="header-section-number">1</span> Methods for measuring distances</h1>
+<p>The choice of distance measures is a critical step in clustering. It defines how the similarity of two elements (x, y) is calculated and it will influence the shape of the clusters.</p>
+<p>There are different solutions for measuring the <strong>distance</strong> between observations in order to define clusters.</p>
+<p>In this section, we’ll describe the formulas of the classical measures, such as <strong>Euclidean</strong> and <strong>Manhattan distances</strong> as well as <strong>correlation-based distances</strong>.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Euclidean distance</strong>:</li>
+</ol>
+<p><span class="math">\[
+d_{euc}(x,y) = \sqrt{\sum_{i=1}^n(x_i - y_i)^2}
+\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Manhattan distance</strong>:</li>
+</ol>
+<p><span class="math">\[
+d_{man}(x,y) = \sum_{i=1}^n |{(x_i - y_i)|}
+\]</span></p>
+<p>Where, <strong>x</strong> and <strong>y</strong> are two vectors of length <strong>n</strong>.</p>
+<p>Other dissimilarity measures exist such as <strong>correlation-based distances</strong> which have been widely used for microarray data analyses. <strong>Correlation-based distance</strong> is defined by subtracting the <strong>correlation coefficient</strong> from 1. Different types of correlation methods can be used such as:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Pearson correlation distance</strong>:</li>
+</ol>
+<p><span class="math">\[
+d_{cor}(x, y) = 1 - \frac{\sum\limits_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum\limits_{i=1}^n(x_i - \bar{x})^2 \sum\limits_{i=1}^n(y_i -\bar{y})^2}}
+\]</span></p>
+<p><span class="notice">Pearson correlation measures the degree of a linear relationship between two profiles.</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Eisen cosine correlation distance</strong> (Eisen et al., 1998):</li>
+</ol>
+<p>It’s a special case of Pearson’s correlation with <span class="math">\(\bar{x}\)</span> and <span class="math">\(\bar{y}\)</span> both replaced by zero:</p>
+<p><span class="math">\[
+d_{eisen}(x, y) = 1 - \frac{\left|\sum\limits_{i=1}^n x_iy_i\right|}{\sqrt{\sum\limits_{i=1}^n x^2_i \sum\limits_{i=1}^n y^2_i}}
+\]</span></p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Spearman correlation distance</strong>:</li>
+</ol>
+<p><strong>Spearman correlation method computes</strong> the correlation between the rank of x and the rank of y variables.</p>
+<p><span class="math">\[
+d_{spear}(x, y) = 1 - \frac{\sum\limits_{i=1}^n (x&#39;_i - \bar{x&#39;})(y&#39;_i - \bar{y&#39;})}{\sqrt{\sum\limits_{i=1}^n(x&#39;_i - \bar{x&#39;})^2 \sum\limits_{i=1}^n(y&#39;_i -\bar{y&#39;})^2}}
+\]</span></p>
+<p>Where <span class="math">\(x&#39;_i = rank(x_i)\)</span> and <span class="math">\(y&#39;_i = rank(y)\)</span>.</p>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Kendall correlation distance</strong>:</li>
+</ol>
+<p><strong>Kendall correlation method</strong> measures the correspondence between the ranking of x and y variables. The total number of possible pairings of x with y observations is <span class="math">\(n(n-1)/2\)</span>, where n is the size of x and y. Begin by ordering the pairs by the x values. If x and y are correlated, then they would have the same relative rank orders. Now, for each <span class="math">\(y_i\)</span>, count the number of <span class="math">\(y_j &gt; y_i\)</span> (<strong>concordant pairs (c)</strong>) and the number of <span class="math">\(y_j &lt; y_i\)</span> (<strong>discordant pairs (d)</strong>).</p>
+<p><strong>Kendall correlation distance</strong> is defined as follow:</p>
+<p><span class="math">\[
+d_{kend}(x, y) = 1 - \frac{n_c - n_d}{\frac{1}{2}n(n-1)}
+\]</span></p>
+<p>Where,</p>
+<ul>
+<li><span class="math">\(n_c\)</span>: total number of concordant pairs</li>
+<li><span class="math">\(n_d\)</span>: total number of discordant pairs</li>
+<li><span class="math">\(n\)</span>: size of x and y</li>
+</ul>
+<br/>
+<div class="notice">
+<p>Note that,</p>
+<ul>
+<li><strong>Pearson correlation</strong> analysis is the most commonly used method. It is also known as a <strong>parametric correlation</strong> which depends on the distribution of the data.</li>
+<li><strong>Kendall</strong> and <strong>Spearman correlations</strong> are <strong>non-parametric</strong> and they are used to perform <strong>rank-based correlation</strong> analysis.</li>
+</ul>
+</div>
+<p></br/></p>
+<p><span class="success"> In the formula above, <strong>x</strong> and <strong>y</strong> are two vectors of length <strong>n</strong> and, means <span class="math">\(\bar{x}\)</span> and <span class="math">\(\bar{y}\)</span>, respectively. The distance between x and y is denoted <span class="math">\(d(x, y)\)</span>. </span></p>
+</div>
+<div id="distances-and-scaling" class="section level1">
+<h1><span class="header-section-number">2</span> Distances and scaling</h1>
+<p>The value of distance measures is intimately related to the scale on which measurements are made. Therefore, variables are often <strong>scaled</strong> (i.e. <strong>standardized</strong>) before measuring the inter-observation dissimilarities. Generally variables are scaled to have <strong>standard deviation</strong> one and <strong>mean</strong> zero.</p>
+<p><span class="question">Why transforming the data?</span></p>
+<p>The goal is to make the variables comparable and they will have equal importance in the <strong>clustering algorithm</strong>. This is particularly recommended when variables are measured in different scales (e.g: kilograms, kilometers, centimeters, …); otherwise, the dissimilarity measures obtained will be severely affected.</p>
+<p>The <strong>standardization</strong> of data is an approach widely used in the context of gene expression data analysis before clustering.</p>
+<p>We might also want to scale the data when the mean and/or the standard deviation of variables are largely different.</p>
+<p>Note also that, <strong>standardization</strong> makes the four distance measure methods - Euclidean, Manhattan, Correlation and Eisen - more similar than they would be with non-transformed data.</p>
+<p><span class="warning">This issue whether to scale or not the data before performing the analysis applies to any clustering methods (e.g K-means, hierarchical clustering, …) </span></p>
+<p>When scaling variables, the data can be transformed as follow:</p>
+<p><span class="math">\[
+\frac{x_i - center(x)}{scale(x)}
+\]</span></p>
+<p>Where <span class="math">\(center(x)\)</span> can be <strong>mean</strong> or the <strong>median</strong> of x values, and <span class="math">\(scale(x)\)</span> can be the <strong>standard deviation (SD)</strong>, <strong>interquartile range</strong>, or <strong>MAD (median absolute deviation)</strong>.</p>
+<p>The R base <strong>scale()</strong> function can be used to standardize the data. It takes a numeric matrix as an input and performs the scaling on the columns.</p>
+</div>
+<div id="data-preparation" class="section level1">
+<h1><span class="header-section-number">3</span> Data preparation</h1>
+<p>The built-in R dataset <strong>USArrests</strong> (violent crime rates by US state) we’ll be used in this section. It contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973. The percent of the population living in urban areas is also provided.</p>
+<p>We’ll use only a subset of the data by taking 10 random rows among the 50 rows in the dataset. This is done by using the function <strong>sample()</strong>. The data can be prepared as follow:</p>
+<pre class="r"><code># Load the dataset
+data(USArrests)
+
+# Subset of the data
+set.seed(123)
+ss &lt;- sample(1:50, 10) # Take 10 random rows
+df &lt;- USArrests[ss, ] # Subset the 10 rows
+
+# Remove any missing value (i.e, NA values for not available)
+# That might be present in the data
+df &lt;- na.omit(df)
+
+# View the firt 6 rows of the data
+head(df, n = 6)</code></pre>
+<pre><code>##              Murder Assault UrbanPop Rape
+## Iowa            2.2      56       57 11.3
+## Rhode Island    3.4     174       87  8.3
+## Maryland       11.3     300       67 27.8
+## Tennessee      13.2     188       59 26.9
+## Utah            3.2     120       80 22.9
+## Arizona         8.1     294       80 31.0</code></pre>
+<p><span class="notice"> In this dataset, columns are variables and rows are observations (i.e., samples).</span></p>
+<p>To inspect the data before <strong>distance measures</strong> we’ll compute some descriptive statistics such as the mean and the standard deviation of the variables.</p>
+<div id="descriptive-statistics" class="section level2">
+<h2><span class="header-section-number">3.1</span> Descriptive statistics</h2>
+<p>The <strong>apply()</strong> function is used to apply a given function (e.g : min(), max(), mean(), …) on the dataset. The second argument can take the value of:</p>
+<ul>
+<li><strong>1</strong>: for applying the function on the rows</li>
+<li><strong>2</strong>: for applying the function on the columns</li>
+</ul>
+<pre class="r"><code>desc_stats &lt;- data.frame(
+  Min = apply(USArrests, 2, min), # minimum
+  Med = apply(USArrests, 2, median), # median
+  Mean = apply(USArrests, 2, mean), # mean
+  SD = apply(USArrests, 2, sd), # Standard deviation
+  Max = apply(USArrests, 2, max) # Maximum
+  )
+desc_stats &lt;- round(desc_stats, 1)
+head(desc_stats)</code></pre>
+<pre><code>##           Min   Med  Mean   SD   Max
+## Murder    0.8   7.2   7.8  4.4  17.4
+## Assault  45.0 159.0 170.8 83.3 337.0
+## UrbanPop 32.0  66.0  65.5 14.5  91.0
+## Rape      7.3  20.1  21.2  9.4  46.0</code></pre>
+<p><span class="warning">Note that the variables have a large different means and variances. They must be standardized to make them comparable.</span></p>
+<p>Recall that, <strong>standardization</strong> consists of transforming the variables such that they have mean zero and standard deviation one. The <strong>scale()</strong> function can be used as follow:</p>
+<pre class="r"><code>df.scaled &lt;- scale(df)
+head(round(df.scaled, 2))</code></pre>
+<pre><code>##              Murder Assault UrbanPop  Rape
+## Iowa          -0.95   -1.21    -0.62 -0.83
+## Rhode Island  -0.72    0.06     1.58 -1.18
+## Maryland       0.82    1.42     0.12  1.08
+## Tennessee      1.19    0.21    -0.47  0.98
+## Utah          -0.75   -0.52     1.07  0.51
+## Arizona        0.20    1.35     1.07  1.45</code></pre>
+</div>
+</div>
+<div id="r-functions-for-computing-distances" class="section level1">
+<h1><span class="header-section-number">4</span> R functions for computing distances</h1>
+<p>There are many functions to compute pairwise distances in R:</p>
+<ul>
+<li>The standard <strong>dist()</strong> function [in <strong>stats</strong> package]</li>
+<li>The function <strong>daisy()</strong> [in <strong>cluster</strong> package]</li>
+</ul>
+<div id="the-standard-dist-function" class="section level2">
+<h2><span class="header-section-number">4.1</span> The standard dist() function</h2>
+<p>The standard R <strong>dist()</strong> function computes and returns pairwise distances by using the specified distance measure. It returns an object of class <strong>dist</strong> containing the <strong>distances between the rows</strong> of the data which can be either a matrix or a data frame.</p>
+<p>A simplified format is:</p>
+<pre class="r"><code>dist(x, method = &quot;euclidean&quot;)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: a numeric matrix or a data frame</li>
+<li><strong>method</strong>: possible values include “euclidean”, “manhattan” and more</li>
+</ul>
+</div>
+<p><br/></p>
+<p>We want to compute pairwise distances between observations:</p>
+<pre class="r"><code># Compute Euclidean pairwise distances
+dist.eucl &lt;- dist(df.scaled, method = &quot;euclidean&quot;)
+# View a subset of the distance matrices
+round(as.matrix(dist.eucl)[1:6, 1:6], 1)</code></pre>
+<pre><code>##              Iowa Rhode Island Maryland Tennessee Utah Arizona
+## Iowa          0.0          2.6      3.8       3.1  2.3     4.0
+## Rhode Island  2.6          0.0      3.4       3.5  1.9     3.1
+## Maryland      3.8          3.4      0.0       1.4  2.7     1.2
+## Tennessee     3.1          3.5      1.4       0.0  2.6     2.2
+## Utah          2.3          1.9      2.7       2.6  0.0     2.3
+## Arizona       4.0          3.1      1.2       2.2  2.3     0.0</code></pre>
+<p><span class="warning">In this dataset, the columns are variables. Hence, if we want to compute pairwise distances between variables, we must start by transposing the data to have variables in the rows of the dataset before using the <strong>dist()</strong> function. The function <strong>t()</strong> is used for transposing the data</span></p>
+</div>
+<div id="correlation-based-distance-measures" class="section level2">
+<h2><span class="header-section-number">4.2</span> Correlation based distance measures</h2>
+<p>In the example above, Euclidean distance has been used for measuring the dissimilarities between observations.</p>
+<p>In this section we’ll use a correlation based distance which can be computed using the function <strong>as.dist()</strong>.</p>
+<p>We start by computing pairwise correlation matrix using the function <strong>cor(x, method)</strong>. Correlation method can be either <strong>pearson</strong>, <strong>spearman</strong> or <strong>kendall</strong>. Next, the correlation matrix is converted as distance matrix using the function <strong>as.dist()</strong>.</p>
+<p>The function <strong>cor()</strong> compute pairwise correlation coefficients between the columns of the data. In our case columns are variables. We want to compute correlation coefficients between observations. So, the data must be first transposed using the function <strong>t()</strong> in order to have observations in the columns of the data:</p>
+<pre class="r"><code># Compute correlation matrix
+res.cor &lt;- cor(t(df.scaled),  method = &quot;pearson&quot;)
+# Compute distance matrix
+dist.cor &lt;- as.dist(1 - res.cor)
+
+round(as.matrix(dist.cor)[1:6, 1:6], 1)</code></pre>
+<pre><code>##              Iowa Rhode Island Maryland Tennessee Utah Arizona
+## Iowa          0.0          0.6      1.9       1.3  0.2     1.0
+## Rhode Island  0.6          0.0      1.7       1.9  0.5     0.9
+## Maryland      1.9          1.7      0.0       0.5  1.7     0.7
+## Tennessee     1.3          1.9      0.5       0.0  1.6     1.4
+## Utah          0.2          0.5      1.7       1.6  0.0     0.5
+## Arizona       1.0          0.9      0.7       1.4  0.5     0.0</code></pre>
+</div>
+<div id="the-function-daisy-in-cluster-package" class="section level2">
+<h2><span class="header-section-number">4.3</span> The function daisy() in cluster package</h2>
+<p>The function <strong>daisy()</strong> can be also used to compute <strong>dissimilarity matrices</strong> between observations. It returns also the distances between the rows of the input data which can be a matrix or a data frame.</p>
+<p>Compared to <strong>dist()</strong> whose input must be numeric variables, the main feature of <strong>daisy()</strong> is its ability to handle other variable types as well (e.g. nominal, ordinal, (a)symmetric binary). In that case <strong>Gower’s coefficient</strong> will be automatically used as the metric. It’s one of the most popular measures of proximity for mixed data types. For more details read the R documentation for <strong>daisy()</strong> function (<em>?daisy</em>).</p>
+<p>A simplified format of <strong>daisy()</strong> function is:</p>
+<pre class="r"><code>daisy(x, metric = c(&quot;euclidean&quot;, &quot;manhattan&quot;, &quot;gower&quot;),
+      stand = FALSE)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: numeric matrix or data frame. Dissimilarities will be computed between the rows of x. If x is a data frame, columns of class <em>factor</em> are considered as nominal variables and columns of class <em>ordered</em> are recognized as ordinal variables.</li>
+<li><strong>metric</strong>: The metric to be used for distance measures. Possible values are “euclidean”, “manhattan” and “gower”. “Gower’s distance” is chosen by metric “gower” or automatically if some columns of x are not numeric.</li>
+<li><strong>stand</strong>: if TRUE, then the measurements in x are standardized before calculating the dissimilarities. Measurements are standardized for each variable (column), by subtracting the variable’s mean value and dividing by the variable’s mean absolute deviation</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The R code below applies <strong>daisy()</strong> on <em>flower</em> data which contains <em>factor</em>, <em>ordered</em> and <em>numeric</em> variables:</p>
+<pre class="r"><code>library(cluster)
+# Load data
+data(flower)
+head(flower)</code></pre>
+<pre><code>##   V1 V2 V3 V4 V5 V6  V7 V8
+## 1  0  1  1  4  3 15  25 15
+## 2  1  0  0  2  1  3 150 50
+## 3  0  1  0  3  3  1 150 50
+## 4  0  0  1  4  2 16 125 50
+## 5  0  1  0  5  2  2  20 15
+## 6  0  1  0  4  3 12  50 40</code></pre>
+<pre class="r"><code># Data structure
+str(flower)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    18 obs. of  8 variables:
+##  $ V1: Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 2 1 1 1 1 1 1 2 2 ...
+##  $ V2: Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 1 2 1 2 2 1 1 2 2 ...
+##  $ V3: Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 1 1 2 1 1 1 2 1 1 ...
+##  $ V4: Factor w/ 5 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 4 2 3 4 5 4 4 2 3 5 ...
+##  $ V5: Ord.factor w/ 3 levels &quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;: 3 1 3 2 2 3 3 2 1 2 ...
+##  $ V6: Ord.factor w/ 18 levels &quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;&lt;&quot;4&quot;&lt;..: 15 3 1 16 2 12 13 7 4 14 ...
+##  $ V7: num  25 150 150 125 20 50 40 100 25 100 ...
+##  $ V8: num  15 50 50 50 15 40 20 15 15 60 ...</code></pre>
+<pre class="r"><code># Distance matrix
+dd &lt;- as.matrix(daisy(flower))
+head(round(dd[, 1:6], 2))</code></pre>
+<pre><code>##      1    2    3    4    5    6
+## 1 0.00 0.89 0.53 0.35 0.41 0.23
+## 2 0.89 0.00 0.51 0.55 0.62 0.66
+## 3 0.53 0.51 0.00 0.57 0.37 0.30
+## 4 0.35 0.55 0.57 0.00 0.64 0.42
+## 5 0.41 0.62 0.37 0.64 0.00 0.34
+## 6 0.23 0.66 0.30 0.42 0.34 0.00</code></pre>
+</div>
+</div>
+<div id="visualizing-distance-matrices" class="section level1">
+<h1><span class="header-section-number">5</span> Visualizing distance matrices</h1>
+<p>A simple solution for visualizing the distance matrices is to use the function <strong>corrplot()</strong> [in <strong>corrplot</strong> package]. Other specialized methods, such as <strong>hierarchical clustering dendrogram</strong> or <strong>heatmap</strong> will be comprehensively described in other chapters. A brief introduction is provided here using the following R codes.</p>
+<pre class="r"><code># install.packages(&quot;corrplot&quot;)
+library(&quot;corrplot&quot;)
+# Euclidean distance
+corrplot(as.matrix(dist.eucl), is.corr = FALSE, method = &quot;color&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/distance-measures-visualize-distance-measures-1.png" title="Distance measures - Unsupervised Machine Learning" alt="Distance measures - Unsupervised Machine Learning" width="384" /></p>
+<pre class="r"><code># Visualize only the upper triangle
+corrplot(as.matrix(dist.eucl), is.corr = FALSE, method = &quot;color&quot;,
+         order=&quot;hclust&quot;, type = &quot;upper&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/distance-measures-visualize-distance-measures-2.png" title="Distance measures - Unsupervised Machine Learning" alt="Distance measures - Unsupervised Machine Learning" width="384" /></p>
+<pre class="r"><code># Use hierarchical clustering dendogram to visualize clusters
+# of similar observations
+plot(hclust(dist.eucl, method = &quot;ward.D2&quot;))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/distance-measures-visualize-distance-measures-hierarchical-clustering-1.png" title="Distance measures - Unsupervised Machine Learning" alt="Distance measures - Unsupervised Machine Learning" width="384" /></p>
+<pre class="r"><code># Use heatmap
+heatmap(as.matrix(dist.eucl), symm = TRUE,
+        distfun = function(x) as.dist(x))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/distance-measures-visualize-distance-measures-hierarchical-clustering-2.png" title="Distance measures - Unsupervised Machine Learning" alt="Distance measures - Unsupervised Machine Learning" width="384" /></p>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">6</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<!--====================== stop here when you copy to sthda================-->
+
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 2516 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="c3a018d47e0a0824">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "7d5ce9e4abd86e40";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=236&amp;com=0"><i class="fa fa-comments-o"></i> Discussion (1)</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=236" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=236" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+<div id="TOC">
+<ul>
+<li><a href="#required-package"><span class="toc-section-number">1</span> Required package</a></li>
+<li><a href="#k-means-clustering"><span class="toc-section-number">2</span> K-means clustering</a><ul>
+<li><a href="#concept"><span class="toc-section-number">2.1</span> Concept</a></li>
+<li><a href="#algorithm"><span class="toc-section-number">2.2</span> Algorithm</a></li>
+<li><a href="#r-function-for-k-means-clustering"><span class="toc-section-number">2.3</span> R function for k-means clustering</a></li>
+<li><a href="#data-format"><span class="toc-section-number">2.4</span> Data format</a></li>
+<li><a href="#compute-k-means-clustering"><span class="toc-section-number">2.5</span> Compute k-means clustering</a></li>
+<li><a href="#application-of-k-means-clustering-on-real-data"><span class="toc-section-number">2.6</span> Application of K-means clustering on real data</a><ul>
+<li><a href="#data-preparation-and-descriptive-statistics"><span class="toc-section-number">2.6.1</span> Data preparation and descriptive statistics</a></li>
+<li><a href="#determine-the-number-of-optimal-clusters-in-the-data"><span class="toc-section-number">2.6.2</span> Determine the number of optimal clusters in the data</a></li>
+<li><a href="#compute-k-means-clustering-1"><span class="toc-section-number">2.6.3</span> Compute k-means clustering</a></li>
+<li><a href="#plot-the-result"><span class="toc-section-number">2.6.4</span> Plot the result</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#pam-partitioning-around-medoids"><span class="toc-section-number">3</span> PAM: Partitioning Around Medoids</a><ul>
+<li><a href="#concept-1"><span class="toc-section-number">3.1</span> Concept</a></li>
+<li><a href="#algorithm-1"><span class="toc-section-number">3.2</span> Algorithm</a></li>
+<li><a href="#r-function-for-computing-pam"><span class="toc-section-number">3.3</span> R function for computing PAM</a></li>
+<li><a href="#compute-pam"><span class="toc-section-number">3.4</span> Compute PAM</a></li>
+</ul></li>
+<li><a href="#clara-clustering-large-applications"><span class="toc-section-number">4</span> CLARA: Clustering Large Applications</a><ul>
+<li><a href="#concept-2"><span class="toc-section-number">4.1</span> Concept</a></li>
+<li><a href="#algorithm-2"><span class="toc-section-number">4.2</span> Algorithm</a></li>
+<li><a href="#r-function-for-computing-clara"><span class="toc-section-number">4.3</span> R function for computing CLARA</a></li>
+</ul></li>
+<li><a href="#r-packages-and-functions-for-visualizing-partitioning-clusters"><span class="toc-section-number">5</span> R packages and functions for visualizing partitioning clusters</a><ul>
+<li><a href="#clusplot-function"><span class="toc-section-number">5.1</span> clusplot() function</a></li>
+<li><a href="#fviz_cluster-function"><span class="toc-section-number">5.2</span> fviz_cluster() function</a></li>
+</ul></li>
+<li><a href="#infos"><span class="toc-section-number">6</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/> <strong>Clustering</strong> is a data exploratory technique used for discovering groups or pattern in a dataset. There are two standard clustering strategies: <strong>partitioning methods</strong> and <strong>hierarchical clustering</strong>.</p>
+<p>This article describes the most well-known and commonly used <strong>partitioning algorithms</strong> including:</p>
+<ul>
+<li><strong>K-means clustering</strong> (MacQueen, 1967), in which, each cluster is represented by the center or means of the data points belonging to the cluster.</li>
+<li><strong>K-medoids clustering</strong> or <strong>PAM</strong> (<strong>Partitioning Around Medoids</strong>, Kaufman &amp; Rousseeuw, 1990), in which, each cluster is represented by one of the objects in the cluster. We’ll describe also a variant of <strong>PAM</strong> named <strong>CLARA</strong> (<strong>Clustering Large Applications</strong>) which is used for analyzing large data sets.</li>
+</ul>
+<p>For each of these methods, we provide:</p>
+<ul>
+<li>the basic idea and the key mathematical concepts</li>
+<li>the clustering algorithm and implementation in R software</li>
+<li>R lab sections with many examples for computing clustering methods and visualizing the outputs</li>
+</ul>
+<div id="required-package" class="section level1">
+<h1><span class="header-section-number">1</span> Required package</h1>
+<p>The only required packages for this chapter are:</p>
+<ul>
+<li><strong>cluster</strong> for computing <strong>PAM</strong> and <strong>CLARA</strong></li>
+<li><strong>factoextra</strong> which will be used to visualize clusters.</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Install <strong>factoextra</strong> package as follow:</li>
+</ol>
+<pre class="r"><code>if(!require(devtools)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Install <strong>cluster</strong> package as follow:</li>
+</ol>
+<pre class="r"><code>install.packages(&quot;cluster&quot;)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Load the packages </strong>:</li>
+</ol>
+<pre class="r"><code>library(cluster)
+library(factoextra)</code></pre>
+</div>
+<div id="k-means-clustering" class="section level1">
+<h1><span class="header-section-number">2</span> K-means clustering</h1>
+<p><strong>K-means clustering</strong> is the simplest and the most commonly used partitioning method for splitting a dataset into a set of <strong>k</strong> groups (i.e. clusters). It requires the analyst to specify the number of optimal clusters to be generated from the data.</p>
+<div id="concept" class="section level2">
+<h2><span class="header-section-number">2.1</span> Concept</h2>
+<p>Generally, <strong>clustering</strong> is defined as <strong>grouping objects in sets</strong>, such that objects within a cluster are as similar as possible, whereas objects from different clusters are as dissimilar as possible. A good clustering will generate clusters with a high <strong>intra-class similarity</strong> and a <strong>low inter-class similarity</strong>.</p>
+<p><span "warning"="">Hence, the basic idea behind <strong>K-means clustering</strong> consists of defining clusters so that the <strong>total intra-cluster variation</strong> (known as <strong>total within-cluster variation</strong>) is minimized.</span></p>
+<p>The equation to be solved can be defined as follow:</p>
+<p><span class="math">\(minimize\left(\sum\limits_{k=1}^k W(C_k)\right)\)</span>,</p>
+<p>Where <span class="math">\(C_k\)</span> is the <span class="math">\(k_{th}\)</span> cluster and <span class="math">\(W(C_k)\)</span> is the <strong>within-cluster variation</strong> of the cluster <span class="math">\(C_k\)</span>.</p>
+<p><span class="question">What is the formula of <span class="math">\(W(C_k)\)</span>?</span></p>
+<p>There are many ways to define the <strong>within-cluster variation</strong> (<span class="math">\(W(C_k)\)</span>). The algorithm of Hartigan and Wong (1979) is used by default in <strong>R software</strong>. It uses <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>Euclidean distance</strong></a> measures between data points to determine the <strong>within-</strong> and the <strong>between-cluster</strong> similarities.</p>
+<p>Each observation is assigned to a given cluster such that the <strong>sum of squares</strong> (SS) of the observation to their assigned cluster centers is a minimum.</p>
+<p>To solve the equation presented above, the <strong>within-cluster variation</strong> (<span class="math">\(W(C_k)\)</span>) for a given cluster <span class="math">\(C_k\)</span>, containing <span class="math">\(n_k\)</span> points, can be defined as follow:</p>
+<p><img src="http://www.sthda.com/sthda/RDoc/images/within-cluster-sum-of-squares.png" alt="within-cluster variation" /></p>
+<p><span class="math">\[
+W(C_k) = \frac{1}{n_k}\sum\limits_{x_i \in C_k}\sum\limits_{x_j \in C_k} (x_i - x_j)^2 = \sum\limits_{x_i \in C_k} (x_i - \mu_k)^2
+\]</span></p>
+<ul>
+<li><span class="math">\(x_i\)</span> design a data point belonging to the cluster <span class="math">\(C_k\)</span></li>
+<li><span class="math">\(\mu_k\)</span> is the mean value of the points assigned to the cluster <span class="math">\(C_k\)</span></li>
+</ul>
+<p><span class="success">The <strong>within-cluster variation</strong> for a cluster <span class="math">\(C_k\)</span> with <span class="math">\(n_k\)</span> number of points is the sum of all of the pairwise squared Euclidean distances between the observations <span class="math">\(C_k\)</span>, divided by <span class="math">\(n_k\)</span>.</span></p>
+<p>We define the <strong>total within-cluster sum of square</strong> (i.e, <strong>total within-cluster variation</strong>) as follow:</p>
+<p><span class="math">\[
+tot.withinss = \sum\limits_{k=1}^k W(C_k) = \sum\limits_{k=1}^k \sum\limits_{x_i \in C_k} (x_i - \mu_k)^2
+\]</span></p>
+<p><span class="success">The <strong>total within-cluster sum of square</strong> measures the compactness (i.e <strong>goodness</strong>) of the clustering and we want it to be as small as possible.</span></p>
+</div>
+<div id="algorithm" class="section level2">
+<h2><span class="header-section-number">2.2</span> Algorithm</h2>
+<p>In <strong>k-means clustering</strong>, each cluster is represented by its <strong>center</strong> (i.e, <strong>centroid</strong>) which corresponds to the mean of points assigned to the cluster. Recall that, <strong>k-means algrorithm</strong> requires the user to choose the number of clusters (i.e, k) to be generated.</p>
+<p>The algorithm starts by randomly selecting k objects from the dataset as the initial cluster means.</p>
+<p>Next, each of the remaining objects is assigned to it’s closest centroid, where closest is defined using the <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning">Euclidean distance</a> between the object and the cluster mean. This step is called <strong>cluster assignement step</strong>.</p>
+<p>After the assignment step, the algorithm computes the new mean value of each cluster. The term <strong>cluster centroid update</strong> is used to design this step. All the objects are reassigned again using the updated cluster means.</p>
+<p>The cluster assignment and centroid update steps are iteratively repeated until the cluster assignments stop changing (i.e until <strong>convergence</strong> is achieved). That is, the clusters formed in the current iteration are the same as those obtained in the previous iteration.</p>
+<p>The algorithm can be summarize as follow:</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li>Specify the number of clusters (K) to be created (by the analyst)</li>
+<li>Select randomly k objects from the dataset as the initial cluster centers or means</li>
+<li>Assigns each observation to their closest centroid, based on the Euclidean distance between the object and the centroid</li>
+<li>For each of the k clusters update the <strong>cluster centroid</strong> by calculating the new mean values of all the data points in the cluster. The centoid of a <span class="math">\(K_{th}\)</span> cluster is a vector of length <em>p</em> containing the means of all variables for the observations in the <span class="math">\(k_{th}\)</span> cluster; <em>p</em> is the number of variables.</li>
+<li>Iteratively minimize the total within sum of square. That is, iterate steps 3 and 4 until the cluster assignments stop changing or the maximum number of iterations is reached. By default <strong>R</strong> uses 10 as the default value for the maximum number of iterations.</li>
+</ol>
+</div>
+<p><br/></p>
+<br/>
+<div class="warning">
+<p>Note that, <strong>k-means clustering</strong> is very simple and efficient algorithm. However there are some weaknesses, including:</p>
+<ol style="list-style-type: decimal">
+<li>It assumes prior knowledge of the data and requires the analyst to choose the appropriate k in advance</li>
+<li>The final results obtained is sensitive to the initial random selection of cluster centers.</li>
+</ol>
+</div>
+<p><br/></p>
+<p><span class="question">How to overcome these 2 difficulties?</span></p>
+<p>We’ll describe the solutions to each of these two disadvantages in the next sections. Briefly the solutions are:</p>
+<ol style="list-style-type: decimal">
+<li>Solution to issue 1: Compute k-means for a range of k values, for example by varying k between 2 and 20. Then, choose the best k by comparing the clustering results obtained for the different k values. This will be described comprehensively in the chapter named: <strong>cluster evaluation and validation statistics</strong></li>
+<li>Solution to issue 2: K-means algorithm is computed several times with different initial cluster centers. The run with the lowest total within-cluster sum of square is selected as the final clustering solution. This is described in the following section.</li>
+</ol>
+</div>
+<div id="r-function-for-k-means-clustering" class="section level2">
+<h2><span class="header-section-number">2.3</span> R function for k-means clustering</h2>
+<p><strong>K-mean clustering</strong> must be performed only on a data in which all variables are continuous as the algorithm uses variable means.</p>
+<p>The standard R function for <strong>k-means clustering</strong> is <strong>kmeans()</strong> [in <strong>stats</strong> package]. A simplified format is:</p>
+<pre class="r"><code>kmeans(x, centers, iter.max = 10, nstart = 1)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: numeric matrix, numeric data frame or a numeric vector</li>
+<li><strong>centers</strong>: Possible values are the number of clusters (<strong>k</strong>) or a set of initial (distinct) cluster centers. If a number, a random set of (distinct) rows in x is chosen as the initial centers.</li>
+<li><strong>iter.max</strong>: The maximum number of iterations allowed. Default value is 10.</li>
+<li><strong>nstart</strong>: The number of random starting partitions when centers is a number. Trying <em>nstart &gt; 1</em> is often recommended.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>kmeans()</strong> function returns a list including:</p>
+<ul>
+<li><strong>cluster</strong>: A vector of integers (from 1:k) indicating the cluster to which each point is allocated</li>
+<li><strong>centers</strong>: A matrix of cluster centers (cluster means)</li>
+<li><strong>totss</strong>: The total sum of squares (TSS), i.e <span class="math">\(\sum{(x_i - \bar{x})^2}\)</span>. TSS measures the total variance in the data.</li>
+<li><strong>withinss</strong>: Vector of within-cluster sum of squares, one component per cluster</li>
+<li><strong>tot.withinss</strong>: Total within-cluster sum of squares, i.e. <span class="math">\(sum(withinss)\)</span></li>
+<li><strong>betweenss</strong>: The between-cluster sum of squares, i.e. <span class="math">\(totss - tot.withinss\)</span></li>
+<li><strong>size</strong>: The number of observations in each cluster</li>
+</ul>
+<br/>
+<div class="warning">
+<p>As <strong>k-means clustering algorithm</strong> starts with k randomly selected centroids, it’s always recommended to use the <strong>set.seed()</strong> function in order to set a seed for <strong>R’s random number generator</strong>.</p>
+The aim is to make reproducible the results, so that the reader of this article will obtain exactly the same results as those shown below.
+</div>
+<p><br/></p>
+</div>
+<div id="data-format" class="section level2">
+<h2><span class="header-section-number">2.4</span> Data format</h2>
+<p>The R code below generates a two-dimensional simulated data format which will be used for performing <strong>k-means clustering</strong>:</p>
+<pre class="r"><code>set.seed(123)
+# Two-dimensional data format
+df &lt;- rbind(matrix(rnorm(100, sd = 0.3), ncol = 2),
+           matrix(rnorm(100, mean = 1, sd = 0.3), ncol = 2))
+colnames(df) &lt;- c(&quot;x&quot;, &quot;y&quot;)
+head(df)</code></pre>
+<pre><code>##                x            y
+## [1,] -0.16814269  0.075995554
+## [2,] -0.06905325 -0.008564027
+## [3,]  0.46761249 -0.012861137
+## [4,]  0.02115252  0.410580685
+## [5,]  0.03878632 -0.067731296
+## [6,]  0.51451950  0.454941181</code></pre>
+</div>
+<div id="compute-k-means-clustering" class="section level2">
+<h2><span class="header-section-number">2.5</span> Compute k-means clustering</h2>
+<p>The R code below performs <strong>k-means clustering</strong> with k = 2:</p>
+<pre class="r"><code># Compute k-means
+set.seed(123)
+km.res &lt;- kmeans(df, 2, nstart = 25)
+# Cluster number for each of the observations
+km.res$cluster</code></pre>
+<pre><code>##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [71] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</code></pre>
+<pre class="r"><code># Cluster size
+km.res$size</code></pre>
+<pre><code>## [1] 50 50</code></pre>
+<pre class="r"><code># Cluster means
+km.res$centers</code></pre>
+<pre><code>##            x          y
+## 1 0.01032106 0.04392248
+## 2 0.92382987 1.01164205</code></pre>
+<p>It’s possible to plot the data with coloring each data point according to its cluster assignment. The cluster centers are specified using “big stars”:</p>
+<pre class="r"><code>plot(df, col = km.res$cluster, pch = 19, frame = FALSE,
+     main = &quot;K-means with k = 2&quot;)
+points(km.res$centers, col = 1:2, pch = 8, cex = 3)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-k-means-plot-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="432" /></p>
+<p><span class="question">OK, cool! The data points are perfectly partitioned!! But why didn’t you perform k-means clustering with k = 3 or 4 rather than using k = 2? </span></p>
+<p>The data used in the example above is a simulated data and we knew exactly that there are only 2 real clusters.</p>
+<p>For real data, we could have tried the clustering with k = 3 or 4. Let’s try it with k = 4 as follow:</p>
+<pre class="r"><code>set.seed(123)
+km.res &lt;- kmeans(df, 4, nstart = 25)
+plot(df, col = km.res$cluster, pch = 19, frame = FALSE,
+     main = &quot;K-means with k = 4&quot;)
+points(km.res$centers, col = 1:4, pch = 8, cex = 3)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-k-means-plot-4-groups-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="432" /></p>
+<pre class="r"><code># Print the result
+km.res</code></pre>
+<pre><code>## K-means clustering with 4 clusters of sizes 27, 25, 24, 24
+## 
+## Cluster means:
+##            x           y
+## 1  1.1336807  1.07876045
+## 2 -0.2110757  0.12500530
+## 3  0.6706931  0.91293798
+## 4  0.2199345 -0.05766457
+## 
+## Clustering vector:
+##   [1] 2 2 4 2 4 3 4 2 2 2 4 4 4 4 2 4 4 2 4 2 2 4 2 2 2 2 4 4 2 4 4 2 4 4 4
+##  [36] 4 4 2 2 2 2 2 2 4 4 2 2 2 4 4 3 1 1 3 3 1 3 3 1 1 1 1 3 1 1 1 1 3 3 3
+##  [71] 1 3 3 1 1 3 1 1 3 1 1 1 1 3 3 1 3 1 1 3 1 3 3 3 3 1 3 1 1 3
+## 
+## Within cluster sum of squares by cluster:
+## [1] 3.786069 2.096232 1.747682 2.184534
+##  (between_SS / total_SS =  83.6 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;    
+## [5] &quot;tot.withinss&quot; &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;        
+## [9] &quot;ifault&quot;</code></pre>
+<p><span class="warning">A method, for estimating the optimal number of clusters in the data, is presented in the next section.</span></p>
+<p><span class="question">What means <strong>nstart</strong>? Why did you use the argument <strong>nstart = 25</strong> rather than <strong>nstart = 1</strong>?</span></p>
+<p>Excellent question! As mentioned in the previous sections, one disadvantage of <strong>k-means clustering</strong> is the sensitivity of the final results to the <strong>initial random centroids</strong>.</p>
+<p>The option <strong>nstart</strong> is the number of random sets to be chosen at Step 2 of the k-means algorithm. The default value of <strong>nstart</strong> in R is one. But, It’s recommended to try more than one random start (i.e. use <em>nstart &gt; 1</em>).</p>
+<p>In other words, if the value of <strong>nstart</strong> is greater than one, then <strong>k-means clustering algorithm</strong> will start by defining multiple random configurations (Step 2 of the algorithm). For instance, if <span class="math">\(nstart = 50\)</span>, the algorithm will create 50 initial configurations. Finally, <strong>kmeans() function will report only the best results</strong>.</p>
+<p><span class="success">In conclusion, if you want the algorithm to do a good job, try several random starts (<strong>nstart &gt; 1</strong>).</span></p>
+<p>As mentioned above, a good <strong>k-means clustering</strong> is a one that minimize the <strong>total within-cluster variation</strong> (i.e, the average distance of each point to its assigned centroid). For illustration, let’s compare the results (i.e. <strong>tot.withinss</strong>) of a k-means approach with <strong>nstart = 1</strong> against <strong>nstart = 25</strong>.</p>
+<pre class="r"><code>set.seed(123)
+# K-means with nstart = 1
+km.res &lt;- kmeans(df, 4, nstart = 1)
+km.res$tot.withinss</code></pre>
+<pre><code>## [1] 10.13198</code></pre>
+<pre class="r"><code># K-means with nstart = 25
+km.res &lt;- kmeans(df, 4, nstart = 25)
+km.res$tot.withinss</code></pre>
+<pre><code>## [1] 9.814517</code></pre>
+<p><span class="success">It can be seen that the <strong>tot.withinss</strong> is further improved (i.e. minimized) when the value of <strong>nstart</strong> is large.</span></p>
+<p><span class="warning">Note that, it’s strongly recommended to compute <strong>k-means clustering</strong> with a large value of <strong>nstart</strong> such as 25 or 50, in order to have a more stable result.</span></p>
+</div>
+<div id="application-of-k-means-clustering-on-real-data" class="section level2">
+<h2><span class="header-section-number">2.6</span> Application of K-means clustering on real data</h2>
+<div id="data-preparation-and-descriptive-statistics" class="section level3">
+<h3><span class="header-section-number">2.6.1</span> Data preparation and descriptive statistics</h3>
+<p>We’ll use the built-in R dataset <strong>USArrest</strong> which contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973. It includes also the percent of the population living in urban areas.</p>
+<p>It contains 50 observations on 4 variables:</p>
+<ul>
+<li>[,1] Murder numeric Murder arrests (per 100,000)</li>
+<li>[,2] Assault numeric Assault arrests (per 100,000)</li>
+<li>[,3] UrbanPop numeric Percent urban population</li>
+<li>[,4] Rape numeric Rape arrests (per 100,000)</li>
+</ul>
+<pre class="r"><code># Load the data set
+data(&quot;USArrests&quot;)
+
+# Remove any missing value (i.e, NA values for not available)
+# That might be present in the data
+df &lt;- na.omit(USArrests)
+
+# View the firt 6 rows of the data
+head(df, n = 6)</code></pre>
+<pre><code>##            Murder Assault UrbanPop Rape
+## Alabama      13.2     236       58 21.2
+## Alaska       10.0     263       48 44.5
+## Arizona       8.1     294       80 31.0
+## Arkansas      8.8     190       50 19.5
+## California    9.0     276       91 40.6
+## Colorado      7.9     204       78 38.7</code></pre>
+<p>Before k-means clustering, we can compute some descriptive statistics:</p>
+<pre class="r"><code>desc_stats &lt;- data.frame(
+  Min = apply(df, 2, min), # minimum
+  Med = apply(df, 2, median), # median
+  Mean = apply(df, 2, mean), # mean
+  SD = apply(df, 2, sd), # Standard deviation
+  Max = apply(df, 2, max) # Maximum
+  )
+desc_stats &lt;- round(desc_stats, 1)
+head(desc_stats)</code></pre>
+<pre><code>##           Min   Med  Mean   SD   Max
+## Murder    0.8   7.2   7.8  4.4  17.4
+## Assault  45.0 159.0 170.8 83.3 337.0
+## UrbanPop 32.0  66.0  65.5 14.5  91.0
+## Rape      7.3  20.1  21.2  9.4  46.0</code></pre>
+<p>Note that the variables have a large different means and variances. This is explained by the fact that the variables are measured in different units; Murder, Rape, and Assault are measured as the number of occurrences per 100 000 people, and UrbanPop is the percentage of the state’s population that lives in an urban area.</p>
+<p>They must be standardized (i.e., scaled) to make them comparable. Recall that, <strong>standardization</strong> consists of transforming the variables such that they have mean zero and standard deviation one. You can read more about <strong>standardization</strong> in the following article: <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>distance measures and scaling</strong></a>.</p>
+<p>As we don’t want the k-means algorithm to depend to an arbitrary variable unit, we start by scaling the data using the R function <strong>scale()</strong> as follow:</p>
+<pre class="r"><code>df &lt;- scale(df)
+head(df)</code></pre>
+<pre><code>##                Murder   Assault   UrbanPop         Rape
+## Alabama    1.24256408 0.7828393 -0.5209066 -0.003416473
+## Alaska     0.50786248 1.1068225 -1.2117642  2.484202941
+## Arizona    0.07163341 1.4788032  0.9989801  1.042878388
+## Arkansas   0.23234938 0.2308680 -1.0735927 -0.184916602
+## California 0.27826823 1.2628144  1.7589234  2.067820292
+## Colorado   0.02571456 0.3988593  0.8608085  1.864967207</code></pre>
+</div>
+<div id="determine-the-number-of-optimal-clusters-in-the-data" class="section level3">
+<h3><span class="header-section-number">2.6.2</span> Determine the number of optimal clusters in the data</h3>
+<p>Partitioning methods require the users to specify the number of clusters to be generated.</p>
+<p><span class="question">One fundamental question is: How to choose the right number of expected clusters (k)?</span></p>
+<p>Different methods will be presented in the chapter “cluster evaluation and validation statistics”.</p>
+<p>Here, we provide a simple solution. The idea is to compute a clustering algorithm of interest using different values of clusters k. Next, the wss (within sum of square) is drawn according to the number of clusters. The location of a bend (knee) in the plot is generally considered as an indicator of the appropriate number of clusters.</p>
+<p>We’ll use the function <strong>fviz_nbclust()</strong> [in <strong>factoextra</strong> package] which format is:</p>
+<pre class="r"><code>fviz_nbclust(x, FUNcluster, method = c(&quot;silhouette&quot;, &quot;wss&quot;))</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: numeric matrix or data frame</li>
+<li><strong>FUNcluster</strong>: a partitioning function such as kmeans, pam, clara etc</li>
+<li><strong>method</strong>: the method to be used for determining the optimal number of clusters.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The R code below computes the elbow method for kmeans():</p>
+<pre class="r"><code>library(factoextra)
+set.seed(123)
+fviz_nbclust(df, kmeans, method = &quot;wss&quot;) +
+    geom_vline(xintercept = 4, linetype = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-k-means-optimal-clusters-wss-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<p><span class="success">Four clusters are suggested.</span></p>
+</div>
+<div id="compute-k-means-clustering-1" class="section level3">
+<h3><span class="header-section-number">2.6.3</span> Compute k-means clustering</h3>
+<pre class="r"><code># Compute k-means clustering with k = 4
+set.seed(123)
+km.res &lt;- kmeans(df, 4, nstart = 25)
+print(km.res)</code></pre>
+<pre><code>## K-means clustering with 4 clusters of sizes 13, 16, 13, 8
+## 
+## Cluster means:
+##       Murder    Assault   UrbanPop        Rape
+## 1 -0.9615407 -1.1066010 -0.9301069 -0.96676331
+## 2 -0.4894375 -0.3826001  0.5758298 -0.26165379
+## 3  0.6950701  1.0394414  0.7226370  1.27693964
+## 4  1.4118898  0.8743346 -0.8145211  0.01927104
+## 
+## Clustering vector:
+##        Alabama         Alaska        Arizona       Arkansas     California 
+##              4              3              3              4              3 
+##       Colorado    Connecticut       Delaware        Florida        Georgia 
+##              3              2              2              3              4 
+##         Hawaii          Idaho       Illinois        Indiana           Iowa 
+##              2              1              3              2              1 
+##         Kansas       Kentucky      Louisiana          Maine       Maryland 
+##              2              1              4              1              3 
+##  Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
+##              2              3              1              4              3 
+##        Montana       Nebraska         Nevada  New Hampshire     New Jersey 
+##              1              1              3              1              2 
+##     New Mexico       New York North Carolina   North Dakota           Ohio 
+##              3              3              4              1              2 
+##       Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
+##              2              2              2              2              4 
+##   South Dakota      Tennessee          Texas           Utah        Vermont 
+##              1              4              3              2              1 
+##       Virginia     Washington  West Virginia      Wisconsin        Wyoming 
+##              2              2              1              1              2 
+## 
+## Within cluster sum of squares by cluster:
+## [1] 11.952463 16.212213 19.922437  8.316061
+##  (between_SS / total_SS =  71.2 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;    
+## [5] &quot;tot.withinss&quot; &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;        
+## [9] &quot;ifault&quot;</code></pre>
+<p>It’s possible to compute the mean of each of the variables in the clusters:</p>
+<pre class="r"><code>aggregate(USArrests, by=list(cluster=km.res$cluster), mean)</code></pre>
+<pre><code>##   cluster   Murder   Assault UrbanPop     Rape
+## 1       1  3.60000  78.53846 52.07692 12.17692
+## 2       2  5.65625 138.87500 73.87500 18.78125
+## 3       3 10.81538 257.38462 76.00000 33.19231
+## 4       4 13.93750 243.62500 53.75000 21.41250</code></pre>
+</div>
+<div id="plot-the-result" class="section level3">
+<h3><span class="header-section-number">2.6.4</span> Plot the result</h3>
+<p>Now, we want to visualize the result as a graph. The problem is that the data contains more than 2 variables and the question is what variables to choose for the xy scatter plot.</p>
+<p><span class="success">If we have a multi-dimensional data set, a solution is to perform <a href="http://www.sthda.com/english/wiki/factominer-and-factoextra-principal-component-analysis-visualization-r-software-and-data-mining"><strong>Principal Component Analysis (PCA)</strong></a> and to plot data points according to the first two principal components coordinates.</span></p>
+<p>The function <strong>fviz_cluster()</strong> [in <strong>factoextra</strong>] can be easily used to visualize clusters. Observations are represented by points in the plot, using principal components if ncol(data) &gt; 2. An ellipse is drawn around each cluster.</p>
+<pre class="r"><code>fviz_cluster(km.res, data = df)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-k-means-plot-ggplot2-factoextra-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+</div>
+</div>
+<div id="pam-partitioning-around-medoids" class="section level1">
+<h1><span class="header-section-number">3</span> PAM: Partitioning Around Medoids</h1>
+<div id="concept-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Concept</h2>
+<p>The use of means implies that <strong>k-means clustering</strong> is highly sensitive to outliers. This can severely affects the assignment of observations to clusters. A more robust algorithm is provided by <strong>PAM</strong> algorithm (Partitioning Around Medoids) which is also known as <strong>k-medoids clustering</strong>.</p>
+</div>
+<div id="algorithm-1" class="section level2">
+<h2><span class="header-section-number">3.2</span> Algorithm</h2>
+<br/>
+<div class="block">
+The <strong>pam algorithm</strong> is based on the search for k representative objects or medoids among the observations of the dataset. These observations should represent the structure of the data. After finding a set of k medoids, k clusters are constructed by assigning each observation to the nearest medoid. The goal is to find k representative objects which minimize the <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>sum of the dissimilarities</strong></a> of the observations to their closest representative object.
+</div>
+<p><br/></p>
+<p>For a given cluster, the sum of the dissimilarities is calculated using <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning">Manhattan distance</a>.</p>
+</div>
+<div id="r-function-for-computing-pam" class="section level2">
+<h2><span class="header-section-number">3.3</span> R function for computing PAM</h2>
+<p>The function <strong>pam()</strong> [in <strong>cluster</strong> package] and <strong>pamk()</strong> [in <strong>fpc</strong> package] can be used to compute <strong>PAM</strong>.</p>
+<p><span class="notice">The function <strong>pamk()</strong> does not require a user to decide the number of clusters K.</span></p>
+<p>In the following examples, we’ll describe only the function <strong>pam()</strong>, which simplified format is:</p>
+<pre class="r"><code>pam(x, k)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: possible values includes:
+<ul>
+<li><strong>Numeric data matrix or numeric data frame</strong>: each row corresponds to an observation, and each column corresponds to a variable.</li>
+<li><strong>Dissimilarity matrix</strong>: in this case <strong>x</strong> is typically the output of <strong>daisy()</strong> or <strong>dist()</strong></li>
+</ul></li>
+<li><strong>k</strong>: The number of clusters</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The function <strong>pam()</strong> has many features compared to the function <strong>kmeans()</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>It accepts a <strong>dissimilarity matrix</strong></li>
+<li>It is more robust to outliers because it uses <strong>medoids</strong> and it minimizes a sum of dissimilarities (based on <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>Manhattan distance</strong></a>) instead of a sum of squared <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>Euclidean distances</strong></a>.</li>
+<li>It provides a novel graphical display, the silhouette plot (see the function plot.partition())</li>
+</ol>
+</div>
+<div id="compute-pam" class="section level2">
+<h2><span class="header-section-number">3.4</span> Compute PAM</h2>
+<pre class="r"><code>library(&quot;cluster&quot;)
+# Load data
+data(&quot;USArrests&quot;)
+# Scale the data and compute pam with k = 4
+pam.res &lt;- pam(scale(USArrests), 4)</code></pre>
+<p>The function <strong>pam()</strong> returns an object of class <strong>pam</strong> which components include:</p>
+<ul>
+<li><strong>medoids</strong>: Objects that represent clusters</li>
+<li><strong>clustering</strong>: a vector containing the cluster number of each object</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Extract cluster medoids:</li>
+</ol>
+<pre class="r"><code>pam.res$medoids</code></pre>
+<pre><code>##                   Murder    Assault   UrbanPop         Rape
+## Alabama        1.2425641  0.7828393 -0.5209066 -0.003416473
+## Michigan       0.9900104  1.0108275  0.5844655  1.480613993
+## Oklahoma      -0.2727580 -0.2371077  0.1699510 -0.131534211
+## New Hampshire -1.3059321 -1.3650491 -0.6590781 -1.252564419</code></pre>
+<p><span class="notice">The <strong>medoids</strong> are Alabama, Michigan, Oklahoma, New Hampshire</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Extract clustering vectors</li>
+</ol>
+<pre class="r"><code>head(pam.res$cluster)</code></pre>
+<pre><code>##    Alabama     Alaska    Arizona   Arkansas California   Colorado 
+##          1          2          2          1          2          2</code></pre>
+<p>The result can be plotted using the function <strong>clusplot()</strong> [in <strong>cluster</strong> package] as follow:</p>
+<pre class="r"><code>clusplot(pam.res, main = &quot;Cluster plot, k = 4&quot;, 
+         color = TRUE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-pam-cluster-plot-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<p>An alternative plot can be generated using the function <strong>fviz_cluster</strong> [in <strong>factoextra</strong> package]:</p>
+<pre class="r"><code>fviz_cluster(pam.res)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-pam-factoextra-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<p>It’s also possible to draw a <strong>silhouette plot</strong> as follow:</p>
+<pre class="r"><code>plot(silhouette(pam.res),  col = 2:5) </code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-pam-silhouette-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<br/>
+<div class="block">
+<p><strong>Silhouette Plot</strong> shows for each cluster:</p>
+<ul>
+<li>The number of elements (<span class="math">\(n_j\)</span>) per cluster. Each horizontal line corresponds to an element. The length of the lines corresponds to silhouette width (<span class="math">\(S_i\)</span>), which is the means similarity of each element to its own cluster minus the mean similarity to the next most similar cluster</li>
+<li>The average silhouette width</li>
+</ul>
+Observations with a large <span class="math">\(S_i\)</span> (almost 1) are very well clustered, a small <span class="math">\(S_i\)</span> (around 0) means that the observation lies between two clusters, and observations with a negative <span class="math">\(S_i\)</span> are probably placed in the wrong cluster.
+</div>
+<p><br/></p>
+<p>An alternative to draw <strong>silhouette plot</strong> is to use the function <strong>fviz_silhouette()</strong> [in <strong>factoextra</strong>]:</p>
+<pre class="r"><code>fviz_silhouette(silhouette(pam.res)) </code></pre>
+<pre><code>##   cluster size ave.sil.width
+## 1       1    8          0.39
+## 2       2   12          0.31
+## 3       3   20          0.28
+## 4       4   10          0.46</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-pam-silhouette-plot-ggplot2-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<p>It can be seen that some samples have a negative silhouette. This means that they are not in the right cluster. We can find the name of these samples and determine the clusters they are closer, as follow:</p>
+<pre class="r"><code># Compute silhouette
+sil &lt;- silhouette(pam.res)[, 1:3]
+# Objects with negative silhouette
+neg_sil_index &lt;- which(sil[, &#39;sil_width&#39;] &lt; 0)
+sil[neg_sil_index, , drop = FALSE]</code></pre>
+<pre><code>##          cluster neighbor   sil_width
+## Nebraska       3        4 -0.04034739
+## Montana        3        4 -0.18266793</code></pre>
+<p><span class="warning">Note that, for large datasets, pam() may need too much memory or too much computation time. In this case, the function <strong>clara()</strong> is preferable.</span></p>
+</div>
+</div>
+<div id="clara-clustering-large-applications" class="section level1">
+<h1><span class="header-section-number">4</span> CLARA: Clustering Large Applications</h1>
+<div id="concept-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> Concept</h2>
+<p><strong>CLARA</strong> is a partitioning method used to deal with much larger data sets (more than several thousand observations) in order to reduce computing time and RAM storage problem.</p>
+<p><span class="notice">Note that, what can be considered small/large, is really a function of available computing power, both memory (RAM) and speed.</span></p>
+</div>
+<div id="algorithm-2" class="section level2">
+<h2><span class="header-section-number">4.2</span> Algorithm</h2>
+<p>The algorithm is as follow:</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li>Split randomly the data sets in multiple subsets with fixed size</li>
+<li>Compute <strong>PAM</strong> algorithm on each subset and choose the corresponding k representative objects (medoids). Assign each observation of the entire dataset to the nearest medoid.</li>
+<li>Calculate the mean (or the sum) of the dissimilarities of the observations to their closest medoid. This is used as a measure of the goodness of the clustering.</li>
+<li>Retain the sub-dataset for which the mean (or sum) is minimal. A further analysis is carried out on the final partition.</li>
+</ol>
+</div>
+<p><br/></p>
+</div>
+<div id="r-function-for-computing-clara" class="section level2">
+<h2><span class="header-section-number">4.3</span> R function for computing CLARA</h2>
+<p>The function <strong>clara()</strong> [in <strong>cluster</strong> package] can be used:</p>
+<pre class="r"><code>clara(x, k, samples = 5)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: a numeric data matrix or data frame, each row corresponds to an observation, and each column corresponds to a variable.</li>
+<li><strong>k</strong>: the number of cluster</li>
+<li><strong>samples</strong>: number of samples to be drawn from the dataset. Default value is 5 but it’s recommended a much larger value.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>clara()</strong> function can be used as follow:</p>
+<pre class="r"><code>set.seed(1234)
+# Generate 500 objects, divided into 2 clusters.
+x &lt;- rbind(cbind(rnorm(200,0,8), rnorm(200,0,8)),
+           cbind(rnorm(300,50,8), rnorm(300,50,8)))
+head(x)</code></pre>
+<pre><code>##            [,1]     [,2]
+## [1,]  -9.656526 3.881815
+## [2,]   2.219434 5.574150
+## [3,]   8.675529 1.484111
+## [4,] -18.765582 5.605868
+## [5,]   3.432998 2.493448
+## [6,]   4.048447 6.083699</code></pre>
+<pre class="r"><code># Compute clara
+clarax &lt;- clara(x, 2, samples=50)
+# Cluster plot
+fviz_cluster(clarax, stand = FALSE, geom = &quot;point&quot;,
+             pointsize = 1)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-clara-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Silhouette plot
+plot(silhouette(clarax),  col = 2:3, main = &quot;Silhouette plot&quot;)  </code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-clara-2.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<p>The output of the function clara() includes the following components:</p>
+<ul>
+<li><strong>medoids</strong>: Objects that represent clusters</li>
+<li><strong>clustering</strong>: a vector containing the cluster number of each object</li>
+<li><strong>sample</strong>: labels or case numbers of the observations in the best sample, that is, the sample used by the clara algorithm for the final partition.</li>
+</ul>
+<pre class="r"><code># Medoids
+clarax$medoids</code></pre>
+<pre><code>##           [,1]      [,2]
+## [1,] -1.531137  1.145057
+## [2,] 48.357304 50.233499</code></pre>
+<pre class="r"><code># Clustering
+head(clarax$clustering, 20)</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</code></pre>
+</div>
+</div>
+<div id="r-packages-and-functions-for-visualizing-partitioning-clusters" class="section level1">
+<h1><span class="header-section-number">5</span> R packages and functions for visualizing partitioning clusters</h1>
+<p>There are many functions from different packages for plotting cluster solutions generated by partitioning methods.</p>
+<p>In this section, we’ll describe the function <strong>clustplot()</strong> [in <strong>cluster</strong> package] and the function <strong>fviz_cluster()</strong> [in <strong>factoextra</strong> package]</p>
+<p>With each of the above functions, a <strong>Principal Component Analysis</strong> is performed firstly and the observations are plotted according to the first two principal components.</p>
+<div id="clusplot-function" class="section level2">
+<h2><span class="header-section-number">5.1</span> clusplot() function</h2>
+<p>It creates a bivariate plot visualizing a partition of the data. All observations are represented by points in the plot, using principal components analysis. An ellipse is drawn around each cluster.</p>
+<p>A simplified format is:</p>
+<pre class="r"><code>clustplot(x, clus, main = NULL, stand = FALSE, color = FALSE,
+          labels = 0)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: an object of class “partition” created by one of the functions <strong>pam()</strong>, <strong>clara()</strong> or <strong>fanny()</strong></li>
+<li><strong>clus</strong>: a vector containing the cluster number to which each observation has been assigned</li>
+<li><strong>stand</strong>: logical value: if TRUE the data will be standardized</li>
+<li><strong>color</strong>: logical value: If TRUE, the ellipses are colored</li>
+<li><strong>labels</strong>: possible values are 0, 1, 2, 3, 4 and 5
+<ul>
+<li>labels = 0: no labels are placed in the plot</li>
+<li>labels = 2: all points and ellipses are labelled in the plot</li>
+<li>labels = 3: only the points are labelled in the plot</li>
+<li>labels = 4: only the ellipses are labelled in the plot</li>
+</ul></li>
+<li><strong>col.p</strong>: color code(s) used for the observation points</li>
+<li><strong>col.txt</strong>: color code(s) used for the labels (if labels &gt;= 2)</li>
+<li><strong>col.clus</strong>: color code for the ellipses (and their labels); only one if color is false (as per default).</li>
+</ul>
+</div>
+<p><br/></p>
+<pre class="r"><code>set.seed(123)
+# K-means clustering
+km.res &lt;- kmeans(scale(USArrests), 4, nstart = 25)
+# Use clusplot function
+library(cluster)
+clusplot(scale(USArrests), km.res$cluster,  main = &quot;Cluster plot&quot;,
+         color=TRUE, labels = 2, lines = 0)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-cluster-visualization-clustplot-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<p><span class="notice">It’s possible to generate the same plots for <strong>pam</strong> approach, as follow.</span></p>
+<pre class="r"><code>clusplot(pam.res, main = &quot;Cluster plot, k = 4&quot;, 
+         color = TRUE)</code></pre>
+</div>
+<div id="fviz_cluster-function" class="section level2">
+<h2><span class="header-section-number">5.2</span> fviz_cluster() function</h2>
+<p>The function <strong>fviz_cluster()</strong> [in <strong>factoextra</strong> package] can be used to draw clusters using <strong>ggplot2</strong> plotting system.</p>
+<p>It’s possible to use it for visualizing the results of k-means, pam, clara and fanny.</p>
+<p>A simplified format is:</p>
+<pre class="r"><code>fviz_cluster(object, data = NULL, stand = TRUE,
+             geom = c(&quot;point&quot;, &quot;text&quot;), 
+             frame = TRUE, frame.type = &quot;convex&quot;)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>object</strong>: an object of class “partition” created by the functions pam(), clara() or fanny() in cluster package. It can be also an output of kmeans() function in stats package. In this case the argument data is required.</li>
+<li><strong>data</strong>: the data that has been used for clustering. Required only when object is a class of kmeans.</li>
+<li><strong>stand</strong>: logical value; if TRUE, data is standardized before principal component analysis</li>
+<li><strong>geom</strong>: a text specifying the geometry to be used for the graph. Allowed values are the combination of c(“point”, “text”). Use “point” (to show only points); “text” to show only labels; c(“point”, “text”) to show both types.</li>
+<li><strong>frame</strong>: logical value; if TRUE, draws outline around points of each cluster</li>
+<li><strong>frame.type</strong>: Character specifying frame type. Possible values are ‘convex’ or types supported by ggplot2::stat_ellipse including one of c(“t”, “norm”, “euclid”).</li>
+</ul>
+</div>
+<p><br/></p>
+<p>In order to use the function <strong>fviz_cluster()</strong>, make sure that the package <strong>factoextra</strong> is installed and loaded.</p>
+<pre class="r"><code>library(&quot;factoextra&quot;)
+# Visualize kmeans clustering
+fviz_cluster(km.res, USArrests)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-cluster-visualization-factoextra-1.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Visualize pam clustering
+pam.res &lt;- pam(scale(USArrests), 4)
+fviz_cluster(pam.res)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-cluster-visualization-factoextra-2.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Change frame type
+fviz_cluster(pam.res, frame.type = &quot;t&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-cluster-visualization-factoextra-3.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Remove ellipse fill color
+# Change frame level
+fviz_cluster(pam.res, frame.type = &quot;t&quot;,
+             frame.alpha = 0, frame.level = 0.7)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-cluster-visualization-factoextra-4.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Show point only
+fviz_cluster(pam.res, geom = &quot;point&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-cluster-visualization-factoextra-5.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Show text only
+fviz_cluster(pam.res, geom = &quot;text&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-cluster-visualization-factoextra-6.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Change the color and theme
+fviz_cluster(pam.res) + 
+  scale_color_brewer(palette = &quot;Set2&quot;)+
+  scale_fill_brewer(palette = &quot;Set2&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/partitioning-cluster-analysis-cluster-visualization-factoextra-7.png" title="Partitioning cluster analysis - Unsupervised Machine Learning" alt="Partitioning cluster analysis - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">6</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+<ul>
+<li>Hartigan, J. A. and Wong, M. A. (1979). A K-means clustering algorithm. Applied Statistics 28, 100–108.</li>
+<li>Kaufman, L. and Rousseeuw, P.J. (1990). Finding Groups in Data: An Introduction to Cluster Analysis. Wiley, New York.</li>
+<li>MacQueen, J. (1967) Some methods for classification and analysis of multivariate observations. In Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability, eds L. M. Le Cam &amp; J. Neyman, 1, pp. 281–297. Berkeley, CA: University of California Press.</li>
+</ul>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--====================== stop here when you copy to sthda================-->
+
+
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 5865 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="7d5ce9e4abd86e40">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

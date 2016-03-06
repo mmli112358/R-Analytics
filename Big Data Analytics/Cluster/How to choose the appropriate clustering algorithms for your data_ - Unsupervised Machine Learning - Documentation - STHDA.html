@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "a36f6bd2239b534a";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=243&amp;com=0"><i class="fa fa-comments-o"></i> Discussion</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=243" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=243" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->
+  <div id="rdoc">
+
+<div id="TOC">
+<ul>
+<li><a href="#clustering-validation-measures-in-clvalid-package"><span class="toc-section-number">1</span> Clustering validation measures in clValid package</a><ul>
+<li><a href="#internal-validation-measures"><span class="toc-section-number">1.1</span> Internal validation measures</a></li>
+<li><a href="#stability-validation-measures"><span class="toc-section-number">1.2</span> Stability validation measures</a></li>
+<li><a href="#biological-validation-measures"><span class="toc-section-number">1.3</span> Biological validation measures</a></li>
+</ul></li>
+<li><a href="#r-function-clvalid"><span class="toc-section-number">2</span> R function clValid()</a><ul>
+<li><a href="#format"><span class="toc-section-number">2.1</span> Format</a></li>
+<li><a href="#examples-of-usage"><span class="toc-section-number">2.2</span> Examples of usage</a><ul>
+<li><a href="#data"><span class="toc-section-number">2.2.1</span> Data</a></li>
+<li><a href="#compute-clvalid"><span class="toc-section-number">2.2.2</span> Compute clValid()</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#infos"><span class="toc-section-number">3</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/> There are many <strong>clustering algorithms</strong> published in the literature, including:</p>
+<ul>
+<li><a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning methods</a>: k-means clustering, PAM and CLARA</li>
+<li><a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical clustering</a></li>
+<li>Fuzzy analysis clustering (FANNY)</li>
+<li>Self-organizing maps (SOM)</li>
+<li>Model-based clustering</li>
+<li>…</li>
+</ul>
+<p>For a given dataset, choosing the appropriate clustering method and the optimal number of clusters can be a hard task for the analyst.</p>
+<p>As described in two of my previous articles(<a href="http://www.sthda.com/english/wiki/determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">determining the optimal number of clusters</a> and <a href="http://www.sthda.com/english/wiki/clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">cluster validation statistics</a>), there are more than 30 indices for assessing the goodness of clustering results and for identifying the best performing clustering algorithm for a particular dataset.</p>
+<br/>
+<div class="block">
+This article describes the R package <strong>clValid</strong> (G. Brock et al., 2008) which can be used for simultaneously comparing multiple clustering algorithms in a single function call for identifying the best clustering approach and the optimal number of clusters.
+</div>
+<p><br/></p>
+<p>The package <strong>clValid</strong> contains 3 different types of clustering validation measures:</p>
+<ul>
+<li><a href="http://www.sthda.com/english/wiki/clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning"><strong>Clustering internal validation</strong></a>, which uses intrinsic information in the data to assess the quality of the clustering.</li>
+<li><strong>Clustering stability validation</strong>, which is a special version of internal validation. It evaluates the consistency of a clustering result by comparing it with the clusters obtained after each column is removed, one at a time.</li>
+<li><strong>Clustering biological validation</strong>, which evaluates the ability of a clustering algorithm to produce biologically meaningful clusters.</li>
+</ul>
+<p>We’ll start by describing the different clustering validation measures in the package. Next, we’ll present the function clValid() and finally we’ll provide an R lab section for validating clustering results and comparing clustering algorithms.</p>
+<div id="clustering-validation-measures-in-clvalid-package" class="section level1">
+<h1><span class="header-section-number">1</span> Clustering validation measures in clValid package</h1>
+<div id="internal-validation-measures" class="section level2">
+<h2><span class="header-section-number">1.1</span> Internal validation measures</h2>
+<p>The <strong>internal measures</strong> included in <strong>clValid</strong> package are:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Connectivity</strong></li>
+<li><strong>Average Silhouette width</strong></li>
+<li><strong>Dunn index</strong></li>
+</ol>
+<p>These methods has been already described in my previous article: <a href="http://www.sthda.com/english/wiki/clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">clustering validation statistic</a>.</p>
+<p>Briefly, <strong>connectivity</strong> indicates the degree of <strong>connectedness</strong> of the clusters, as determined by k-nearest neighbors. Connectedness corresponds to what extent items are placed in the same cluster as their nearest neighbors in the data space. The <strong>connectivity</strong> has a value between 0 and infinity and should be <strong>minimized</strong>.</p>
+<p><strong>Silhouette width</strong> and <strong>Dunn index</strong> combine measures of compactness and separation of the clusters. Recall that the values of <strong>silhouette width</strong> range from -1 (poorly clustered observations) to 1 (well clustered observations). The <strong>Dunn index</strong> is the ratio between the smallest distance between observations not in the same cluster to the largest intra-cluster distance. It has a value between 0 and infinity and should be maximized.</p>
+</div>
+<div id="stability-validation-measures" class="section level2">
+<h2><span class="header-section-number">1.2</span> Stability validation measures</h2>
+<p>The <strong>cluster stability measures</strong> includes:</p>
+<ul>
+<li>The <strong>average proportion of non-overlap</strong> (APN)</li>
+<li>The <strong>average distance</strong> (AD)</li>
+<li>The <strong>average distance between means</strong> (ADM)</li>
+<li>The <strong>figure of merit</strong> (FOM)</li>
+</ul>
+<p>The APN, AD, and ADM are all based on the cross-classification table of the original clustering with the clustering based on the removal of one column.</p>
+<ul>
+<li><p>The <strong>APN</strong> measures the average proportion of observations not placed in the same cluster by clustering based on the full data and clustering based on the data with a single column removed.</p></li>
+<li><p>The <strong>AD</strong> measures the average distance between observations placed in the same cluster under both cases (full dataset and removal of one column).</p></li>
+<li><p>The <strong>ADM</strong> measures the average distance between cluster centers for observations placed in the same cluster under both cases.</p></li>
+<li><p>The <strong>FOM</strong> measures the average intra-cluster variance of the deleted column, where the clustering is based on the remaining (undeleted) columns. It also has a value between zero and 1, and again smaller values are preferred.</p></li>
+</ul>
+<p><span class="warning">The values of APN, ADM and FOM ranges from 0 to 1, with smaller value corresponding with highly consistent clustering results. AD has a value between 0 and infinity, and smaller values are also preferred.</span></p>
+</div>
+<div id="biological-validation-measures" class="section level2">
+<h2><span class="header-section-number">1.3</span> Biological validation measures</h2>
+<p>Biological validation evaluates the ability of a clustering algorithm to produce biologically meaningful clusters. An application is microarray or RNAseq data where observations corresponds to genes.</p>
+<p>There are two biological measures:</p>
+<ul>
+<li>The <strong>biological homogeneity index</strong> (BHI)</li>
+<li>The <strong>biological stability index</strong> (BSI)</li>
+</ul>
+<p>The <strong>BHI</strong> measures the average proportion of gene pairs that are clustered together which have matching biological functional classes.</p>
+<p>The <strong>BSI</strong> is similar to the other stability measures, but inspects the consistency of clustering for genes with similar biological functionality. Each sample is removed one at a time, and the cluster membership for genes with similar functional annotation is compared with the cluster membership using all available samples.</p>
+</div>
+</div>
+<div id="r-function-clvalid" class="section level1">
+<h1><span class="header-section-number">2</span> R function clValid()</h1>
+<div id="format" class="section level2">
+<h2><span class="header-section-number">2.1</span> Format</h2>
+<p>The main function in <strong>clValid</strong> package is clValid():</p>
+<pre class="r"><code>clValid(obj, nClust, clMethods = &quot;hierarchical&quot;,
+        validation = &quot;stability&quot;, maxitems = 600,
+        metric = &quot;euclidean&quot;, method = &quot;average&quot;)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>obj</strong>: A numeric matrix or data frame. Rows are the items to be clustered and columns are samples.</li>
+<li><strong>nClust</strong>: A numeric vector specifying the numbers of clusters to be evaluated. e.g., 2:10</li>
+<li><strong>clMethods</strong>: The clustering method to be used. Available options are “hierarchical”, “kmeans”, “diana”, “fanny”, “som”, “model”, “sota”, “pam”, “clara”, and “agnes”, with multiple choices allowed.</li>
+<li><strong>validation</strong>: The type of validation measures to be used. Allowed values are “internal”, “stability”, and “biological”, with multiple choices allowed.</li>
+<li><strong>maxitems</strong>: The maximum number of items (rows in matrix) which can be clustered.</li>
+<li><strong>metric</strong>: The metric used to determine the distance matrix. Possible choices are “euclidean”, “correlation”, and “manhattan”.</li>
+<li><strong>method</strong>: For hierarchical clustering (hclust and agnes), the agglomeration method to be used. Available choices are “ward”, “single”, “complete” and “average”.</li>
+</ul>
+</div>
+<p><br/></p>
+</div>
+<div id="examples-of-usage" class="section level2">
+<h2><span class="header-section-number">2.2</span> Examples of usage</h2>
+<div id="data" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Data</h3>
+<p>We’ll use <strong>mouse</strong> data [in <strong>clValid</strong> package ] which is an Affymetrix gene expression data of of mesenchymal cells from two distinct lineages (M and N). It contains 147 genes and 6 samples (3 samples for each lineage).</p>
+<pre class="r"><code>library(clValid)
+# Load the data
+data(mouse)
+head(mouse)</code></pre>
+<pre><code>##             ID       M1       M2       M3      NC1      NC2      NC3
+## 1   1448995_at 4.706812 4.528291 4.325836 5.568435 6.915079 7.353144
+## 2 1436392_s_at 3.867962 4.052354 3.474651 4.995836 5.056199 5.183585
+## 3 1437434_a_at 2.875112 3.379619 3.239800 3.877053 4.459629 4.850978
+## 4   1428922_at 5.326943 5.498930 5.629814 6.795194 6.535522 6.622577
+## 5 1452671_s_at 5.370125 4.546810 5.704810 6.407555 6.310487 6.195847
+## 6   1448147_at 3.471347 4.129992 3.964431 4.474737 5.185631 5.177967
+##                       FC
+## 1 Growth/Differentiation
+## 2   Transcription factor
+## 3          Miscellaneous
+## 4          Miscellaneous
+## 5          ECM/Receptors
+## 6 Growth/Differentiation</code></pre>
+<pre class="r"><code># Extract gene expression data
+exprs &lt;- mouse[1:25,c(&quot;M1&quot;,&quot;M2&quot;,&quot;M3&quot;,&quot;NC1&quot;,&quot;NC2&quot;,&quot;NC3&quot;)]
+rownames(exprs) &lt;- mouse$ID[1:25]
+head(exprs)</code></pre>
+<pre><code>##                    M1       M2       M3      NC1      NC2      NC3
+## 1448995_at   4.706812 4.528291 4.325836 5.568435 6.915079 7.353144
+## 1436392_s_at 3.867962 4.052354 3.474651 4.995836 5.056199 5.183585
+## 1437434_a_at 2.875112 3.379619 3.239800 3.877053 4.459629 4.850978
+## 1428922_at   5.326943 5.498930 5.629814 6.795194 6.535522 6.622577
+## 1452671_s_at 5.370125 4.546810 5.704810 6.407555 6.310487 6.195847
+## 1448147_at   3.471347 4.129992 3.964431 4.474737 5.185631 5.177967</code></pre>
+</div>
+<div id="compute-clvalid" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Compute clValid()</h3>
+<p>We start by <strong>internal cluster validation</strong> which measures the connectivity, silhouette width and Dunn index. It’s possible to compute simultaneously these internal measures for multiple clustering algorithms in combination with a range of cluster numbers. The R code below can be used:</p>
+<pre class="r"><code># Compute clValid
+clmethods &lt;- c(&quot;hierarchical&quot;,&quot;kmeans&quot;,&quot;pam&quot;)
+intern &lt;- clValid(exprs, nClust = 2:6,
+              clMethods = clmethods, validation = &quot;internal&quot;)
+# Summary
+summary(intern)</code></pre>
+<pre><code>##
+## Clustering Methods:
+##  hierarchical kmeans pam
+##
+## Cluster sizes:
+##  2 3 4 5 6
+##
+## Validation Measures:
+##                                  2       3       4       5       6
+##
+## hierarchical Connectivity   4.6159 11.5865 19.5075 22.2075 24.5044
+##              Dunn           0.4217  0.2315  0.3068  0.3456  0.3456
+##              Silhouette     0.5997  0.4529  0.4324  0.4007  0.3891
+## kmeans       Connectivity   4.6159  9.5607 20.4774 23.1774 26.2242
+##              Dunn           0.4217  0.3924  0.1360  0.1556  0.1778
+##              Silhouette     0.5997  0.5495  0.4235  0.3871  0.3618
+## pam          Connectivity   4.6159  9.5607 18.5925 25.0631 31.8381
+##              Dunn           0.4217  0.3924  0.3068  0.3068  0.2511
+##              Silhouette     0.5997  0.5495  0.4401  0.4297  0.3506
+##
+## Optimal Scores:
+##
+##              Score  Method       Clusters
+## Connectivity 4.6159 hierarchical 2
+## Dunn         0.4217 hierarchical 2
+## Silhouette   0.5997 hierarchical 2</code></pre>
+<p><span class="success">It can be seen that hierarchical clustering with two clusters performs the best in each case (i.e., for connectivity, Dunn and Silhouette measures).</span></p>
+<p>The plots of the connectivity, Dunn index, and silhouette width can be generated as follow:</p>
+<pre class="r"><code>plot(intern)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/compare-clustering-algoriths-clvalid-clvalid-1.png" title="clValid - Unsupervised Machine Learning" alt="clValid - Unsupervised Machine Learning" width="518.4" /><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/compare-clustering-algoriths-clvalid-clvalid-2.png" title="clValid - Unsupervised Machine Learning" alt="clValid - Unsupervised Machine Learning" width="518.4" /><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/compare-clustering-algoriths-clvalid-clvalid-3.png" title="clValid - Unsupervised Machine Learning" alt="clValid - Unsupervised Machine Learning" width="518.4" /></p>
+<div class="success">
+<p>Recall that the connectivity should be minimized, while both the Dunn index and the silhouette width should be maximized.</p>
+<p>Thus, it appears that hierarchical clustering outperforms the other clustering algorithms under each validation measure, for nearly every number of clusters evaluated.</p>
+Regardless of the clustering algorithm, the optimal number of clusters seems to be two using the three measures.
+</div>
+<p><strong>Stability measures</strong> can be computed as follow:</p>
+<pre class="r"><code># Stability measures
+clmethods &lt;- c(&quot;hierarchical&quot;,&quot;kmeans&quot;,&quot;pam&quot;)
+stab &lt;- clValid(exprs, nClust = 2:6, clMethods = clmethods,
+                validation = &quot;stability&quot;)
+# Display only optimal Scores
+optimalScores(stab)</code></pre>
+<pre><code>##         Score       Method Clusters
+## APN 0.0000000 hierarchical        2
+## AD  0.9642344          pam        6
+## ADM 0.0000000 hierarchical        2
+## FOM 0.3925939          pam        6</code></pre>
+<p>It’s also possible to display a complete summary:</p>
+<pre class="r"><code>summary(stab)
+
+plot(stab)</code></pre>
+<p><span class="success">For the APN and ADM measures, hierarchical clustering with two clusters again gives the best score. For the other measures, PAM with six clusters has the best score.</span></p>
+<p>For <strong>cluster biological validation</strong> read the documentation of <strong>clValid()</strong> (?clValid).</p>
+</div>
+</div>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">3</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+<ul>
+<li>Brock, G., Pihur, V., Datta, S. and Datta, S. (2008) clValid: An R Package for Cluster Validation Journal of Statistical Software 25(4) <a href="http://www.jstatsoft.org/v25/i04" class="uri">http://www.jstatsoft.org/v25/i04</a></li>
+</ul>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+<!--====================== stop here when you copy to sthda================-->
+
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 2023 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="a36f6bd2239b534a">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

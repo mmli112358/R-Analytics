@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "0b5ed1e1444e011a";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=244&amp;com=0"><i class="fa fa-comments-o"></i> Discussion</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=244" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=244" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+<div id="TOC">
+<ul>
+<li><a href="#how-this-article-is-organized"><span class="toc-section-number">1</span> How this article is organized</a></li>
+<li><a href="#required-r-packages"><span class="toc-section-number">2</span> Required R packages</a></li>
+<li><a href="#data-preparation"><span class="toc-section-number">3</span> Data preparation</a></li>
+<li><a href="#r-function-for-clustering-analyses"><span class="toc-section-number">4</span> R function for clustering analyses</a><ul>
+<li><a href="#example-of-k-means-clustering"><span class="toc-section-number">4.1</span> Example of k-means clustering</a></li>
+<li><a href="#example-of-hierarchical-clustering"><span class="toc-section-number">4.2</span> Example of hierarchical clustering</a></li>
+</ul></li>
+<li><a href="#combining-hierarchical-clustering-and-k-means"><span class="toc-section-number">5</span> Combining hierarchical clustering and k-means</a><ul>
+<li><a href="#why"><span class="toc-section-number">5.1</span> Why?</a></li>
+<li><a href="#how"><span class="toc-section-number">5.2</span> How ?</a></li>
+<li><a href="#r-codes"><span class="toc-section-number">5.3</span> R codes</a><ul>
+<li><a href="#compute-hierarchical-clustering-and-cut-the-tree-into-k-clusters"><span class="toc-section-number">5.3.1</span> Compute hierarchical clustering and cut the tree into k-clusters:</a></li>
+<li><a href="#compute-the-centers-of-clusters-defined-by-hierarchical-clustering"><span class="toc-section-number">5.3.2</span> Compute the centers of clusters defined by hierarchical clustering:</a></li>
+<li><a href="#k-means-clustering-using-hierarchical-clustering-defined-cluster-centers"><span class="toc-section-number">5.3.3</span> K-means clustering using hierarchical clustering defined cluster-centers</a></li>
+<li><a href="#compare-the-results-of-hierarchical-clustering-and-hybrid-approach"><span class="toc-section-number">5.3.4</span> Compare the results of hierarchical clustering and hybrid approach</a></li>
+<li><a href="#compare-the-results-of-standard-k-means-clustering-and-hybrid-approach"><span class="toc-section-number">5.3.5</span> Compare the results of standard k-means clustering and hybrid approach</a></li>
+</ul></li>
+<li><a href="#hkmeans-easy-to-use-function-for-hybrid-hierarchical-k-means-clustering"><span class="toc-section-number">5.4</span> hkmeans(): Easy-to-use function for hybrid hierarchical k-means clustering</a></li>
+</ul></li>
+<li><a href="#infos"><span class="toc-section-number">6</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/></p>
+<p><strong>Clustering algorithms</strong> are used to split a dataset into several groups (i.e clusters), so that the objects in the same group are as similar as possible and the objects in different groups are as dissimilar as possible.</p>
+<p>The most popular clustering algorithms are:</p>
+<ul>
+<li><a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">k-means clustering</a>, a partitioning method used for splitting a dataset into a set of k clusters.</li>
+<li><a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">hierarchical clustering</a>, an alternative approach to k-means clustering for identifying clustering in the dataset by using <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning">pairwise distance matrix</a> between observations as clustering criteria.</li>
+</ul>
+<p>However, each of these two standard clustering methods has its limitations. K-means clustering requires the user to specify the number of clusters in advance and selects initial centroids randomly. Agglomerative hierarchical clustering is good at identifying small clusters but not large ones.</p>
+<p>In this article, we document hybrid approaches for easily mixing the best of k-means clustering and hierarchical clustering.</p>
+<div id="how-this-article-is-organized" class="section level1">
+<h1><span class="header-section-number">1</span> How this article is organized</h1>
+<p>We’ll start by demonstrating why we should combine <strong>k-means</strong> and <strong>hierarcical clustering</strong>. An application is provided using <strong>R software</strong>.</p>
+<p>Finally, we’ll provide an easy to use <strong>R</strong> function (in <strong>factoextra</strong> package) for computing <strong>hybrid hierachical k-means clustering</strong>.</p>
+</div>
+<div id="required-r-packages" class="section level1">
+<h1><span class="header-section-number">2</span> Required R packages</h1>
+<p>We’ll use the R package <strong>factoextra</strong> which is very helpful for simplifying clustering workflows and for visualizing clusters using <strong>ggplot2</strong> plotting system</p>
+<p>Install <strong>factoextra</strong> package as follow:</p>
+<pre class="r"><code>if(!require(devtools)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<p>Load the package:</p>
+<pre class="r"><code>library(factoextra)</code></pre>
+</div>
+<div id="data-preparation" class="section level1">
+<h1><span class="header-section-number">3</span> Data preparation</h1>
+<p>We’ll use USArrest dataset and we start by scaling the data:</p>
+<pre class="r"><code># Load the data
+data(USArrests)
+# Scale the data
+df &lt;- scale(USArrests)
+head(df)</code></pre>
+<pre><code>##                Murder   Assault   UrbanPop         Rape
+## Alabama    1.24256408 0.7828393 -0.5209066 -0.003416473
+## Alaska     0.50786248 1.1068225 -1.2117642  2.484202941
+## Arizona    0.07163341 1.4788032  0.9989801  1.042878388
+## Arkansas   0.23234938 0.2308680 -1.0735927 -0.184916602
+## California 0.27826823 1.2628144  1.7589234  2.067820292
+## Colorado   0.02571456 0.3988593  0.8608085  1.864967207</code></pre>
+<p><span class="warning"> If you want to understand why the data are scaled before the analysis, then you should read this section: <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning#distances-and-scaling">Distances and scaling</a>.</span></p>
+</div>
+<div id="r-function-for-clustering-analyses" class="section level1">
+<h1><span class="header-section-number">4</span> R function for clustering analyses</h1>
+<p>We’ll use the function <strong>eclust()</strong> [in <strong>factoextra</strong>] which provides several advantages as described in the previous chapter: <a href="http://www.sthda.com/english/wiki/visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis</a>.</p>
+<p><strong>eclust()</strong> stands for enhanced clustering. It simplifies the workflow of clustering analysis and, it can be used for computing <a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">hierarchical clustering</a> and <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">partititioning clustering</a> in a single line function call.</p>
+<div id="example-of-k-means-clustering" class="section level2">
+<h2><span class="header-section-number">4.1</span> Example of k-means clustering</h2>
+<p>We’ll split the data into 4 clusters using <strong>k-means clustering</strong> as follow:</p>
+<pre class="r"><code>library(&quot;factoextra&quot;)
+# K-means clustering
+km.res &lt;- eclust(df, &quot;kmeans&quot;, k = 4,
+                 nstart = 25, graph = FALSE)
+# k-means group number of each observation
+head(km.res$cluster, 15)</code></pre>
+<pre><code>##     Alabama      Alaska     Arizona    Arkansas  California    Colorado 
+##           4           3           3           4           3           3 
+## Connecticut    Delaware     Florida     Georgia      Hawaii       Idaho 
+##           2           2           3           4           2           1 
+##    Illinois     Indiana        Iowa 
+##           3           2           1</code></pre>
+<pre class="r"><code># Visualize k-means clusters
+fviz_cluster(km.res,  frame.type = &quot;norm&quot;, frame.level = 0.68)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-k-means-clustering-k-means-clustering-1.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Visualize the silhouette of clusters
+fviz_silhouette(km.res)</code></pre>
+<pre><code>##   cluster size ave.sil.width
+## 1       1   13          0.37
+## 2       2   16          0.34
+## 3       3   13          0.27
+## 4       4    8          0.39</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-k-means-clustering-k-means-clustering-2.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<p><span class="warning">Note that, <strong>silhouette coefficient</strong> measures how well an observation is clustered and it estimates the <strong>average distance between clusters</strong> (i.e, the <strong>average silhouette width</strong>). Observations with negative silhouette are probably placed in the wrong cluster. Read more here: <a href="http://www.sthda.com/english/wiki/clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">cluster validation statistics</a></span></p>
+<p><strong>Samples with negative silhouette coefficient</strong>:</p>
+<pre class="r"><code># Silhouette width of observation
+sil &lt;- km.res$silinfo$widths[, 1:3]
+# Objects with negative silhouette
+neg_sil_index &lt;- which(sil[, &#39;sil_width&#39;] &lt; 0)
+sil[neg_sil_index, , drop = FALSE]</code></pre>
+<pre><code>##          cluster neighbor   sil_width
+## Missouri       3        2 -0.07318144</code></pre>
+<p>Read more about k-means clustering: <a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">K-means clustering</a></p>
+</div>
+<div id="example-of-hierarchical-clustering" class="section level2">
+<h2><span class="header-section-number">4.2</span> Example of hierarchical clustering</h2>
+<pre class="r"><code># Enhanced hierarchical clustering
+res.hc &lt;- eclust(df, &quot;hclust&quot;, k = 4,
+                method = &quot;ward.D2&quot;, graph = FALSE) 
+head(res.hc$cluster, 15)</code></pre>
+<pre><code>##     Alabama      Alaska     Arizona    Arkansas  California    Colorado 
+##           1           2           2           3           2           2 
+## Connecticut    Delaware     Florida     Georgia      Hawaii       Idaho 
+##           4           3           2           1           3           4 
+##    Illinois     Indiana        Iowa 
+##           2           3           4</code></pre>
+<pre class="r"><code># Dendrogram
+fviz_dend(res.hc, rect = TRUE, show_labels = TRUE, cex = 0.5) </code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-k-means-clustering-hierarchical-clustering-1.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Visualize the silhouette of clusters
+fviz_silhouette(res.hc)</code></pre>
+<pre><code>##   cluster size ave.sil.width
+## 1       1    7          0.40
+## 2       2   12          0.26
+## 3       3   18          0.38
+## 4       4   13          0.35</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-k-means-clustering-hierarchical-clustering-2.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<p>It can be seen that three samples have negative <strong>silhouette coefficient</strong> indicating that they are not in the right cluster. These samples are:</p>
+<pre class="r"><code># Silhouette width of observation
+sil &lt;- res.hc$silinfo$widths[, 1:3]
+# Objects with negative silhouette
+neg_sil_index &lt;- which(sil[, &#39;sil_width&#39;] &lt; 0)
+sil[neg_sil_index, , drop = FALSE]</code></pre>
+<pre><code>##             cluster neighbor    sil_width
+## Alaska            2        1 -0.005212336
+## Nebraska          4        3 -0.044172624
+## Connecticut       4        3 -0.078016589</code></pre>
+<p>Read more about hierarchical clustering: <a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical clustering</a></p>
+</div>
+</div>
+<div id="combining-hierarchical-clustering-and-k-means" class="section level1">
+<h1><span class="header-section-number">5</span> Combining hierarchical clustering and k-means</h1>
+<div id="why" class="section level2">
+<h2><span class="header-section-number">5.1</span> Why?</h2>
+<p>Recall that, in <strong>k-means algorithm</strong>, a random set of observations are chosen as the initial centers.</p>
+<p>The final <strong>k-means</strong> clustering solution is very sensitive to this initial random selection of cluster centers. The result might be (slightly) different each time you compute k-means.</p>
+<p>To avoid this, a solution is to use an <strong>hybrid approach</strong> by combining the <strong>hierarchical clustering</strong> and the <strong>k-means</strong> methods. This process is named <strong>hybrid hierarchical k-means clustering</strong> (hkmeans).</p>
+</div>
+<div id="how" class="section level2">
+<h2><span class="header-section-number">5.2</span> How ?</h2>
+<p>The procedure is as follow:</p>
+<ol style="list-style-type: decimal">
+<li>Compute <strong>hierarchical clustering</strong> and cut the tree into k-clusters</li>
+<li>compute the center (i.e the mean) of each cluster</li>
+<li>Compute k-means by using the set of cluster centers (defined in step 3) as the initial cluster centers</li>
+</ol>
+<p><span class="notice">Note that, k-means algorithm will improve the initial partitioning generated at the step 2 of the algorithm. Hence, the initial partitioning can be slightly different from the final partitioning obtained in the step 4.</span></p>
+</div>
+<div id="r-codes" class="section level2">
+<h2><span class="header-section-number">5.3</span> R codes</h2>
+<div id="compute-hierarchical-clustering-and-cut-the-tree-into-k-clusters" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> Compute hierarchical clustering and cut the tree into k-clusters:</h3>
+<pre class="r"><code>res.hc &lt;- eclust(df, &quot;hclust&quot;, k = 4,
+                method = &quot;ward.D2&quot;, graph = FALSE) 
+grp &lt;- res.hc$cluster</code></pre>
+</div>
+<div id="compute-the-centers-of-clusters-defined-by-hierarchical-clustering" class="section level3">
+<h3><span class="header-section-number">5.3.2</span> Compute the centers of clusters defined by hierarchical clustering:</h3>
+<p><strong>Cluster centers</strong> are defined as the means of variables in clusters. The function <strong>aggregate()</strong> can be used to compute the mean per group in a data frame.</p>
+<pre class="r"><code># Compute cluster centers
+clus.centers &lt;- aggregate(df, list(grp), mean)
+clus.centers</code></pre>
+<pre><code>##   Group.1     Murder    Assault   UrbanPop        Rape
+## 1       1  1.5803956  0.9662584 -0.7775109  0.04844071
+## 2       2  0.7298036  1.1188219  0.7571799  1.32135653
+## 3       3 -0.3250544 -0.3231032  0.3733701 -0.17068130
+## 4       4 -1.0745717 -1.1056780 -0.7972496 -1.00946922</code></pre>
+<pre class="r"><code># Remove the first column
+clus.centers &lt;- clus.centers[, -1]
+clus.centers</code></pre>
+<pre><code>##       Murder    Assault   UrbanPop        Rape
+## 1  1.5803956  0.9662584 -0.7775109  0.04844071
+## 2  0.7298036  1.1188219  0.7571799  1.32135653
+## 3 -0.3250544 -0.3231032  0.3733701 -0.17068130
+## 4 -1.0745717 -1.1056780 -0.7972496 -1.00946922</code></pre>
+</div>
+<div id="k-means-clustering-using-hierarchical-clustering-defined-cluster-centers" class="section level3">
+<h3><span class="header-section-number">5.3.3</span> K-means clustering using hierarchical clustering defined cluster-centers</h3>
+<pre class="r"><code>km.res2 &lt;- eclust(df, &quot;kmeans&quot;, k = clus.centers, graph = FALSE)
+fviz_silhouette(km.res2)</code></pre>
+<pre><code>##   cluster size ave.sil.width
+## 1       1    8          0.39
+## 2       2   13          0.27
+## 3       3   16          0.34
+## 4       4   13          0.37</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-k-means-clustering-k-means-and-hierarchical-clustering-1.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+<div id="compare-the-results-of-hierarchical-clustering-and-hybrid-approach" class="section level3">
+<h3><span class="header-section-number">5.3.4</span> Compare the results of hierarchical clustering and hybrid approach</h3>
+<p>The R code below compares the initial clusters defined using only <strong>hierarchical clustering</strong> and the final ones defined using <strong>hierarchical clustering</strong> + <strong>k-means</strong>:</p>
+<pre class="r"><code># res.hc$cluster: Initial clusters defined using hierarchical clustering
+# km.res2$cluster: Final clusters defined using k-means
+table(km.res2$cluster, res.hc$cluster)</code></pre>
+<pre><code>##    
+##      1  2  3  4
+##   1  7  0  1  0
+##   2  0 12  1  0
+##   3  0  0 15  1
+##   4  0  0  1 12</code></pre>
+<p>It can be seen that, 3 of the observations defined as belonging to cluster 3 by <strong>hierarchical clustering</strong> has been reclassified to cluster 1, 2, and 4 in the final solution defined by k-means clustering.</p>
+<p>The difference can be easily visualized using the function <strong>fviz_dend()</strong> [in <strong>factoextra</strong>]. The labels are colored using k-means clusters:</p>
+<pre class="r"><code>fviz_dend(res.hc, k = 4, 
+          k_colors = c(&quot;blue&quot;, &quot;green3&quot;, &quot;red&quot;, &quot;black&quot;),
+          label_cols =  km.res$cluster[res.hc$order], cex = 0.6)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-k-means-clustering-k-means-hclust-1.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<p><span class="success">It can be seen that the hierarchical clustering result has been improved by the k-means algorithm.</span></p>
+</div>
+<div id="compare-the-results-of-standard-k-means-clustering-and-hybrid-approach" class="section level3">
+<h3><span class="header-section-number">5.3.5</span> Compare the results of standard k-means clustering and hybrid approach</h3>
+<pre class="r"><code># Final clusters defined using hierarchical k-means clustering
+km.clust &lt;- km.res$cluster
+
+# Standard k-means clustering
+set.seed(123)
+res.km &lt;- kmeans(df, centers = 4, iter.max = 100)
+
+
+# comparison
+table(km.clust, res.km$cluster)</code></pre>
+<pre><code>##         
+## km.clust  1  2  3  4
+##        1 13  0  0  0
+##        2  0 16  0  0
+##        3  0  0 13  0
+##        4  0  0  0  8</code></pre>
+<p><span class="success">In our current example, there was no further improvement of the k-means clustering result by the hybrid approach. An improvement might be observed using another dataset.</span></p>
+</div>
+</div>
+<div id="hkmeans-easy-to-use-function-for-hybrid-hierarchical-k-means-clustering" class="section level2">
+<h2><span class="header-section-number">5.4</span> hkmeans(): Easy-to-use function for hybrid hierarchical k-means clustering</h2>
+<p>The function <strong>hkmeans()</strong> [in <strong>factoextra</strong>] can be used to compute easily the hybrid approach of k-means on hierarchical clustering. The format of the result is similar to the one provided by the standard kmeans() function.</p>
+<pre class="r"><code># Compute hierarchical k-means clustering
+res.hk &lt;-hkmeans(df, 4)
+# Elements returned by hkmeans()
+names(res.hk)</code></pre>
+<pre><code>##  [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;    
+##  [5] &quot;tot.withinss&quot; &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;        
+##  [9] &quot;ifault&quot;       &quot;data&quot;         &quot;hclust&quot;</code></pre>
+<pre class="r"><code># Print the results
+res.hk</code></pre>
+<pre><code>## Hierarchical K-means clustering with 4 clusters of sizes 8, 13, 16, 13
+## 
+## Cluster means:
+##       Murder    Assault   UrbanPop        Rape
+## 1  1.4118898  0.8743346 -0.8145211  0.01927104
+## 2  0.6950701  1.0394414  0.7226370  1.27693964
+## 3 -0.4894375 -0.3826001  0.5758298 -0.26165379
+## 4 -0.9615407 -1.1066010 -0.9301069 -0.96676331
+## 
+## Clustering vector:
+##        Alabama         Alaska        Arizona       Arkansas     California 
+##              1              2              2              1              2 
+##       Colorado    Connecticut       Delaware        Florida        Georgia 
+##              2              3              3              2              1 
+##         Hawaii          Idaho       Illinois        Indiana           Iowa 
+##              3              4              2              3              4 
+##         Kansas       Kentucky      Louisiana          Maine       Maryland 
+##              3              4              1              4              2 
+##  Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
+##              3              2              4              1              2 
+##        Montana       Nebraska         Nevada  New Hampshire     New Jersey 
+##              4              4              2              4              3 
+##     New Mexico       New York North Carolina   North Dakota           Ohio 
+##              2              2              1              4              3 
+##       Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
+##              3              3              3              3              1 
+##   South Dakota      Tennessee          Texas           Utah        Vermont 
+##              4              1              2              3              4 
+##       Virginia     Washington  West Virginia      Wisconsin        Wyoming 
+##              3              3              4              4              3 
+## 
+## Within cluster sum of squares by cluster:
+## [1]  8.316061 19.922437 16.212213 11.952463
+##  (between_SS / total_SS =  71.2 %)
+## 
+## Available components:
+## 
+##  [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;    
+##  [5] &quot;tot.withinss&quot; &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;        
+##  [9] &quot;ifault&quot;       &quot;data&quot;         &quot;hclust&quot;</code></pre>
+<pre class="r"><code># Visualize the tree
+fviz_dend(res.hk, cex = 0.6, rect = TRUE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-k-means-clustering-hkmeans-hierarchical-k-means-clustering-1.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Visualize the hkmeans final clusters
+fviz_cluster(res.hk, frame.type = &quot;norm&quot;, frame.level = 0.68)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/hierarchical-k-means-clustering-hkmeans-hierarchical-k-means-clustering-2.png" title="Clustering on principal component - Unsupervised Machine Learning" alt="Clustering on principal component - Unsupervised Machine Learning" width="518.4" /></p>
+</div>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">6</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+<!--====================== stop here when you copy to sthda================-->
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 1259 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="0b5ed1e1444e011a">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

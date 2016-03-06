@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "37a68aa1ab8a2585";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=240&amp;com=0"><i class="fa fa-comments-o"></i> Discussion</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=240" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=240" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+<div id="TOC">
+<ul>
+<li><a href="#required-package"><span class="toc-section-number">1</span> Required package</a></li>
+<li><a href="#data-preparation"><span class="toc-section-number">2</span> Data preparation</a></li>
+<li><a href="#enhanced-distance-matrix-computation-and-visualization"><span class="toc-section-number">3</span> Enhanced distance matrix computation and visualization</a></li>
+<li><a href="#enhanced-clustering-analysis"><span class="toc-section-number">4</span> Enhanced clustering analysis</a><ul>
+<li><a href="#eclust-function"><span class="toc-section-number">4.1</span> eclust() function</a></li>
+<li><a href="#examples"><span class="toc-section-number">4.2</span> Examples</a></li>
+</ul></li>
+<li><a href="#infos"><span class="toc-section-number">5</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/> <strong>Clustering analysis</strong> is used to find groups of similar objects in a dataset. There are two main categories of clustering:</p>
+<ul>
+<li><a href="http://www.sthda.com/english/wiki/hierarchical-clustering-essentials-unsupervised-machine-learning"><strong>Hierarchical clustering</strong></a>: like agglomerative (hclust and agnes) and divisive (diana) methods, which construct a hierarchy of clustering.</li>
+<li><a href="http://www.sthda.com/english/wiki/partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning"><strong>Partitioning clustering</strong></a>: like k-means, pam, clara and fanny, which require the user to specify the number of clusters to be generated.</li>
+</ul>
+<p>These clustering methods can be computed using the R packages <strong>stats</strong> (for k-means) and <strong>cluster</strong> (for pam, clara and fanny), but the workflow require multiple steps and multiple lines of R codes.</p>
+<p>In this chapter, we provide some easy-to-use functions for enhancing the workflow of clustering analyses and we implemented <strong>ggplot2</strong> method for visualizing the results.</p>
+<div id="required-package" class="section level1">
+<h1><span class="header-section-number">1</span> Required package</h1>
+<p>The following R packages are required in this chapter:</p>
+<ul>
+<li><strong>factoextra</strong> for enhanced clustering analyses and data visualization</li>
+<li><strong>cluster</strong> for computing the standard PAM, CLARA, FANNY, AGNES and DIANA clustering</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li><strong>factoextra</strong> can be installed as follow:</li>
+</ol>
+<pre class="r"><code>if(!require(devtools)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Install <strong>cluster</strong>:</li>
+</ol>
+<pre class="r"><code>install.packages(&quot;cluster&quot;)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Load required packages:</li>
+</ol>
+<pre class="r"><code>library(factoextra)
+library(cluster)</code></pre>
+</div>
+<div id="data-preparation" class="section level1">
+<h1><span class="header-section-number">2</span> Data preparation</h1>
+<p>The built-in R dataset <strong>USArrests</strong> is used:</p>
+<pre class="r"><code># Load and scale the dataset
+data(&quot;USArrests&quot;)
+df &lt;- scale(USArrests)
+head(df)</code></pre>
+<pre><code>##                Murder   Assault   UrbanPop         Rape
+## Alabama    1.24256408 0.7828393 -0.5209066 -0.003416473
+## Alaska     0.50786248 1.1068225 -1.2117642  2.484202941
+## Arizona    0.07163341 1.4788032  0.9989801  1.042878388
+## Arkansas   0.23234938 0.2308680 -1.0735927 -0.184916602
+## California 0.27826823 1.2628144  1.7589234  2.067820292
+## Colorado   0.02571456 0.3988593  0.8608085  1.864967207</code></pre>
+</div>
+<div id="enhanced-distance-matrix-computation-and-visualization" class="section level1">
+<h1><span class="header-section-number">3</span> Enhanced distance matrix computation and visualization</h1>
+<p>This section describes two functions:</p>
+<ol style="list-style-type: decimal">
+<li><strong>get_dist()</strong> [in <strong>factoextra</strong>]: for <a href="http://www.sthda.com/english/wiki/clarifying-distance-measures-unsupervised-machine-learning"><strong>computing distance matrix</strong></a> between rows of a data matrix. Compared to the standard <strong>dist()</strong> function, it supports <strong>correlation-based distance measures</strong> including “pearson”, “kendall” and “spearman” methods.</li>
+<li><strong>fviz_dist()</strong>: for <strong>visualizing</strong> a distance matrix</li>
+</ol>
+<pre class="r"><code># Correlation-based distance method
+res.dist &lt;- get_dist(df, method = &quot;pearson&quot;)
+head(round(as.matrix(res.dist), 2))[, 1:6]</code></pre>
+<pre><code>##            Alabama Alaska Arizona Arkansas California Colorado
+## Alabama       0.00   0.71    1.45     0.09       1.87     1.69
+## Alaska        0.71   0.00    0.83     0.37       0.81     0.52
+## Arizona       1.45   0.83    0.00     1.18       0.29     0.60
+## Arkansas      0.09   0.37    1.18     0.00       1.59     1.37
+## California    1.87   0.81    0.29     1.59       0.00     0.11
+## Colorado      1.69   0.52    0.60     1.37       0.11     0.00</code></pre>
+<pre class="r"><code># Visualize the dissimilarity matrix
+fviz_dist(res.dist, lab_size = 8)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/visual-enhancement-clustering-analysis-distance-matrix-computation-visualization-1.png" title="Clustering analysis and R software - Unsupervised Machine Learning" alt="Clustering analysis and R software - Unsupervised Machine Learning" width="518.4" /></p>
+<p><span class="success">The ordered dissimilarity matrix image (ODI) displays the <a href="http://www.sthda.com/english/wiki/assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">clustering tendency</a> of the dataset. Similar objects are close to one another. Red color corresponds to small distance and blue color indicates big distance between observation.</span></p>
+</div>
+<div id="enhanced-clustering-analysis" class="section level1">
+<h1><span class="header-section-number">4</span> Enhanced clustering analysis</h1>
+<p>For instance, the standard R code for computing hierarchical clustering is as follow:</p>
+<pre class="r"><code># Load and scale the dataset
+data(&quot;USArrests&quot;)
+df &lt;- scale(USArrests)
+
+# Compute dissimilarity matrix
+res.dist &lt;- dist(df, method = &quot;euclidean&quot;)
+
+# Compute hierarchical clustering
+res.hc &lt;- hclust(res.dist, method = &quot;ward.D2&quot;)
+
+# Visualize
+plot(res.hc, cex = 0.5)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/visual-enhancement-clustering-analysis-unnamed-chunk-5-1.png" title="Clustering analysis and R software - Unsupervised Machine Learning" alt="Clustering analysis and R software - Unsupervised Machine Learning" width="518.4" /></p>
+<p>In this chapter, we provide the function <strong>eclust()</strong> [in <strong>factoextra</strong>] which provides several advantages:</p>
+<ul>
+<li>It simplifies the workflow of clustering analysis</li>
+<li>It can be used to compute <strong>hierarchical clustering</strong> and <strong>partititioning clustering</strong> in a single line function call</li>
+<li>Compared to the standard partitioning functions (kmeans, pam, clara and fanny) which requires the user to specify the optimal number of clusters, the function <strong>eclust()</strong> computes automatically the <strong>gap statistic</strong> for estimating the right number of clusters.</li>
+<li>For hierarchical clustering, correlation-based metric is allowed</li>
+<li>It provides silhouette information for all partitioning methods and hierarchical clustering</li>
+<li>It draws beautiful graphs using ggplot2</li>
+</ul>
+<div id="eclust-function" class="section level2">
+<h2><span class="header-section-number">4.1</span> eclust() function</h2>
+<pre class="r"><code>eclust(x, FUNcluster = &quot;kmeans&quot;, hc_metric = &quot;euclidean&quot;, ...)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong>: numeric vector, data matrix or data frame</li>
+<li><strong>FUNcluster</strong>: a clustering function including “kmeans”, “pam”, “clara”, “fanny”, “hclust”, “agnes” and “diana”. Abbreviation is allowed.</li>
+<li><strong>hc_metric</strong>: character string specifying the metric to be used for calculating dissimilarities between observations. Allowed values are those accepted by the function dist() [including “euclidean”, “manhattan”, “maximum”, “canberra”, “binary”, “minkowski”] and correlation based distance measures [“pearson”, “spearman” or “kendall”]. Used only when FUNcluster is a hierarchical clustering function such as one of “hclust”, “agnes” or “diana”.</li>
+<li><strong>…</strong>: other arguments to be passed to FUNcluster.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The function <strong>eclust()</strong> returns an object of class <strong>eclust</strong> containing the result of the standard function used (e.g., kmeans, pam, hclust, agnes, diana, etc.).</p>
+<p>It includes also:</p>
+<ul>
+<li><strong>cluster</strong>: the cluster assignment of observations after cutting the tree</li>
+<li><strong>nbclust</strong>: the number of clusters</li>
+<li><strong>silinfo</strong>: the silhouette information of observations</li>
+<li><strong>size</strong>: the size of clusters</li>
+<li><strong>data</strong>: a matrix containing the original or the standardized data (if stand = TRUE)</li>
+<li><strong>gap_stat</strong>: containing gap statistics</li>
+</ul>
+</div>
+<div id="examples" class="section level2">
+<h2><span class="header-section-number">4.2</span> Examples</h2>
+<p>In this section we’ll show some examples for enhanced k-means clustering and hierarchical clustering. Note that the same analysis can be done for PAM, CLARA, FANNY, AGNES and DIANA.</p>
+<pre class="r"><code>library(&quot;factoextra&quot;)
+
+# Enhanced k-means clustering
+res.km &lt;- eclust(df, &quot;kmeans&quot;, nstart = 25)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/visual-enhancement-clustering-analysis-eclust-1.png" title="Clustering analysis and R software - Unsupervised Machine Learning" alt="Clustering analysis and R software - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Gap statistic plot
+fviz_gap_stat(res.km$gap_stat)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/visual-enhancement-clustering-analysis-eclust-2.png" title="Clustering analysis and R software - Unsupervised Machine Learning" alt="Clustering analysis and R software - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Silhouette plot
+fviz_silhouette(res.km)</code></pre>
+<pre><code>##   cluster size ave.sil.width
+## 1       1    8          0.39
+## 2       2   16          0.34
+## 3       3   13          0.37
+## 4       4   13          0.27</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/visual-enhancement-clustering-analysis-eclust-3.png" title="Clustering analysis and R software - Unsupervised Machine Learning" alt="Clustering analysis and R software - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code># Optimal number of clusters using gap statistics
+res.km$nbclust</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code># Print result
+ res.km</code></pre>
+<pre><code>## K-means clustering with 4 clusters of sizes 8, 16, 13, 13
+## 
+## Cluster means:
+##       Murder    Assault   UrbanPop        Rape
+## 1  1.4118898  0.8743346 -0.8145211  0.01927104
+## 2 -0.4894375 -0.3826001  0.5758298 -0.26165379
+## 3 -0.9615407 -1.1066010 -0.9301069 -0.96676331
+## 4  0.6950701  1.0394414  0.7226370  1.27693964
+## 
+## Clustering vector:
+##        Alabama         Alaska        Arizona       Arkansas     California 
+##              1              4              4              1              4 
+##       Colorado    Connecticut       Delaware        Florida        Georgia 
+##              4              2              2              4              1 
+##         Hawaii          Idaho       Illinois        Indiana           Iowa 
+##              2              3              4              2              3 
+##         Kansas       Kentucky      Louisiana          Maine       Maryland 
+##              2              3              1              3              4 
+##  Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
+##              2              4              3              1              4 
+##        Montana       Nebraska         Nevada  New Hampshire     New Jersey 
+##              3              3              4              3              2 
+##     New Mexico       New York North Carolina   North Dakota           Ohio 
+##              4              4              1              3              2 
+##       Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
+##              2              2              2              2              1 
+##   South Dakota      Tennessee          Texas           Utah        Vermont 
+##              3              1              4              2              3 
+##       Virginia     Washington  West Virginia      Wisconsin        Wyoming 
+##              2              2              3              3              2 
+## 
+## Within cluster sum of squares by cluster:
+## [1]  8.316061 16.212213 11.952463 19.922437
+##  (between_SS / total_SS =  71.2 %)
+## 
+## Available components:
+## 
+##  [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;    
+##  [5] &quot;tot.withinss&quot; &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;        
+##  [9] &quot;ifault&quot;       &quot;clust_plot&quot;   &quot;silinfo&quot;      &quot;nbclust&quot;     
+## [13] &quot;data&quot;         &quot;gap_stat&quot;</code></pre>
+<pre class="r"><code> # Enhanced hierarchical clustering
+ res.hc &lt;- eclust(df, &quot;hclust&quot;) # compute hclust
+ fviz_dend(res.hc, rect = TRUE) # dendrogam</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/visual-enhancement-clustering-analysis-eclust-4.png" title="Clustering analysis and R software - Unsupervised Machine Learning" alt="Clustering analysis and R software - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code> fviz_silhouette(res.hc) # silhouette plot</code></pre>
+<pre><code>##   cluster size ave.sil.width
+## 1       1    7          0.40
+## 2       2   12          0.26
+## 3       3   18          0.38
+## 4       4   13          0.35</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/visual-enhancement-clustering-analysis-eclust-5.png" title="Clustering analysis and R software - Unsupervised Machine Learning" alt="Clustering analysis and R software - Unsupervised Machine Learning" width="518.4" /></p>
+<pre class="r"><code> fviz_cluster(res.hc) # scatter plot</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/visual-enhancement-clustering-analysis-eclust-6.png" title="Clustering analysis and R software - Unsupervised Machine Learning" alt="Clustering analysis and R software - Unsupervised Machine Learning" width="518.4" /></p>
+<p>It’s also possible to specify the number of clusters as follow:</p>
+<pre class="r"><code>eclust(df, &quot;kmeans&quot;, k = 4)</code></pre>
+</div>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">5</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+<!--====================== stop here when you copy to sthda================-->
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="dbscan-density-based-clustering-for-discovering-clusters-in-large-datasets-with-noise-unsupervised-machine-learning">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 1819 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="37a68aa1ab8a2585">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

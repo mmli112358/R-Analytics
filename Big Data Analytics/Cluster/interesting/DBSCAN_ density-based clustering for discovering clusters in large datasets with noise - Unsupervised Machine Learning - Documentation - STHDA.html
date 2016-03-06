@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "2d1072d1bf0c851d";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="clustering-unsupervised-machine-learning" title="Clustering - Unsupervised machine learning" itemprop="url">
+									<span itemprop="title">Clustering - Unsupervised machine learning</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/34" title="Syndication" class="fa fa-syndication"></a>
+					DBSCAN: density-based clustering for discovering clusters in large datasets with noise - Unsupervised Machine Learning
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=246&amp;com=0"><i class="fa fa-comments-o"></i> Discussion</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=246" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=246" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+
+<div id="TOC">
+<ul>
+<li><a href="#concepts-of-density-based-clustering"><span class="toc-section-number">1</span> Concepts of density-based clustering</a></li>
+<li><a href="#algorithm-of-dbscan"><span class="toc-section-number">2</span> Algorithm of DBSCAN</a></li>
+<li><a href="#r-packages-for-computing-dbscan"><span class="toc-section-number">3</span> R packages for computing DBSCAN</a></li>
+<li><a href="#r-functions-for-dbscan"><span class="toc-section-number">4</span> R functions for DBSCAN</a></li>
+<li><a href="#method-for-determining-the-optimal-eps-value"><span class="toc-section-number">5</span> Method for determining the optimal eps value</a></li>
+<li><a href="#cluster-predictions-with-dbscan-algorithm"><span class="toc-section-number">6</span> Cluster predictions with DBSCAN algorithm</a></li>
+<li><a href="#application-of-dbscan-on-a-real-data"><span class="toc-section-number">7</span> Application of DBSCAN on a real data</a></li>
+<li><a href="#infos"><span class="toc-section-number">8</span> Infos</a></li>
+</ul>
+</div>
+
+<p><br/></p>
+<div id="concepts-of-density-based-clustering" class="section level1">
+<h1><span class="header-section-number">1</span> Concepts of density-based clustering</h1>
+<p><strong>Partitioning methods</strong> (<strong>K-means</strong>, <strong>PAM</strong> <strong>clustering</strong>) and <strong>hierarchical clustering</strong> are suitable for finding spherical-shaped <strong>clusters</strong> or convex clusters. In other words, they work well for compact and well separated clusters. Moreover, they are also severely affected by the presence of noise and outliers in the data.</p>
+<p><span class="warning">Unfortunately, real life data can contain: i) clusters of arbitrary shape such as those shown in the figure below (oval, linear and “S” shape clusters); ii) many outliers and noise.</span></p>
+<p>The figure below shows a dataset containing nonconvex clusters and outliers/noises. The simulated dataset <strong>multishapes</strong> [in <strong>factoextra</strong> package] is used.</p>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dbscan-density-based-clustering-data-dbscan-1.png" title="DBSCAN: density-based clustering" alt="DBSCAN: density-based clustering" width="518.4" /></p>
+<p>The plot above contains 5 clusters and outliers, including:</p>
+<ul>
+<li>2 ovales clusters</li>
+<li>2 linear clusters</li>
+<li>1 compact cluster</li>
+</ul>
+<p>Given such data, k-means algorithm has difficulties for identifying theses clusters with arbitrary shape. To illustrate this situation, the following R code computes <strong>K-means</strong> algorithm on the dataset <strong>multishapes</strong> [in <strong>factoextra</strong> package]. The function <strong>fviz_cluster()</strong> [in <strong>factoextra</strong>] is used to visualize the clusters.</p>
+<p>The latest version of <strong>factoextra</strong> can be installed using the following R code:</p>
+<pre class="r"><code>if(!require(devtools)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<p>Compute and visualize k-means clustering using the dataset <strong>multishapes</strong>:</p>
+<pre class="r"><code>library(factoextra)
+
+data(&quot;multishapes&quot;)
+df &lt;- multishapes[, 1:2]
+set.seed(123)
+km.res &lt;- kmeans(df, 5, nstart = 25)
+fviz_cluster(km.res, df, frame = FALSE, geom = &quot;point&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dbscan-density-based-clustering-k-means-1.png" title="DBSCAN: density-based clustering" alt="DBSCAN: density-based clustering" width="518.4" /></p>
+<p><span class="success">We know there are 5 five clusters in the data, but it can be seen that k-means method inaccurately identify the 5 clusters.</span></p>
+<p>This chapter describes <strong>DBSCAN</strong>, a <strong>density-based clustering algorithm</strong>, introduced in Ester et al. 1996, which can be used to identify clusters of any shape in data set containing noise and outliers. DBSCAN stands for Density-Based Spatial Clustering and Application with Noise.</p>
+<p><strong>The advantages of DBSCAN are</strong>:</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li>Unlike <strong>K-means</strong>, DBSCAN does not require the user to specify the number of clusters to be generated</li>
+<li>DBSCAN can find any shape of clusters. The cluster doesn’t have to be circular.</li>
+<li>DBSCAN can identify outliers</li>
+</ol>
+</div>
+<p><br/></p>
+<p>The basic idea behind <strong>density-based clustering</strong> approach is derived from a human intuitive clustering method. For instance, by looking at the figure below, one can easily identify four clusters along with several points of noise, because of the differences in the density of points.</p>
+<p><img src="http://www.sthda.com/sthda/RDoc/images/dbscan-idea.png" alt="Density based clustering basic idea" /><br />(From Ester et al. 1996)</p>
+<br/>
+<div class="block">
+<p>As illustrated in the figure above, clusters are dense regions in the data space, separated by regions of lower density of points. In other words, the density of points in a cluster is considerably higher than the density of points outside the cluster (“areas of noise”).</p>
+<p><strong>DBSCAN</strong> is based on this intuitive notion of “clusters” and “noise”. The key idea is that for each point of a cluster, the neighborhood of a given radius has to contain at least a minimum number of points.</p>
+</div>
+<p><br/></p>
+</div>
+<div id="algorithm-of-dbscan" class="section level1">
+<h1><span class="header-section-number">2</span> Algorithm of DBSCAN</h1>
+<p>The goal is to identify dense regions, which can be measured by the number of objects close to a given point.</p>
+<p>Two important parameters are required for <strong>DBSCAN</strong>: <strong>epsilon</strong> (“eps”) and <strong>minimum points</strong> (“MinPts”). The parameter <strong>eps</strong> defines the radius of neighborhood around a point x. It’s called called the <span class="math">\(\epsilon\)</span>-neighborhood of x. The parameter <strong>MinPts</strong> is the minimum number of neighbors within “eps” radius.</p>
+<p>Any point x in the dataset, with a neighbor count greater than or equal to <strong>MinPts</strong>, is marked as a <strong>core point</strong>. We say that x is <strong>border point</strong>, if the number of its neighbors is less than MinPts, but it belongs to the <span class="math">\(\epsilon\)</span>-neighborhood of some core point z. Finally, if a point is neither a core nor a border point, then it is called a noise point or an outlier.</p>
+<p>The figure below shows the different types of points (core, border and outlier points) using <strong>MinPts = 6</strong>. Here x is a core point because <span class="math">\(neighbours_\epsilon(x) = 6\)</span>, y is a border point because <span class="math">\(neighbours_\epsilon(y) &lt; MinPts\)</span>, but it belongs to the <span class="math">\(\epsilon\)</span>-neighborhood of the core point x. Finally, z is a noise point.</p>
+<p><img src="http://www.sthda.com/sthda/RDoc/images/dbscan-principle.png" alt="Density based clustering basic idea - minimal point and epsilon" /></p>
+<p>We define 3 terms, required for understanding the <strong>DBSCAN algorithm</strong>:</p>
+<ul>
+<li><strong>Direct density reachable</strong>: A point “A” is <strong>directly density reachable</strong> from another point “B” if: i) “A” is in the <span class="math">\(\epsilon\)</span>-neighborhood of “B” and ii) “B” is a core point.</li>
+<li><strong>Density reachable</strong>: A point “A” is <strong>density reachable</strong> from “B” if there are a set of core points leading from “B” to “A.</li>
+<li><strong>Density connected</strong>: Two points “A” and “B” are <strong>density connected</strong> if there are a core point “C”, such that both “A” and “B” are <strong>density reachable</strong> from “C”.</li>
+</ul>
+<p>A <strong>density-based cluster</strong> is defined as a group of density connected points. The algorithm of density-based clustering (DBSCAN) works as follow:</p>
+<p>The algorithm of density-based clustering works as follow:</p>
+<br/>
+<div class="block">
+<ol style="list-style-type: decimal">
+<li>For each point <span class="math">\(x_i\)</span>, compute the distance between <span class="math">\(x_i\)</span> and the other points. Finds all neighbor points within distance <strong>eps</strong> of the starting point (<span class="math">\(x_i\)</span>). Each point, with a neighbor count greater than or equal to <strong>MinPts</strong>, is marked as <strong>core point</strong> or <strong>visited</strong>.</li>
+<li>For each <strong>core point</strong>, if it’s not already assigned to a cluster, create a new cluster. Find recursively all its density connected points and assign them to the same cluster as the core point.</li>
+<li>Iterate through the remaining unvisited points in the dataset.</li>
+</ol>
+Those points that do not belong to any cluster are treated as outliers or noise.
+</div>
+<p><br/></p>
+</div>
+<div id="r-packages-for-computing-dbscan" class="section level1">
+<h1><span class="header-section-number">3</span> R packages for computing DBSCAN</h1>
+<p>Three R packages are used in this article:</p>
+<ol style="list-style-type: decimal">
+<li><strong>fpc</strong> and <strong>dbscan</strong> for computing density-based clustering</li>
+<li><strong>factoextra</strong> for visualizing clusters</li>
+</ol>
+<p>The R packages <strong>fpc</strong> and <strong>dbscan</strong> can be installed as follow:</p>
+<pre class="r"><code>install.packages(&quot;fpc&quot;)
+install.packages(&quot;dbscan&quot;)</code></pre>
+</div>
+<div id="r-functions-for-dbscan" class="section level1">
+<h1><span class="header-section-number">4</span> R functions for DBSCAN</h1>
+<p>The function <strong>dbscan()</strong> [in <strong>fpc</strong> package] or <strong>dbscan()</strong> [in <strong>dbscan</strong> package] can be used.</p>
+<p><span class="warning"> As the name of DBSCAN functions is the same in the two packages, we’ll explicitly use them as follow: fpc::dbscan() and dbscan::dbscan().</span></p>
+<p>In the following examples, we’ll use <strong>fpc</strong> package. A simplified format of the function is:</p>
+<pre class="r"><code>dbscan(data, eps, MinPts = 5, scale = FALSE, 
+       method = c(&quot;hybrid&quot;, &quot;raw&quot;, &quot;dist&quot;))</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>data</strong>: data matrix, data frame or dissimilarity matrix (dist-object). Specify method = “dist” if the data should be interpreted as dissimilarity matrix or object. Otherwise Euclidean distances will be used.</li>
+<li><strong>eps</strong>: Reachability maximum distance</li>
+<li><strong>MinPts</strong>: Reachability minimum number of points</li>
+<li><strong>scale</strong>: If TRUE, the data will be scaled</li>
+<li><strong>method</strong>: Possible values are:
+<ul>
+<li><strong>dist</strong>: Treats the data as distance matrix</li>
+<li><strong>raw</strong>: Treats the data as raw data</li>
+<li><strong>hybrid</strong>: Expect also raw data, but calculates partial distance matrices</li>
+</ul></li>
+</ul>
+</div>
+<p><br/></p>
+<br/>
+<div class="notice">
+<ul>
+<li><p>Recall that, DBSCAN clusters require a minimum number of points (MinPts) within a maximum distance (eps) around one of its members (the seed).</p></li>
+<li><p>Any point within eps around any point which satisfies the seed condition is a cluster member (recursively).</p></li>
+<li>Some points may not belong to any clusters (noise).</li>
+</ul>
+</div>
+<p><br/></p>
+<p>In the following examples, we’ll use the simulated <strong>multishapes</strong> data [in <strong>factoextra</strong> package]:</p>
+<pre class="r"><code># Load the data 
+# Make sure that the package factoextra is installed
+data(&quot;multishapes&quot;, package = &quot;factoextra&quot;)
+df &lt;- multishapes[, 1:2]</code></pre>
+<p>The function <strong>dbscan()</strong> can be used as follow:</p>
+<pre class="r"><code>library(&quot;fpc&quot;)
+# Compute DBSCAN using fpc package
+set.seed(123)
+db &lt;- fpc::dbscan(df, eps = 0.15, MinPts = 5)
+# Plot DBSCAN results
+plot(db, df, main = &quot;DBSCAN&quot;, frame = FALSE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dbscan-density-based-clustering-density-based-clustering-1.png" title="DBSCAN: density-based clustering" alt="DBSCAN: density-based clustering" width="518.4" /></p>
+<p><span class="notice">Note that, the function <strong>plot.dbscan()</strong> uses different point symbols for core points (i.e, seed points) and border points. Black points correspond to outliers. You can play with <strong>eps</strong> and <strong>MinPts</strong> for changing cluster configurations.</span></p>
+<p><span class="success">It can be seen that DBSCAN performs better for these data sets and can identify the correct set of clusters compared to k-means algorithms.</span></p>
+<p>It’s also possible to draw the plot above using the function <strong>fviz_cluster()</strong> [ in <strong>factoextra</strong> package]:</p>
+<pre class="r"><code>library(&quot;factoextra&quot;)
+fviz_cluster(db, df, stand = FALSE, frame = FALSE, geom = &quot;point&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dbscan-density-based-clustering-dbscan-factoextra-ggplot2-1.png" title="DBSCAN: density-based clustering" alt="DBSCAN: density-based clustering" width="518.4" /></p>
+<p>The result of <strong>fpc::dbscan()</strong> function can be displayed as follow:</p>
+<pre class="r"><code># Print DBSCAN
+print(db)</code></pre>
+<pre><code>## dbscan Pts=1100 MinPts=5 eps=0.15
+##         0   1   2   3  4  5
+## border 31  24   1   5  7  1
+## seed    0 386 404  99 92 50
+## total  31 410 405 104 99 51</code></pre>
+<p><span class="warning">In the table above, column names are cluster number. Cluster 0 corresponds to outliers (black points in the DBSCAN plot).</span></p>
+<pre class="r"><code># Cluster membership. Noise/outlier observations are coded as 0
+# A random subset is shown
+db$cluster[sample(1:1089, 50)]</code></pre>
+<pre><code>##  [1] 1 3 2 4 3 1 2 4 2 2 2 2 2 2 1 4 1 1 1 0 4 2 2 5 2 2 2 2 1 1 0 4 2 3 1
+## [36] 2 2 1 1 1 1 2 2 1 1 1 3 2 1 3</code></pre>
+<p><span class="success">The function <strong>print.dbscan()</strong> shows a statistic of the number of points belonging to the clusters that are seeds and border points.</span></p>
+<p>DBSCAN algorithm requires users to specify the optimal <strong>eps</strong> values and the parameter <strong>MinPts</strong>. In the R code above, we used <strong>eps = 0.15</strong> and <strong>MinPts = 5</strong>. One limitation of DBSCAN is that it is sensitive to the choice of <span class="math">\(\epsilon\)</span>, in particular if clusters have different densities. If <span class="math">\(\epsilon\)</span> is too small, sparser clusters will be defined as noise. If <span class="math">\(\epsilon\)</span> is too large, denser clusters may be merged together. This implies that, if there are clusters with different local densities, then a single <span class="math">\(\epsilon\)</span> value may not suffice.</p>
+<p>A natural question is:</p>
+<p><span class="question">How to define the optimal value of <strong>eps</strong>?</span></p>
+</div>
+<div id="method-for-determining-the-optimal-eps-value" class="section level1">
+<h1><span class="header-section-number">5</span> Method for determining the optimal eps value</h1>
+<p>The method proposed here consists of computing the he <strong>k-nearest neighbor distances</strong> in a matrix of points.</p>
+<p>The idea is to calculate, the average of the distances of every point to its k nearest neighbors. The value of k will be specified by the user and corresponds to <strong>MinPts</strong>.</p>
+<p>Next, these k-distances are plotted in an ascending order. The aim is to determine the “knee”, which corresponds to the optimal <strong>eps</strong> parameter.</p>
+<p>A knee corresponds to a threshold where a sharp change occurs along the k-distance curve.</p>
+<p>The function <strong>kNNdistplot()</strong> [in <strong>dbscan</strong> package] can be used to draw the k-distance plot:</p>
+<pre class="r"><code>dbscan::kNNdistplot(df, k =  5)
+abline(h = 0.15, lty = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dbscan-density-based-clustering-k-nearest-neighbor-distance-1.png" title="DBSCAN: density-based clustering" alt="DBSCAN: density-based clustering" width="384" /></p>
+<p><span class="success">It can be seen that the optimal <strong>eps</strong> value is around a distance of 0.15.</span></p>
+</div>
+<div id="cluster-predictions-with-dbscan-algorithm" class="section level1">
+<h1><span class="header-section-number">6</span> Cluster predictions with DBSCAN algorithm</h1>
+<p>The function <strong>predict.dbscan(object, data, newdata)</strong> [in <strong>fpc</strong> package] can be used to predict the clusters for the points in <em>newdata</em>. For more details, read the documentation (<em>?predict.dbscan</em>).</p>
+</div>
+<div id="application-of-dbscan-on-a-real-data" class="section level1">
+<h1><span class="header-section-number">7</span> Application of DBSCAN on a real data</h1>
+<p>The <strong>iris</strong> dataset is used:</p>
+<pre class="r"><code># Load the data
+data(&quot;iris&quot;)
+iris &lt;- as.matrix(iris[, 1:4])</code></pre>
+<p>The optimal value of “eps” parameter can be determined as follow:</p>
+<pre class="r"><code>dbscan::kNNdistplot(iris, k =  4)
+abline(h = 0.4, lty = 2)</code></pre>
+<p>Compute DBSCAN using fpc::dbscan() and dbscan::dbscan(). Make sure that the 2 packages are installed:</p>
+<pre class="r"><code>set.seed(123)
+# fpc package
+res.fpc &lt;- fpc::dbscan(iris, eps = 0.4, MinPts = 4)
+# dbscan package
+res.db &lt;- dbscan::dbscan(iris, 0.4, 4)</code></pre>
+<ul>
+<li>The result of the function <strong>fpc::dbscan()</strong> provides an object of class ‘dbscan’ containing the following components:
+<ul>
+<li><strong>cluster</strong>: integer vector coding cluster membership with noise observations (singletons) coded as 0</li>
+<li><strong>isseed</strong>: logical vector indicating whether a point is a seed (not border, not noise)</li>
+<li><strong>eps</strong>: parameter eps</li>
+<li><strong>MinPts</strong>: parameter MinPts</li>
+</ul></li>
+<li>The result of the function <strong>dbscan::dbscan()</strong> is an integer vector with cluster assignments. Zero indicates noise points.</li>
+</ul>
+<p><span class="notice">Note that the function <strong>dbscan:dbscan()</strong> is a fast re-implementation of DBSCAN algorithm. The implementation is significantly faster and can work with larger data sets than the function <strong>fpc:dbscan()</strong>.</span></p>
+<p>Make sure that both version produce the same results:</p>
+<pre class="r"><code>all(res.fpc$cluster == res.db)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>The result can be visualized as follow:</p>
+<pre class="r"><code>fviz_cluster(res.fpc, iris, geom = &quot;point&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/clustering/dbscan-density-based-clustering-dbscan-factoextra-ggplot2-real-data-1.png" title="DBSCAN: density-based clustering" alt="DBSCAN: density-based clustering" width="518.4" /></p>
+<p><span class="success">Black points are outliers.</span></p>
+</div>
+<div id="infos" class="section level1">
+<h1><span class="header-section-number">8</span> Infos</h1>
+<p><span class="warning">This analysis has been performed using <strong>R software</strong> (ver. 3.2.1)</span></p>
+<ul>
+<li>Martin Ester, Hans-Peter Kriegel, Joerg Sander, Xiaowei Xu (1996). A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise. Institute for Computer Science, University of Munich. Proceedings of 2nd International Conference on Knowledge Discovery and Data Mining (KDD-96)</li>
+</ul>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--====================== stop here when you copy to sthda================-->
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="model-based-clustering-unsupervised-machine-learning">Model-Based Clustering - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="determining-the-optimal-number-of-clusters-3-must-known-methods-unsupervised-machine-learning">Determining the optimal number of clusters: 3 must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hierarchical-clustering-essentials-unsupervised-machine-learning">Hierarchical Clustering Essentials - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="partitioning-cluster-analysis-quick-start-guide-unsupervised-machine-learning">Partitioning cluster analysis: Quick start guide - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning">Beautiful dendrogram visualizations in R: 5+ must known methods - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-validation-statistics-4-vital-things-everyone-should-know-unsupervised-machine-learning">Clustering Validation Statistics: 4 Vital Things Everyone Should Know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clarifying-distance-measures-unsupervised-machine-learning">Clarifying distance measures - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="assessing-clustering-tendency-a-vital-issue-unsupervised-machine-learning">Assessing clustering tendency: A vital issue - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="the-guide-for-clustering-analysis-on-a-real-data-4-steps-you-should-know-unsupervised-machine-learning">The Guide for Clustering Analysis on a Real Data: 4 steps you should know - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-choose-the-appropriate-clustering-algorithms-for-your-data-unsupervised-machine-learning">How to choose the appropriate clustering algorithms for your data? - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="hcpc-hierarchical-clustering-on-principal-components-hybrid-approach-2-2-unsupervised-machine-learning">HCPC: Hierarchical clustering on principal components - Hybrid approach (2/2) - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="visual-enhancement-of-clustering-analysis-unsupervised-machine-learning">Visual Enhancement of Clustering Analysis - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="how-to-compute-p-value-for-hierarchical-clustering-in-r-unsupervised-machine-learning">How to compute p-value for hierarchical clustering in R - Unsupervised Machine Learning</a><br /> <i class="fa fa-file"></i> <a href="clustering-unsupervised-machine-learning">Clustering - Unsupervised machine learning</a><br /> <i class="fa fa-file"></i> <a href="hybrid-hierarchical-k-means-clustering-for-optimizing-clustering-outputs-unsupervised-machine-learning">Hybrid hierarchical k-means clustering for optimizing clustering outputs - Unsupervised Machine Learning</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 2535 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="2d1072d1bf0c851d">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>
