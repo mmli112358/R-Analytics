@@ -1,0 +1,741 @@
+
+
+<!--roptions dev='png',fig.width=7,fig.height=7,dpi=100,fig.path='factor_variables_fig/' -->
+
+
+<!DOCTYPE html>
+<html>
+<!-- 04/09/12 jfw automated, no previous timestamp -->
+
+<head>
+<style type="text/css">
+.knitr .inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.rimage .left {
+  text-align: left;
+}
+.rimage .right {
+  text-align: right;
+}
+.rimage .center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+<title>R Learning Module: Factor Variables</title>
+<link href="/stat/ats_style.css" type="text/css" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+
+<!--
+ 
+Revision history:
+
+commit dfff3ca6fe970e2c5635b58429dc4f1b70bf98a6
+Author: jricks <jricks@statistics.ats.ucla.edu>
+Date:   Fri Nov 6 11:00:46 2015 -0800
+
+     multiple pages fixes
+
+commit 8375aee9b9275782eeea135baeb1059d88cf5851
+Author: Joni Ricks <jricks@oit.ucla.edu>
+Date:   Wed Nov 27 07:07:38 2013 -0800
+
+    fix for error report #496 on stat/r/modules/factor_variables.Rhtml and stat/lem/archive/default_old.htm
+
+commit fbfa676a9d7efb96d954c9dedca262ebf6efff96
+Author: Andy Lin <alin@oit.ucla.edu>
+Date:   Tue Nov 19 10:37:45 2013 -0800
+
+    Headers to R modules pages
+
+
+-->
+
+
+
+<link href="/stat/idre/css/body.css" rel="stylesheet" type="text/css">
+<link href="/stat/idre/css/header.css" rel="stylesheet" type="text/css">
+<link href="/stat/idre/css/breadcrumb.css" rel="stylesheet" type="text/css">
+<link href="/stat/idre/css/footerTop.css" rel="stylesheet" type="text/css">
+<link href="/stat/idre/css/footerBottom.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="/stat/idre/js/webfont.js"></script>
+
+
+
+
+<!-- tag opened in header.htm, closed in footer.htm -->  
+<div id="bodyWrap">
+<div id="header">
+  <div id="logo">
+    <h1 class="page_h1" title="Welcome to Institute for Digital Research and Education">Welcome to the Institute for Digital Research and Education</h1>
+    <a class="logoSprite" title="Institute for Digital Research and Education Home" href="https://idre.ucla.edu">Institute for Digital Research and Education Home</a> </div>
+
+<div id="searchBox">
+    <div class="btnContainer">
+        <span class="btnLabel">Help the Stat Consulting Group by</span> <a href="https://giving.ucla.edu/Standard/NetDonate.aspx?SiteNum=371" class='idreBtn'>giving a gift</a>
+    </div>
+    <!-- Google Provided Code Starts Here -->
+<script type="text/javascript">
+  (function() {
+    var cx = '017078209654322335373:o5ngkv1vghw';
+    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<!-- Place this tag where you want the search box to render -->
+<gcse:searchbox-only></gcse:searchbox-only>
+<!-- Google Provided Code Ends Here -->
+</div>
+
+</div>
+
+<script type="text/javascript" src="/stat/apps/tree.js"></script>
+<script>
+function stuff(dir) {
+
+  var x = document.getElementById("bc" + dir);
+
+  if ( !x.stuffed){
+
+    var inner = "<ul>";
+
+    var listing = tree[dir];
+
+    for(var d in listing) {
+        var subdir = listing[d];
+        var base = subdir.replace("^.*\/", "");
+      inner = inner + "<li><a href='" + subdir +"'><span>" + base + "</span></a></li>";
+    }
+
+
+
+
+
+    inner = inner + "</ul>";
+
+    x.innerHTML = x.innerHTML + inner;
+    x.stuffed = true;
+  }
+
+
+}
+</script>
+
+<style>
+#cssmenu ul,
+#cssmenu li,
+#cssmenu span,
+#cssmenu a {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+#cssmenu {
+/*  height: 49px;
+  border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
+  background: #fefefe;
+  background: -moz-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #eee9f0));
+  background: -webkit-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: -o-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: -ms-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  border-bottom: 2px solid #db000b;
+  width: auto; */
+}
+#cssmenu:after,
+#cssmenu ul:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+#cssmenu a {
+/*  background: #fefefe;
+  background: -moz-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #ececec));
+  background: -webkit-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: -o-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: -ms-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: linear-gradient(top, #fefefe 0%, #ececec 100%);
+  color: #000; 
+  display: inline-block;
+  font-family: Helvetica, Arial, Verdana, sans-serif;
+  font-size: 12px;
+  line-height: 49px;*/
+  padding: 0 20px;
+  text-decoration: none;
+}
+#cssmenu ul {
+  list-style: none;
+}
+#cssmenu > ul {
+  float: left;
+}
+#cssmenu > ul > li {
+  float: left;
+}
+#cssmenu > ul > li > a {
+  color: #000;
+  font-size: 12px;
+}
+#cssmenu > ul > li:hover:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #db000b;
+  margin-left: -10px;
+}
+#cssmenu > ul > li:first-child > a {
+  border-radius: 5px 0 0 0;
+  -moz-border-radius: 5px 0 0 0;
+  -webkit-border-radius: 5px 0 0 0;
+}
+#cssmenu > ul > li.active:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #db000b;
+  margin-left: -10px;
+}
+#cssmenu > ul > li.active > a {
+  -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  background: #ececec;
+  background: -moz-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #ffeeff ef));
+  background: -webkit-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -o-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -ms-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+}
+#cssmenu > ul > li:hover > a {
+/*  background: #ececec;
+  background: -moz-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #ffeeff ef));
+  background: -webkit-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -o-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -ms-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);*/
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+}
+#cssmenu .has-sub {
+  z-index: 1;
+}
+#cssmenu .has-sub:hover > ul {
+  display: block;
+}
+#cssmenu .has-sub ul {
+  display: none;
+  position: absolute;
+  width: 200px;
+/*  top: 100%;*/
+  left: 0;
+}
+#cssmenu .has-sub ul li {
+  *margin-bottom: -1px;
+}
+#cssmenu .has-sub ul li a {
+  background: #db000b;
+  border-bottom: 1px dotted #ff0f1b;
+  filter: none;
+  font-size: 11px;
+  display: block;
+  line-height: 120%;
+  padding: 10px;
+  color: #ffffff;
+}
+#cssmenu .has-sub ul li:hover a {
+  background: #a80008;
+}
+#cssmenu .has-sub .has-sub:hover > ul {
+  display: block;
+}
+#cssmenu .has-sub .has-sub ul {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+}
+#cssmenu .has-sub .has-sub ul li a {
+  background: #a80008;
+  border-bottom: 1px dotted #ff0f1b;
+}
+#cssmenu .has-sub .has-sub ul li a:hover {
+  background: #8f0007;
+}
+
+
+</style>
+
+
+
+<div id="infobar">
+
+      <div id="breadcrumbBox"><div class="breadcrumb" id='cssmenu'>
+<ul>      
+<li id='bc/stat' onmouseover="stuff('/stat')" class='has-sub'><a href='/stat'>stat</a> &gt; </li><li id='bc/stat/r' onmouseover="stuff('/stat/r')" class='has-sub'><a href='/stat/r'>r</a> &gt; </li><li id='bc/stat/r/modules' onmouseover="stuff('/stat/r/modules')" class='has-sub'><a href='/stat/r/modules'>modules</a></li> &gt; factor_variables.htm
+</ul>
+</div></div></div>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12327299-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<!-- MathJax Provided Code Starts Here -->
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/2.1-beta/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- MathJax Provided Code Ends Here -->
+
+<!-- tag opened in header.htm, closed in footer.htm -->  
+<div id="bodyContainer">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+<h3>R Learning Module<br>
+Factor variables</h3>
+<p><code class="knitr inline"><strong>Version info: </strong>Code for this page was tested in R version 3.1.1 (2014-07-10)<br />
+ On: 2015-11-06<br />
+With: knitr 1.10.5
+</code></p>
+
+<h4>1. Creating factor variables</h4>
+
+<p>Factor variables are categorical variables that can be either numeric or string variables.
+There are a number of advantages to converting categorical variables to factor variables.
+Perhaps the most important advantage is that they can be used in statistical modeling where
+they will be implemented correctly, i.e., they will then be assigned the correct
+number of degrees of freedom.  Factor variables are also very useful in many different
+types of graphics.  Furthermore, storing string variables as factor variables is a more
+efficient use of memory. To create a factor variable we use the <b>factor</b> function.
+The only required argument is a vector of values which can be either string or numeric.
+Optional arguments include the <b>levels</b> argument, which determines the categories of the
+factor variable, and the default is the sorted list of all the distinct values of the data
+vector. The <b>labels</b> argument is another optional argument which is a vector of values
+that will be the labels of the categories in the <b>levels</b> argument.
+The <b>exclude</b> argument is also optional; it defines which levels will
+be classified as NA in any output using the factor variable.</p>
+<p>First we will generate a vector of numeric data called <b>schtyp</b>.
+It involves the random number generator so we will set the seed to equal 124 in
+order to make the results reproducible.</p>
+
+<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">set.seed</span><span class="hl std">(</span><span class="hl num">124</span><span class="hl std">)</span>
+<span class="hl std">schtyp</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">sample</span><span class="hl std">(</span><span class="hl num">0</span><span class="hl opt">:</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">20</span><span class="hl std">,</span> <span class="hl kwc">replace</span> <span class="hl std">=</span> <span class="hl num">TRUE</span><span class="hl std">)</span>
+<span class="hl std">schtyp</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 0 0 1 0 0 0 1 0 1 0 1 1 1 1 0 0 1 1 1 0
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">is.factor</span><span class="hl std">(schtyp)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] FALSE
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">is.numeric</span><span class="hl std">(schtyp)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] TRUE
+</pre></div>
+</div></div>
+
+<p>Now let's create a factor variable called <b>schtyp.f</b> based on <b>schtyp</b>.
+The first label, private, will correspond to <b>schtyp</b>=0 and the second label, public, will correspond to <b>schtyp</b>=1
+because the order of the labels will follow the numeric order of the data.</p>
+
+<div class="chunk" id="unnamed-chunk-4"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">schtyp.f</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">factor</span><span class="hl std">(schtyp,</span> <span class="hl kwc">labels</span> <span class="hl std">=</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;private&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;public&quot;</span><span class="hl std">))</span>
+<span class="hl std">schtyp.f</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] private private public  private private private public  private
+##  [9] public  private public  public  public  public  private private
+## [17] public  public  public  private
+## Levels: private public
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">is.factor</span><span class="hl std">(schtyp.f)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] TRUE
+</pre></div>
+</div></div>
+
+<p>Let's generate a string variable called <b>ses</b> (socio-economic status).</p>
+
+<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">ses</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;low&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;low&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;low&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;low&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;low&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;low&quot;</span><span class="hl std">,</span>
+  <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;high&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;high&quot;</span><span class="hl std">,</span>
+  <span class="hl str">&quot;low&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;low&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;high&quot;</span><span class="hl std">)</span>
+
+<span class="hl kwd">is.factor</span><span class="hl std">(ses)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] FALSE
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">is.character</span><span class="hl std">(ses)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] TRUE
+</pre></div>
+</div></div>
+
+<p>Creating a factor variable <b>ses.f.bad.order</b> based on <b>ses</b>.</p>
+
+<div class="chunk" id="unnamed-chunk-6"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">ses.f.bad.order</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">factor</span><span class="hl std">(ses)</span>
+<span class="hl kwd">is.factor</span><span class="hl std">(ses.f.bad.order)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] TRUE
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">levels</span><span class="hl std">(ses.f.bad.order)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] &quot;high&quot;   &quot;low&quot;    &quot;middle&quot;
+</pre></div>
+</div></div>
+
+<p>The problem is that the levels are ordered according to the alphabetical order
+of the categories of <b>ses</b>.  Thus, "high" is the lowest level of <b>ses.f.bad.order</b>,
+"low" is the middle level and "middle" is the highest level.  In order to fix the ordering we need to use the
+<b>levels</b> argument to indicate the correct ordering of the categories.  Let's
+create a new factor variable called <b>ses.f</b> with the correct order of categories.</p>
+
+<div class="chunk" id="unnamed-chunk-7"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">ses.f</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">factor</span><span class="hl std">(ses,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;low&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;high&quot;</span><span class="hl std">))</span>
+<span class="hl kwd">is.factor</span><span class="hl std">(ses.f)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] TRUE
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">levels</span><span class="hl std">(ses.f)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] &quot;low&quot;    &quot;middle&quot; &quot;high&quot;
+</pre></div>
+</div></div>
+
+<h4>2. Creating ordered factor variables</h4>
+
+<p>We can create ordered factor variables by using the function <b>ordered</b>.  This function has
+the same arguments as the <b>factor</b> function. Let's create an ordered factor variable
+called <b>ses.order</b> based on the variable <b>ses</b> created in the above example.</p>
+
+<div class="chunk" id="unnamed-chunk-8"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">ses.order</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">ordered</span><span class="hl std">(ses,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;low&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;middle&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;high&quot;</span><span class="hl std">))</span>
+<span class="hl std">ses</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] &quot;low&quot;    &quot;middle&quot; &quot;low&quot;    &quot;low&quot;    &quot;low&quot;    &quot;low&quot;    &quot;middle&quot;
+##  [8] &quot;low&quot;    &quot;middle&quot; &quot;middle&quot; &quot;middle&quot; &quot;middle&quot; &quot;middle&quot; &quot;high&quot;  
+## [15] &quot;high&quot;   &quot;low&quot;    &quot;middle&quot; &quot;middle&quot; &quot;low&quot;    &quot;high&quot;
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">ses.order</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] low    middle low    low    low    low    middle low    middle
+## [10] middle middle middle middle high   high   low    middle middle
+## [19] low    high  
+## Levels: low &lt; middle &lt; high
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">is.factor</span><span class="hl std">(ses.order)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] TRUE
+</pre></div>
+</div></div>
+
+<h4>3. Adding and dropping levels in factor variables</h4>
+
+<p>Below we will add an element from a new level ("very.high") to <b>ses.f</b>
+our existing factor variable, <b>ses.f</b>. The number in the square
+brackets ( [21] ) indicates the number of the element whose label we wish to change.</p>
+
+<div class="chunk" id="unnamed-chunk-9"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">ses.f[</span><span class="hl num">21</span><span class="hl std">]</span> <span class="hl kwb">&lt;-</span> <span class="hl str">&quot;very.high&quot;</span>
+</pre></div>
+<div class="warning"><pre class="knitr r">## Warning in `[&lt;-.factor`(`*tmp*`, 21, value = &quot;very.high&quot;): invalid
+## factor level, NA generated
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">ses.f</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] low    middle low    low    low    low    middle low    middle
+## [10] middle middle middle middle high   high   low    middle middle
+## [19] low    high   &lt;NA&gt;  
+## Levels: low middle high
+</pre></div>
+</div></div>
+
+<p>We can see that instead of changing from "high" to "very.high", the label
+was changed from "high" to &lt;NA&gt;. To do this correctly, we need to first add the new level,
+"very.high", to the factor variable <b>ses.f</b> which we do
+by using the <b>factor</b> function with the <b>levels</b> argument.  Then we can finally add an element to the
+factor variable from the new level.</p>
+
+<div class="chunk" id="unnamed-chunk-10"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">ses.f</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">factor</span><span class="hl std">(ses.f,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl kwd">levels</span><span class="hl std">(ses.f),</span> <span class="hl str">&quot;very.high&quot;</span><span class="hl std">))</span>
+<span class="hl std">ses.f[</span><span class="hl num">21</span><span class="hl std">]</span> <span class="hl kwb">&lt;-</span> <span class="hl str">&quot;very.high&quot;</span>
+<span class="hl std">ses.f</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] low       middle    low       low       low       low      
+##  [7] middle    low       middle    middle    middle    middle   
+## [13] middle    high      high      low       middle    middle   
+## [19] low       high      very.high
+## Levels: low middle high very.high
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">levels</span><span class="hl std">(ses.f)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] &quot;low&quot;       &quot;middle&quot;    &quot;high&quot;      &quot;very.high&quot;
+</pre></div>
+</div></div>
+
+<p>Dropping a level of a factor variable is a little easier.  The simplest way is to first remove all
+the elements within the level to be removed and then to redeclare the variable to be a factor variable.
+(The level is not automatically removed if there are no elements in it
+because we could just by chance have a sample which did
+not contain elements from a specific level.) Let's illustrate this
+by removing the level of "very.high" from the <b>ses.f</b> variable.</p>
+
+<div class="chunk" id="unnamed-chunk-11"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">ses.f.new</span> <span class="hl kwb">&lt;-</span> <span class="hl std">ses.f[ses.f</span> <span class="hl opt">!=</span> <span class="hl str">&quot;very.high&quot;</span><span class="hl std">]</span>
+<span class="hl std">ses.f.new</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] low    middle low    low    low    low    middle low    middle
+## [10] middle middle middle middle high   high   low    middle middle
+## [19] low    high  
+## Levels: low middle high very.high
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">ses.f.new</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">factor</span><span class="hl std">(ses.f.new)</span>
+<span class="hl std">ses.f.new</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] low    middle low    low    low    low    middle low    middle
+## [10] middle middle middle middle high   high   low    middle middle
+## [19] low    high  
+## Levels: low middle high
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">levels</span><span class="hl std">(ses.f.new)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] &quot;low&quot;    &quot;middle&quot; &quot;high&quot;
+</pre></div>
+</div></div>
+
+<h4>4. Examples of the usefulness of factor variables</h4>
+
+<p>To illustrate the usefulness of factor variables we are first going to create a data frame with all
+the variables we have used in the previous examples, plus an additional
+continuous variable called <b>read</b> which contains the reading scores.
+We also redefine <b>ses.f</b> to equal the <b>ses.f.new</b> variable which does not have any
+"very.high" elements.</p>
+
+<div class="chunk" id="unnamed-chunk-12"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">ses.f</span> <span class="hl kwb">&lt;-</span> <span class="hl std">ses.f.new</span>
+<span class="hl std">read</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl num">34</span><span class="hl std">,</span> <span class="hl num">39</span><span class="hl std">,</span> <span class="hl num">63</span><span class="hl std">,</span> <span class="hl num">44</span><span class="hl std">,</span> <span class="hl num">47</span><span class="hl std">,</span> <span class="hl num">47</span><span class="hl std">,</span> <span class="hl num">57</span><span class="hl std">,</span> <span class="hl num">39</span><span class="hl std">,</span> <span class="hl num">48</span><span class="hl std">,</span> <span class="hl num">47</span><span class="hl std">,</span> <span class="hl num">34</span><span class="hl std">,</span> <span class="hl num">37</span><span class="hl std">,</span> <span class="hl num">47</span><span class="hl std">,</span> <span class="hl num">47</span><span class="hl std">,</span> <span class="hl num">39</span><span class="hl std">,</span> <span class="hl num">47</span><span class="hl std">,</span> <span class="hl num">47</span><span class="hl std">,</span> <span class="hl num">50</span><span class="hl std">,</span> <span class="hl num">28</span><span class="hl std">,</span> <span class="hl num">60</span><span class="hl std">)</span>
+
+<span class="hl com">#combining all the variables in a data frame</span>
+<span class="hl std">combo</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(schtyp, schtyp.f, ses, ses.f, read)</span>
+</pre></div>
+</div></div>
+
+<p>Tables are much easier to interpret when using factor variables because they add useful labels to the table and
+they arrange the factors in a more understandable order.</p>
+
+<div class="chunk" id="unnamed-chunk-13"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">table</span><span class="hl std">(ses, schtyp)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##         schtyp
+## ses      0 1
+##   high   2 1
+##   low    6 2
+##   middle 2 7
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">table</span><span class="hl std">(ses.f, schtyp.f)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##         schtyp.f
+## ses.f    private public
+##   low          6      2
+##   middle       2      7
+##   high         2      1
+</pre></div>
+</div></div>
+
+<p>Graphics are another area that benefits from the use of factor variables.  As in the tables the factor variable
+will indicate a better ordering of the graphs as well as add useful labels.</p>
+
+<div class="chunk" id="unnamed-chunk-14"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">library</span><span class="hl std">(lattice)</span>
+</pre></div>
+<div class="warning"><pre class="knitr r">## Warning: package 'lattice' was built under R version 3.1.3
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">bwplot</span><span class="hl std">(schtyp</span> <span class="hl opt">~</span> <span class="hl std">read</span> <span class="hl opt">|</span> <span class="hl std">ses,</span> <span class="hl kwc">data</span> <span class="hl std">= combo,</span> <span class="hl kwc">layout</span> <span class="hl std">=</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl num">2</span><span class="hl std">,</span> <span class="hl num">2</span><span class="hl std">))</span>
+</pre></div>
+</div><div class="rimage default"><img src="figures/logit-unnamed-chunk-14-1.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" width="500px" height="500px" class="plot" /></div><div class="rcode">
+<div class="source"><pre class="knitr r"><span class="hl kwd">bwplot</span><span class="hl std">(schtyp.f</span> <span class="hl opt">~</span> <span class="hl std">read</span> <span class="hl opt">|</span> <span class="hl std">ses.f,</span> <span class="hl kwc">data</span> <span class="hl std">= combo,</span> <span class="hl kwc">layout</span> <span class="hl std">=</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl num">2</span><span class="hl std">,</span> <span class="hl num">2</span><span class="hl std">))</span>
+</pre></div>
+</div><div class="rimage default"><img src="figures/logit-unnamed-chunk-14-2.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" width="500px" height="500px" class="plot" /></div></div>
+
+
+
+<div style="clear:both;">
+<p style = "float:left;">
+<a href="/stat/mult_pkg/faq/general/citingats.htm">How to cite this page</a></p>
+<p style = "float:right;">
+<a href="/stat/apps/codetrack/errdirect.php">
+Report an error on this page or leave a comment</a>
+</p>
+</div>
+
+<div style="clear:both">
+<p>The content of this web site should not be construed as an endorsement
+of any particular web site, book, or software product by the
+University of California.</p>
+</div>
+
+<!-- closes bodycontainer from header -->
+</div>
+
+<div id="footerTop">
+  <div id="pageFooterBoxTop">
+    <div id="footerProjectsDetail">
+      <h2 class="footerProjectsDetailTitle">IDRE Research Technology Group</h2>
+      <div class="projectDetailBox">
+        <div class="projectIcon"></div>
+        <div class="projectDetail">
+          <h2><a href="https://idre.ucla.edu/hpc">High Performance Computing</a></h2>
+        </div>
+      </div>
+      <div class="projectDetailBox">
+        <div class="projectIcon"></div>
+        <div class="projectDetail">
+          <h2><a href="https://idre.ucla.edu/stats">Statistical Computing</a></h2>
+        </div>
+      </div>
+      <div class="projectDetailBox">
+        <div class="projectIcon"></div>
+        <div class="projectDetail">
+          <h2><a href="https://idre.ucla.edu/gis-visualization">GIS and Visualization</a></h2>
+        </div>
+      </div>
+    </div>
+    <div id="footerProjects">
+      <div class="projectMenu">
+<ul class="menu"><li class="leaf first menu-mlid-4445"><a href="https://idre.ucla.edu/hpc" title="High Performance Computing" id="custom_breadcrumbs_menu-4445">High Performance Computing</a></li>
+<li class="leaf menu-mlid-7191"><a href="https://idre.ucla.edu/gis" title="" id="custom_breadcrumbs_menu-7191">GIS</a></li>
+<li class="leaf menu-mlid-4447"><a href="https://idre.ucla.edu/stats" title="Statistical Computing" id="custom_breadcrumbs_menu-4447">Statistical Computing</a></li>
+<li class="leaf menu-mlid-4449"><a href="https://idre.ucla.edu/hoffman2" title="Hoffman2 Cluster" id="custom_breadcrumbs_menu-4449">Hoffman2 Cluster</a></li>
+<li class="leaf menu-mlid-4466"><a href="https://idre.ucla.edu/mapshare" title="" id="custom_breadcrumbs_menu-4466">Mapshare</a></li>
+<li class="leaf menu-mlid-7197"><a href="https://idre.ucla.edu/events/classes" title="" id="custom_breadcrumbs_menu-7197">Classes</a></li>
+<li class="leaf menu-mlid-7626"><a href="https://idre.ucla.edu/hoffman2/getting-started" title="" id="custom_breadcrumbs_menu-7626">Hoffman2 Account Application</a></li>
+<li class="leaf menu-mlid-4471"><a href="https://idre.ucla.edu/visualization" title="" id="custom_breadcrumbs_menu-4471">Visualization</a></li>
+<li class="leaf menu-mlid-7198"><a href="https://idre.ucla.edu/events/conferences" title="" id="custom_breadcrumbs_menu-7198">Conferences</a></li>
+<li class="leaf menu-mlid-7627"><a href="https://idre.ucla.edu/hoffman2/cluster-statistics" title="" id="custom_breadcrumbs_menu-7627">Hoffman2 Usage Statistics</a></li>
+<li class="leaf menu-mlid-4465"><a href="https://idre.ucla.edu/3d-modeling" title="" id="custom_breadcrumbs_menu-4465">3D Modeling</a></li>
+<li class="leaf menu-mlid-7192"><a href="https://idre.ucla.edu/reading-materials" title="" id="custom_breadcrumbs_menu-7192">Reading Materials</a></li>
+<li class="leaf menu-mlid-4472"><a href="http://portal.ucgrid.org/" title="" id="custom_breadcrumbs_menu-4472">UC Grid Portal</a></li>
+<li class="leaf menu-mlid-4467"><a href="https://idre.ucla.edu/technology-sandbox" title="" id="custom_breadcrumbs_menu-4467">Technology Sandbox</a></li>
+<li class="leaf menu-mlid-7713"><a href="http://lists.ucla.edu/cgi-bin/mailman/listinfo/idremailinglist" title="" id="custom_breadcrumbs_menu-7713">IDRE Listserv</a></li>
+<li class="leaf menu-mlid-4473"><a href="http://grid.ucla.edu/" title="" id="custom_breadcrumbs_menu-4473">UCLA Grid Portal</a></li>
+<li class="leaf menu-mlid-7671"><a href="https://idre.ucla.edu/gis-visualization/sandbox-access" title="" id="custom_breadcrumbs_menu-7671">Tech Sandbox Access</a></li>
+<li class="leaf menu-mlid-7773"><a href="https://idre.ucla.edu/resources" title="" id="custom_breadcrumbs_menu-7773">IDRE Resources</a></li>
+<li class="leaf menu-mlid-7630"><a href="https://idre.ucla.edu/hpc/shared-cluster-program" title="" id="custom_breadcrumbs_menu-7630">Shared Cluster &amp; Storage</a></li>
+<li class="leaf menu-mlid-7280"><a href="https://idre.ucla.edu/data-centers" title="Data Centers" id="custom_breadcrumbs_menu-7280">Data Centers</a></li>
+<li class="leaf menu-mlid-8026"><a href="http://dataarchives.ss.ucla.edu/" title="Social Sciences Data Archive" id="custom_breadcrumbs_menu-8026">Social Sciences Data Archive</a></li>
+<li class="leaf last menu-mlid-8013"><a href="https://idre.ucla.edu/about" title="" id="custom_breadcrumbs_menu-8013">About IDRE</a></li>
+</ul>
+      </div>
+    </div>
+  </div>
+</div><div id="footerBottom">
+  <div id="pageFooterBoxBtm">
+    <div id="footerLeft">
+      <div id="uclaSprite"> <a href="http://www.ucla.edu" title="University of California, Los Angeles Home"></a> </div>
+      <div id="footerMenu">
+        <ul class="footerMenu_List" title="Site Links">
+          <li> <a href="https://idre.ucla.edu/about">About</a> </li>
+          <li> <a href="https://idre.ucla.edu/contact">Contact</a> </li>
+          <li> <a href="https://idre.ucla.edu/news">News</a> </li>
+          <li> <a href="https://idre.ucla.edu/events">Events</a> </li>
+          <li> <a href="https://idre.ucla.edu/experts">Our Experts</a> </li>
+        </ul>
+        <div id="footerCopyright">
+          <ul class="footerTOS_List">
+             <li>&#169; 2016 UC Regents</li>
+          <li><a href="http://www.ucla.edu/terms-of-use/" target="_blank" title="UCLA Terms of Use">Terms of Use &amp; Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="footerRight">
+      <div id="oitSprite"> <a id="oitLink" title="Office of Information Technology" href="http://oit.ucla.edu/"></a> </div>
+      <div id="footerTOS"> </div>
+    </div>
+  </div>
+</div>
+
+<!-- closes bodywrap from header -->
+</div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+</body>
+
+
+</html>

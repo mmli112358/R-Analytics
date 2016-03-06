@@ -1,0 +1,1 @@
+http://www.r-bloggers.com/hands-on-dplyr-tutorial-for-faster-data-manipulation-in-r/

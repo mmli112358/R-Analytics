@@ -1,0 +1,781 @@
+<!--roptions dev='png',fig.width=7,fig.height=7,dpi=100,fig.path='subsetting_fig/' -->
+
+
+
+<!DOCTYPE html>
+<html>
+<!-- 04/09/12 jfw automated, no original timestamp -->
+<head>
+<style type="text/css">
+.knitr.inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+},
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0em 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.rimage.left {
+  text-align: left;
+}
+.rimage.right {
+  text-align: right;
+}
+.rimage.center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+<title>R Learning Module: Subsetting Data</title>
+<link href="/stat/ats_style.css" type="text/css" rel="stylesheet">
+
+
+</head>
+
+
+
+<body>
+
+
+<!--
+ 
+Revision history:
+
+commit fbfa676a9d7efb96d954c9dedca262ebf6efff96
+Author: Andy Lin <alin@oit.ucla.edu>
+Date:   Tue Nov 19 10:37:45 2013 -0800
+
+    Headers to R modules pages
+
+commit c1e76be0e499b6a1e8bee538207884e6acb3bdcf
+Author: Andy Lin <alin@oit.ucla.edu>
+Date:   Tue Nov 19 10:32:29 2013 -0800
+
+    Added headers to R modules pages
+
+commit 806ca9bf67134441da9390044337aa68e64282b1
+Author: Andy Lin <alin@oit.ucla.edu>
+Date:   Tue Nov 19 10:18:17 2013 -0800
+
+    Added headers to R modules pages
+
+
+-->
+
+
+
+<link href="/stat/idre/css/body.css" rel="stylesheet" type="text/css">
+<link href="/stat/idre/css/header.css" rel="stylesheet" type="text/css">
+<link href="/stat/idre/css/breadcrumb.css" rel="stylesheet" type="text/css">
+<link href="/stat/idre/css/footerTop.css" rel="stylesheet" type="text/css">
+<link href="/stat/idre/css/footerBottom.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="/stat/idre/js/webfont.js"></script>
+
+
+
+
+<!-- tag opened in header.htm, closed in footer.htm -->  
+<div id="bodyWrap">
+<div id="header">
+  <div id="logo">
+    <h1 class="page_h1" title="Welcome to Institute for Digital Research and Education">Welcome to the Institute for Digital Research and Education</h1>
+    <a class="logoSprite" title="Institute for Digital Research and Education Home" href="https://idre.ucla.edu">Institute for Digital Research and Education Home</a> </div>
+
+<div id="searchBox">
+    <div class="btnContainer">
+        <span class="btnLabel">Help the Stat Consulting Group by</span> <a href="https://giving.ucla.edu/Standard/NetDonate.aspx?SiteNum=371" class='idreBtn'>giving a gift</a>
+    </div>
+    <!-- Google Provided Code Starts Here -->
+<script type="text/javascript">
+  (function() {
+    var cx = '017078209654322335373:o5ngkv1vghw';
+    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<!-- Place this tag where you want the search box to render -->
+<gcse:searchbox-only></gcse:searchbox-only>
+<!-- Google Provided Code Ends Here -->
+</div>
+
+</div>
+
+<script type="text/javascript" src="/stat/apps/tree.js"></script>
+<script>
+function stuff(dir) {
+
+  var x = document.getElementById("bc" + dir);
+
+  if ( !x.stuffed){
+
+    var inner = "<ul>";
+
+    var listing = tree[dir];
+
+    for(var d in listing) {
+        var subdir = listing[d];
+        var base = subdir.replace("^.*\/", "");
+      inner = inner + "<li><a href='" + subdir +"'><span>" + base + "</span></a></li>";
+    }
+
+
+
+
+
+    inner = inner + "</ul>";
+
+    x.innerHTML = x.innerHTML + inner;
+    x.stuffed = true;
+  }
+
+
+}
+</script>
+
+<style>
+#cssmenu ul,
+#cssmenu li,
+#cssmenu span,
+#cssmenu a {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+#cssmenu {
+/*  height: 49px;
+  border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
+  background: #fefefe;
+  background: -moz-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #eee9f0));
+  background: -webkit-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: -o-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: -ms-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  border-bottom: 2px solid #db000b;
+  width: auto; */
+}
+#cssmenu:after,
+#cssmenu ul:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+#cssmenu a {
+/*  background: #fefefe;
+  background: -moz-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #ececec));
+  background: -webkit-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: -o-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: -ms-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: linear-gradient(top, #fefefe 0%, #ececec 100%);
+  color: #000; 
+  display: inline-block;
+  font-family: Helvetica, Arial, Verdana, sans-serif;
+  font-size: 12px;
+  line-height: 49px;*/
+  padding: 0 20px;
+  text-decoration: none;
+}
+#cssmenu ul {
+  list-style: none;
+}
+#cssmenu > ul {
+  float: left;
+}
+#cssmenu > ul > li {
+  float: left;
+}
+#cssmenu > ul > li > a {
+  color: #000;
+  font-size: 12px;
+}
+#cssmenu > ul > li:hover:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #db000b;
+  margin-left: -10px;
+}
+#cssmenu > ul > li:first-child > a {
+  border-radius: 5px 0 0 0;
+  -moz-border-radius: 5px 0 0 0;
+  -webkit-border-radius: 5px 0 0 0;
+}
+#cssmenu > ul > li.active:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #db000b;
+  margin-left: -10px;
+}
+#cssmenu > ul > li.active > a {
+  -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  background: #ececec;
+  background: -moz-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #ffeeff ef));
+  background: -webkit-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -o-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -ms-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+}
+#cssmenu > ul > li:hover > a {
+/*  background: #ececec;
+  background: -moz-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #ffeeff ef));
+  background: -webkit-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -o-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -ms-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);*/
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+}
+#cssmenu .has-sub {
+  z-index: 1;
+}
+#cssmenu .has-sub:hover > ul {
+  display: block;
+}
+#cssmenu .has-sub ul {
+  display: none;
+  position: absolute;
+  width: 200px;
+/*  top: 100%;*/
+  left: 0;
+}
+#cssmenu .has-sub ul li {
+  *margin-bottom: -1px;
+}
+#cssmenu .has-sub ul li a {
+  background: #db000b;
+  border-bottom: 1px dotted #ff0f1b;
+  filter: none;
+  font-size: 11px;
+  display: block;
+  line-height: 120%;
+  padding: 10px;
+  color: #ffffff;
+}
+#cssmenu .has-sub ul li:hover a {
+  background: #a80008;
+}
+#cssmenu .has-sub .has-sub:hover > ul {
+  display: block;
+}
+#cssmenu .has-sub .has-sub ul {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+}
+#cssmenu .has-sub .has-sub ul li a {
+  background: #a80008;
+  border-bottom: 1px dotted #ff0f1b;
+}
+#cssmenu .has-sub .has-sub ul li a:hover {
+  background: #8f0007;
+}
+
+
+</style>
+
+
+
+<div id="infobar">
+
+      <div id="breadcrumbBox"><div class="breadcrumb" id='cssmenu'>
+<ul>      
+<li id='bc/stat' onmouseover="stuff('/stat')" class='has-sub'><a href='/stat'>stat</a> &gt; </li><li id='bc/stat/r' onmouseover="stuff('/stat/r')" class='has-sub'><a href='/stat/r'>r</a> &gt; </li><li id='bc/stat/r/modules' onmouseover="stuff('/stat/r/modules')" class='has-sub'><a href='/stat/r/modules'>modules</a></li> &gt; subsetting.htm
+</ul>
+</div></div></div>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12327299-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<!-- MathJax Provided Code Starts Here -->
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/2.1-beta/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- MathJax Provided Code Ends Here -->
+
+<!-- tag opened in header.htm, closed in footer.htm -->  
+<div id="bodyContainer">
+
+<h3>R Learning Module<br>
+Subsetting Data</h3>
+<p><code class="knitr inline"><strong>Version info: </strong>Code for this page was tested in R version 3.0.2 (2013-09-25)<br />
+ On: 2013-11-19<br />
+With: lattice 0.20-24; foreign 0.8-57; knitr 1.5
+</code></p>
+
+<h4>1. Subsetting variables</h4>
+
+<p>To manipulate data frames in R we can use the bracket notation to access
+the indices for the observations and the variables.  It is easiest to think
+of the data frame as a rectangle of data where the rows are the observations
+and the columns are the variables.  Just like in matrix algebra, the indices
+for a rectangle of data follow the RxC principle; in other words, the first
+index is for Rows and the second index is for Columns [R, C].
+When we only want to subset variables (or columns) we use the second index
+and leave the first index blank.  Leaving an index blank indicates that you want
+to keep all the elements in that dimension.  In the first example we create the
+data frame <b>hsb3</b> containing only the
+variables <b>id</b>, <b>read</b> and <b>write</b>, but all the observations
+from the original data frame <b>hsb2.small</b>.  In order to know which
+variables correspond to which number in the index we use the <b>names</b> function,
+which will list the names of the variables in the order in which they appear in the data frame.
+From this list we see that <b>id</b> is variable 1, <b>read</b> is variable 7 and <b>write</b>
+is variable 8. We cannot refer to the variables by their names alone until we have attached the data.</p>
+
+<div class="chunk" id="unnamed-chunk-2"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">hsb2.small</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">read.csv</span><span class="hl std">(</span><span class="hl str">&quot;http://www.ats.ucla.edu/stat/data/hsb2_small.csv&quot;</span><span class="hl std">)</span>
+
+<span class="hl com"># using the names function to see names of the variables and which column of</span>
+<span class="hl com"># data to which they correspond</span>
+<span class="hl kwd">names</span><span class="hl std">(hsb2.small)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] "id"      "female"  "race"    "ses"     "schtyp"  "prog"    "read"   
+##  [8] "write"   "math"    "science" "socst"
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">(hsb3</span> <span class="hl kwb">&lt;-</span> <span class="hl std">hsb2.small[,</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">7</span><span class="hl std">,</span> <span class="hl num">8</span><span class="hl std">)])</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##     id read write
+## 1   70   57    52
+## 2  121   68    59
+## 3   86   44    33
+## 4  141   63    44
+## 5  172   47    52
+## 6  113   44    52
+## 7   50   50    59
+## 8   11   34    46
+## 9   84   63    57
+## 10  48   57    55
+## 11  75   60    46
+## 12  60   57    65
+## 13  95   73    60
+## 14 104   54    63
+## 15  38   45    57
+## 16 115   42    49
+## 17  76   47    52
+## 18 195   57    57
+## 19 114   68    65
+## 20  85   55    39
+## 21 167   63    49
+## 22 143   63    63
+## 23  41   50    40
+## 24  20   60    52
+## 25  12   37    44
+</pre></div>
+</div></div>
+
+
+<p>If the variables we want are in consecutive columns,
+we can use the colon notation rather than list them using the <b>c</b> function.  In
+the next example we create the data frame <b>hsb4</b> containing the first four variables of
+<b>hsb2.small</b>.</p>
+
+<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">(hsb4</span> <span class="hl kwb">&lt;-</span> <span class="hl std">hsb2.small[,</span> <span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">4</span><span class="hl std">])</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##     id female race ses
+## 1   70      0    4   1
+## 2  121      1    4   2
+## 3   86      0    4   3
+## 4  141      0    4   3
+## 5  172      0    4   2
+## 6  113      0    4   2
+## 7   50      0    3   2
+## 8   11      0    1   2
+## 9   84      0    4   2
+## 10  48      0    3   2
+## 11  75      0    4   2
+## 12  60      0    4   2
+## 13  95      0    4   3
+## 14 104      0    4   3
+## 15  38      0    3   1
+## 16 115      0    4   1
+## 17  76      0    4   3
+## 18 195      0    4   2
+## 19 114      0    4   3
+## 20  85      0    4   2
+## 21 167      0    4   2
+## 22 143      0    4   2
+## 23  41      0    3   2
+## 24  20      0    1   3
+## 25  12      0    1   2
+</pre></div>
+</div></div>
+
+
+<h4>2. Subsetting observations</h4>
+
+<p>We subset observations by also using the bracket notation but now we use the first index and leave the second index blank.
+This indicates that we want all the variables for specific observations.  In the first example we create the data frame <b>hsb5</b>, which
+contains the first 10 observations of <b>hsb2.small</b>.</p>
+
+<div class="chunk" id="unnamed-chunk-4"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">(hsb5</span> <span class="hl kwb">&lt;-</span> <span class="hl std">hsb2.small[</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">10</span><span class="hl std">, ])</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##     id female race ses schtyp prog read write math science socst
+## 1   70      0    4   1      1    1   57    52   41      47    57
+## 2  121      1    4   2      1    3   68    59   53      63    61
+## 3   86      0    4   3      1    1   44    33   54      58    31
+## 4  141      0    4   3      1    3   63    44   47      53    56
+## 5  172      0    4   2      1    2   47    52   57      53    61
+## 6  113      0    4   2      1    2   44    52   51      63    61
+## 7   50      0    3   2      1    1   50    59   42      53    61
+## 8   11      0    1   2      1    2   34    46   45      39    36
+## 9   84      0    4   2      1    1   63    57   54      58    51
+## 10  48      0    3   2      1    2   57    55   52      50    51
+</pre></div>
+</div></div>
+
+
+<p>We can also subset observations based on logical tests.  In the following
+example we create the data frame <b>hsb6</b>, which contains only the observations for which
+<b>ses</b>=1.  For a logical equality we need to use the double equal sign notation. We
+also need to refer to the variable, <b>ses</b> in the data frame <b>hsb2.small</b>, which
+we do using <b>$</b>.</p>
+
+<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">(hsb6</span> <span class="hl kwb">&lt;-</span> <span class="hl std">hsb2.small[hsb2.small</span><span class="hl opt">$</span><span class="hl std">ses</span> <span class="hl opt">==</span> <span class="hl num">1</span><span class="hl std">, ])</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##     id female race ses schtyp prog read write math science socst
+## 1   70      0    4   1      1    1   57    52   41      47    57
+## 15  38      0    3   1      1    2   45    57   50      31    56
+## 16 115      0    4   1      1    1   42    49   43      50    56
+</pre></div>
+</div></div>
+
+
+<p>In the previous example we used a logical test to subset the observations, but we
+only tested for one variable being equal to a single value.  We can also subset using a logical
+test that will test a single variable being equal to the elements in a list, and we do this
+by using the <b>%in%</b> function.  In the following example we create the data frame <b>hsb7</b>,
+which contains the observations where <b>id</b> is equal to  11, 12, 20, 48, 86 or 195.</p>
+
+<div class="chunk" id="unnamed-chunk-6"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">(hsb7</span> <span class="hl kwb">&lt;-</span> <span class="hl std">hsb2.small[hsb2.small</span><span class="hl opt">$</span><span class="hl std">id</span> <span class="hl opt">%in%</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl num">12</span><span class="hl std">,</span> <span class="hl num">48</span><span class="hl std">,</span> <span class="hl num">86</span><span class="hl std">,</span> <span class="hl num">11</span><span class="hl std">,</span> <span class="hl num">20</span><span class="hl std">,</span> <span class="hl num">195</span><span class="hl std">), ])</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##     id female race ses schtyp prog read write math science socst
+## 3   86      0    4   3      1    1   44    33   54      58    31
+## 8   11      0    1   2      1    2   34    46   45      39    36
+## 10  48      0    3   2      1    2   57    55   52      50    51
+## 18 195      0    4   2      2    1   57    57   60      58    56
+## 24  20      0    1   3      1    2   60    52   57      61    61
+## 25  12      0    1   2      1    3   37    44   45      39    46
+</pre></div>
+</div></div>
+
+
+<p>It is also possible to combine logical tests.  In the following example we create
+the data frame <b>hsb8</b>, which contains only the observations where <b>ses</b>=3 and
+<b>female</b>=0. Here to avoid having to type <b>hsb2.small</b> multiple times, we use
+the <b>with</b> function to let R know that it should look for <b>ses</b> and <b>female</b>
+inside the <b>hsb2.small</b> data frame.</p>
+
+<div class="chunk" id="unnamed-chunk-7"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">(hsb8</span> <span class="hl kwb">&lt;-</span> <span class="hl std">hsb2.small[</span><span class="hl kwd">with</span><span class="hl std">(hsb2.small, ses</span> <span class="hl opt">==</span> <span class="hl num">3</span> <span class="hl opt">&amp;</span> <span class="hl std">female</span> <span class="hl opt">==</span> <span class="hl num">0</span><span class="hl std">), ])</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##     id female race ses schtyp prog read write math science socst
+## 3   86      0    4   3      1    1   44    33   54      58    31
+## 4  141      0    4   3      1    3   63    44   47      53    56
+## 13  95      0    4   3      1    2   73    60   71      61    71
+## 14 104      0    4   3      1    2   54    63   57      55    46
+## 17  76      0    4   3      1    2   47    52   51      50    56
+## 19 114      0    4   3      1    2   68    65   62      55    61
+## 24  20      0    1   3      1    2   60    52   57      61    61
+</pre></div>
+</div></div>
+
+
+<p>The <b>subset</b> function with a logical statement will let you subset
+the data frame by observations. In the following example the <b>write.50</b> data frame
+contains only the observations for which the values of the variable <b>write</b>
+is greater than 50.  Note that one convenient feature of the <b>subset</b> function, is R
+assumes variable names are within the data frame being subset, so there is no need to
+tell R where to look for <b>write</b>.</p>
+
+<div class="chunk" id="unnamed-chunk-8"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">(write.50</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">subset</span><span class="hl std">(hsb2.small, write</span> <span class="hl opt">&gt;</span> <span class="hl num">50</span><span class="hl std">))</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##     id female race ses schtyp prog read write math science socst
+## 1   70      0    4   1      1    1   57    52   41      47    57
+## 2  121      1    4   2      1    3   68    59   53      63    61
+## 5  172      0    4   2      1    2   47    52   57      53    61
+## 6  113      0    4   2      1    2   44    52   51      63    61
+## 7   50      0    3   2      1    1   50    59   42      53    61
+## 9   84      0    4   2      1    1   63    57   54      58    51
+## 10  48      0    3   2      1    2   57    55   52      50    51
+## 12  60      0    4   2      1    2   57    65   51      63    61
+## 13  95      0    4   3      1    2   73    60   71      61    71
+## 14 104      0    4   3      1    2   54    63   57      55    46
+## 15  38      0    3   1      1    2   45    57   50      31    56
+## 17  76      0    4   3      1    2   47    52   51      50    56
+## 18 195      0    4   2      2    1   57    57   60      58    56
+## 19 114      0    4   3      1    2   68    65   62      55    61
+## 22 143      0    4   2      1    3   63    63   75      72    66
+## 24  20      0    1   3      1    2   60    52   57      61    61
+</pre></div>
+</div></div>
+
+
+<p>There is no limit to how many logical statements may be combined to achieve the subsetting
+that is desired.  The data frame <b>write.1</b> contains only the observations for which the
+values of the variable <b>write</b> is greater than 50 and for which the variable
+<b>read</b> is greater than 60.</p>
+
+<div class="chunk" id="unnamed-chunk-9"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">(write.1</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">subset</span><span class="hl std">(hsb2.small, write</span> <span class="hl opt">&gt;</span> <span class="hl num">50</span> <span class="hl opt">&amp;</span> <span class="hl std">read</span> <span class="hl opt">&gt;</span> <span class="hl num">60</span><span class="hl std">))</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##     id female race ses schtyp prog read write math science socst
+## 2  121      1    4   2      1    3   68    59   53      63    61
+## 9   84      0    4   2      1    1   63    57   54      58    51
+## 13  95      0    4   3      1    2   73    60   71      61    71
+## 19 114      0    4   3      1    2   68    65   62      55    61
+## 22 143      0    4   2      1    3   63    63   75      72    66
+</pre></div>
+</div></div>
+
+
+<p>It is possible to subset both rows and columns using the <b>subset</b> function.  The
+<b>select</b> argument lets you <b>subset</b> variables (columns).  The data frame <b>write.2</b>
+contains only the variables <b>write</b> and <b>read</b> and then only the observations
+of these two variables where the values of variable <b>write</b> are greater than 50
+and the values of variable <b>read</b> are greater than 65.</p>
+
+<div class="chunk" id="unnamed-chunk-10"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">(write.2</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">subset</span><span class="hl std">(hsb2.small, write</span> <span class="hl opt">&gt;</span> <span class="hl num">50</span> <span class="hl opt">&amp;</span> <span class="hl std">read</span> <span class="hl opt">&gt;</span> <span class="hl num">60</span><span class="hl std">,</span> <span class="hl kwc">select</span> <span class="hl std">=</span> <span class="hl kwd">c</span><span class="hl std">(write, read)))</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##    write read
+## 2     59   68
+## 9     57   63
+## 13    60   73
+## 19    65   68
+## 22    63   63
+</pre></div>
+</div></div>
+
+
+<p>In the data frame <b>write.3</b> contains only the observations in variables
+<b>read</b> through <b>science</b> for which the values in the variable
+<b>science</b> are less than 55.</p>
+
+<div class="chunk" id="unnamed-chunk-11"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">(write.3</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">subset</span><span class="hl std">(hsb2.small, science</span> <span class="hl opt">&lt;</span> <span class="hl num">55</span><span class="hl std">,</span> <span class="hl kwc">select</span> <span class="hl std">= read</span><span class="hl opt">:</span><span class="hl std">science))</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##    read write math science
+## 1    57    52   41      47
+## 4    63    44   47      53
+## 5    47    52   57      53
+## 7    50    59   42      53
+## 8    34    46   45      39
+## 10   57    55   52      50
+## 11   60    46   51      53
+## 15   45    57   50      31
+## 16   42    49   43      50
+## 17   47    52   51      50
+## 20   55    39   57      53
+## 25   37    44   45      39
+</pre></div>
+</div></div>
+
+
+<h4>3. Subsetting both variables and observations</h4>
+
+<p>We can subset variables and observations by simply combining the two above methods of
+subsetting.  We accomplish  this by subsetting using both indices at the same time.  In the
+following example we create the data frame <b>hsb9</b> in which we keep only the variables
+<b>id</b>, <b>female</b>, <b>race</b>, <b>ses</b> and <b>read</b> and only the observations
+where <b>ses</b>=3. Note again that because we are not using <b>subset</b>, we have to let
+R know where to find the variable <b>ses</b> by explicitly pointing to <b>hsb2.small</b>.</p>
+
+<div class="chunk" id="unnamed-chunk-12"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl com"># using the names function to see names of the variables and which column of</span>
+<span class="hl com"># data to which they correspond</span>
+<span class="hl kwd">names</span><span class="hl std">(hsb2.small)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] "id"      "female"  "race"    "ses"     "schtyp"  "prog"    "read"   
+##  [8] "write"   "math"    "science" "socst"
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">(hsb9</span> <span class="hl kwb">&lt;-</span> <span class="hl std">hsb2.small[hsb2.small</span><span class="hl opt">$</span><span class="hl std">ses</span> <span class="hl opt">==</span> <span class="hl num">3</span><span class="hl std">,</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">4</span><span class="hl std">,</span> <span class="hl num">7</span><span class="hl std">)])</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##     id female race ses read
+## 3   86      0    4   3   44
+## 4  141      0    4   3   63
+## 13  95      0    4   3   73
+## 14 104      0    4   3   54
+## 17  76      0    4   3   47
+## 19 114      0    4   3   68
+## 24  20      0    1   3   60
+</pre></div>
+</div></div>
+
+
+
+<div style="clear:both;">
+<p style = "float:left;">
+<a href="/stat/mult_pkg/faq/general/citingats.htm">How to cite this page</a></p>
+<p style = "float:right;">
+<a href="/stat/apps/codetrack/errdirect.php">
+Report an error on this page or leave a comment</a>
+</p>
+</div>
+
+<div style="clear:both">
+<p>The content of this web site should not be construed as an endorsement
+of any particular web site, book, or software product by the
+University of California.</p>
+</div>
+
+<!-- closes bodycontainer from header -->
+</div>
+
+<div id="footerTop">
+  <div id="pageFooterBoxTop">
+    <div id="footerProjectsDetail">
+      <h2 class="footerProjectsDetailTitle">IDRE Research Technology Group</h2>
+      <div class="projectDetailBox">
+        <div class="projectIcon"></div>
+        <div class="projectDetail">
+          <h2><a href="https://idre.ucla.edu/hpc">High Performance Computing</a></h2>
+        </div>
+      </div>
+      <div class="projectDetailBox">
+        <div class="projectIcon"></div>
+        <div class="projectDetail">
+          <h2><a href="https://idre.ucla.edu/stats">Statistical Computing</a></h2>
+        </div>
+      </div>
+      <div class="projectDetailBox">
+        <div class="projectIcon"></div>
+        <div class="projectDetail">
+          <h2><a href="https://idre.ucla.edu/gis-visualization">GIS and Visualization</a></h2>
+        </div>
+      </div>
+    </div>
+    <div id="footerProjects">
+      <div class="projectMenu">
+<ul class="menu"><li class="leaf first menu-mlid-4445"><a href="https://idre.ucla.edu/hpc" title="High Performance Computing" id="custom_breadcrumbs_menu-4445">High Performance Computing</a></li>
+<li class="leaf menu-mlid-7191"><a href="https://idre.ucla.edu/gis" title="" id="custom_breadcrumbs_menu-7191">GIS</a></li>
+<li class="leaf menu-mlid-4447"><a href="https://idre.ucla.edu/stats" title="Statistical Computing" id="custom_breadcrumbs_menu-4447">Statistical Computing</a></li>
+<li class="leaf menu-mlid-4449"><a href="https://idre.ucla.edu/hoffman2" title="Hoffman2 Cluster" id="custom_breadcrumbs_menu-4449">Hoffman2 Cluster</a></li>
+<li class="leaf menu-mlid-4466"><a href="https://idre.ucla.edu/mapshare" title="" id="custom_breadcrumbs_menu-4466">Mapshare</a></li>
+<li class="leaf menu-mlid-7197"><a href="https://idre.ucla.edu/events/classes" title="" id="custom_breadcrumbs_menu-7197">Classes</a></li>
+<li class="leaf menu-mlid-7626"><a href="https://idre.ucla.edu/hoffman2/getting-started" title="" id="custom_breadcrumbs_menu-7626">Hoffman2 Account Application</a></li>
+<li class="leaf menu-mlid-4471"><a href="https://idre.ucla.edu/visualization" title="" id="custom_breadcrumbs_menu-4471">Visualization</a></li>
+<li class="leaf menu-mlid-7198"><a href="https://idre.ucla.edu/events/conferences" title="" id="custom_breadcrumbs_menu-7198">Conferences</a></li>
+<li class="leaf menu-mlid-7627"><a href="https://idre.ucla.edu/hoffman2/cluster-statistics" title="" id="custom_breadcrumbs_menu-7627">Hoffman2 Usage Statistics</a></li>
+<li class="leaf menu-mlid-4465"><a href="https://idre.ucla.edu/3d-modeling" title="" id="custom_breadcrumbs_menu-4465">3D Modeling</a></li>
+<li class="leaf menu-mlid-7192"><a href="https://idre.ucla.edu/reading-materials" title="" id="custom_breadcrumbs_menu-7192">Reading Materials</a></li>
+<li class="leaf menu-mlid-4472"><a href="http://portal.ucgrid.org/" title="" id="custom_breadcrumbs_menu-4472">UC Grid Portal</a></li>
+<li class="leaf menu-mlid-4467"><a href="https://idre.ucla.edu/technology-sandbox" title="" id="custom_breadcrumbs_menu-4467">Technology Sandbox</a></li>
+<li class="leaf menu-mlid-7713"><a href="http://lists.ucla.edu/cgi-bin/mailman/listinfo/idremailinglist" title="" id="custom_breadcrumbs_menu-7713">IDRE Listserv</a></li>
+<li class="leaf menu-mlid-4473"><a href="http://grid.ucla.edu/" title="" id="custom_breadcrumbs_menu-4473">UCLA Grid Portal</a></li>
+<li class="leaf menu-mlid-7671"><a href="https://idre.ucla.edu/gis-visualization/sandbox-access" title="" id="custom_breadcrumbs_menu-7671">Tech Sandbox Access</a></li>
+<li class="leaf menu-mlid-7773"><a href="https://idre.ucla.edu/resources" title="" id="custom_breadcrumbs_menu-7773">IDRE Resources</a></li>
+<li class="leaf menu-mlid-7630"><a href="https://idre.ucla.edu/hpc/shared-cluster-program" title="" id="custom_breadcrumbs_menu-7630">Shared Cluster &amp; Storage</a></li>
+<li class="leaf menu-mlid-7280"><a href="https://idre.ucla.edu/data-centers" title="Data Centers" id="custom_breadcrumbs_menu-7280">Data Centers</a></li>
+<li class="leaf menu-mlid-8026"><a href="http://dataarchives.ss.ucla.edu/" title="Social Sciences Data Archive" id="custom_breadcrumbs_menu-8026">Social Sciences Data Archive</a></li>
+<li class="leaf last menu-mlid-8013"><a href="https://idre.ucla.edu/about" title="" id="custom_breadcrumbs_menu-8013">About IDRE</a></li>
+</ul>
+      </div>
+    </div>
+  </div>
+</div><div id="footerBottom">
+  <div id="pageFooterBoxBtm">
+    <div id="footerLeft">
+      <div id="uclaSprite"> <a href="http://www.ucla.edu" title="University of California, Los Angeles Home"></a> </div>
+      <div id="footerMenu">
+        <ul class="footerMenu_List" title="Site Links">
+          <li> <a href="https://idre.ucla.edu/about">About</a> </li>
+          <li> <a href="https://idre.ucla.edu/contact">Contact</a> </li>
+          <li> <a href="https://idre.ucla.edu/news">News</a> </li>
+          <li> <a href="https://idre.ucla.edu/events">Events</a> </li>
+          <li> <a href="https://idre.ucla.edu/experts">Our Experts</a> </li>
+        </ul>
+        <div id="footerCopyright">
+          <ul class="footerTOS_List">
+             <li>&#169; 2016 UC Regents</li>
+          <li><a href="http://www.ucla.edu/terms-of-use/" target="_blank" title="UCLA Terms of Use">Terms of Use &amp; Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="footerRight">
+      <div id="oitSprite"> <a id="oitLink" title="Office of Information Technology" href="http://oit.ucla.edu/"></a> </div>
+      <div id="footerTOS"> </div>
+    </div>
+  </div>
+</div>
+
+<!-- closes bodywrap from header -->
+</div>
+
+</body>
+
+
+</html>
