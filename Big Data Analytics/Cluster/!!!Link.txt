@@ -1,1 +1,2 @@
 http://www.statmethods.net/advstats/cluster.html
+http://factominer.free.fr/advanced-methods/index.html

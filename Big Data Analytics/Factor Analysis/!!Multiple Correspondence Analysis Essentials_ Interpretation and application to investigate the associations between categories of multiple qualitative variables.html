@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Multiple Correspondence Analysis Essentials: Interpretation and application to investigate the associations between categories of multiple qualitative variables  - R software and data mining - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "a6e1c0246ef61f9e";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="factor-analysis" title="Factor analysis" itemprop="url">
+									<span itemprop="title">Factor analysis</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Multiple Correspondence Analysis Essentials: Interpretation and application to investigate the associations between categories of multiple qualitative variables  - R software and data mining</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/32" title="Syndication" class="fa fa-syndication"></a>
+					Multiple Correspondence Analysis Essentials: Interpretation and application to investigate the associations between categories of multiple qualitative variables  - R software and data mining
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=232&amp;com=0"><i class="fa fa-comments-o"></i> Discussion (2)</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=232" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=232" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+<div id="TOC">
+<ul>
+<li><a href="#required-packages">Required packages</a></li>
+<li><a href="#load-factominer-and-factoextra">Load FactoMineR and factoextra</a></li>
+<li><a href="#data-format">Data format</a></li>
+<li><a href="#exploratory-data-analysis">Exploratory data analysis</a></li>
+<li><a href="#multiple-correspondence-analysis-mca">Multiple Correspondence Analysis (MCA)</a></li>
+<li><a href="#summary-of-mca-outputs">Summary of MCA outputs</a></li>
+<li><a href="#interpretation-of-mca-outputs">Interpretation of MCA outputs</a></li>
+<li><a href="#eigenvaluesvariances-and-screeplot">Eigenvalues/variances and screeplot</a></li>
+<li><a href="#mca-scatter-plot-biplot-of-individuals-and-variable-categories">MCA scatter plot: Biplot of individuals and variable categories</a></li>
+<li><a href="#variable-categories">Variable categories</a><ul>
+<li><a href="#correlation-between-variables-and-principal-dimensions">Correlation between variables and principal dimensions</a></li>
+<li><a href="#coordinates-of-variable-categories">Coordinates of variable categories</a></li>
+<li><a href="#contribution-of-variable-categories-to-the-dimensions">Contribution of variable categories to the dimensions</a></li>
+<li><a href="#cos2-the-quality-of-representation-of-variable-categories">Cos2 : The quality of representation of variable categories</a></li>
+</ul></li>
+<li><a href="#individuals">Individuals</a><ul>
+<li><a href="#coordinates-of-individuals">Coordinates of individuals</a></li>
+<li><a href="#contribution-of-individuals-to-the-dimensions">Contribution of individuals to the dimensions</a></li>
+<li><a href="#cos2-the-quality-of-representation-of-individuals">Cos2 : The quality of representation of individuals</a></li>
+<li><a href="#change-the-color-of-individuals-by-groups">Change the color of individuals by groups</a></li>
+</ul></li>
+<li><a href="#mca-using-supplementary-individuals-and-variables">MCA using supplementary individuals and variables</a><ul>
+<li><a href="#make-a-biplot-of-individuals-and-variable-categories">Make a biplot of individuals and variable categories</a></li>
+<li><a href="#visualize-supplementary-variables">Visualize supplementary variables</a><ul>
+<li><a href="#supplementary-qualitative-variable-categories">Supplementary qualitative variable categories</a></li>
+<li><a href="#supplementary-quantitative-variables">Supplementary quantitative variables</a></li>
+</ul></li>
+<li><a href="#visualize-supplementary-individuals">Visualize supplementary individuals</a></li>
+</ul></li>
+<li><a href="#filter-the-mca-result">Filter the MCA result</a></li>
+<li><a href="#dimension-description">Dimension description</a></li>
+<li><a href="#infos">Infos</a></li>
+<li><a href="#references-and-further-reading">References and further reading</a></li>
+</ul>
+</div>
+
+<p><br/></p>
+<p>As described in my previous article, the simple <a href="http://www.sthda.com/english/wiki/correspondence-analysis-in-r-the-ultimate-guide-for-the-analysis-the-visualization-and-the-interpretation-r-software-and-data-mining"><strong>correspondence analysis (CA)</strong></a> is used to analyse the contingency table formed by two <strong>categorical variables</strong>.</p>
+<p>To learn more about <strong>CA</strong>, read this article: <a href="http://www.sthda.com/english/wiki/correspondence-analysis-in-r-the-ultimate-guide-for-the-analysis-the-visualization-and-the-interpretation-r-software-and-data-mining">Correspondence Analysis in R: The Ultimate Guide for the Analysis, the Visualization and the Interpretation</a>.</p>
+<p><strong>Multiple Correspondence Analysis (MCA)</strong> is an extension of simple <strong>CA</strong> to analyse a data table containing more than two categorical variables.</p>
+<p><strong>MCA</strong> is generally used to analyse a data from survey.</p>
+<p>The objectives are to identify:</p>
+<ul>
+<li>A group of individuals with similar profile in their answers to the questions</li>
+<li>The associations between variable categories</li>
+</ul>
+<p>There are several R functions from different packages to compute <strong>MCA</strong>, including:</p>
+<ul>
+<li><strong>MCA()</strong> [in <em>FactoMineR</em> package]</li>
+<li><strong>dudi.mca()</strong> [in <em>ade4</em> package]</li>
+</ul>
+<p>These packages provide also some standard functions to visualize the results of the analysis. It’s also possible to use the package <a href="http://www.sthda.com/english/wiki/factoextra-r-package-quick-multivariate-data-analysis-pca-ca-mca-and-visualization-r-software-and-data-mining"><strong>factoextra</strong></a> to generate easily beautiful graphs.</p>
+<p><span class="success">This article describes how to perform and interpret <strong>multiple correspondence analysis</strong> using <strong>FactoMineR</strong> package.<span></p>
+<div id="required-packages" class="section level1">
+<h1>Required packages</h1>
+<p><strong>FactoMineR</strong>(for computing <strong>MCA</strong>) and <a href="http://www.sthda.com/english/wiki/factoextra-r-package-visualization-of-the-outputs-of-a-multivariate-analysis-r-software-and-data-mining"><strong>factoextra</strong></a> (for MCA visualization) packages are used.</p>
+<p>These packages can be installed as follow :</p>
+<pre class="r"><code>install.packages(&quot;FactoMineR&quot;)
+
+# install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<p><span class="warning">Note that, for factoextra a version &gt;= 1.0.2 is required for this tutorial. If it’s already installed on your computer, you should re-install it to have the most updated version.</span></p>
+</div>
+<div id="load-factominer-and-factoextra" class="section level1">
+<h1>Load FactoMineR and factoextra</h1>
+<pre class="r"><code>library(&quot;FactoMineR&quot;)
+library(&quot;factoextra&quot;)</code></pre>
+</div>
+<div id="data-format" class="section level1">
+<h1>Data format</h1>
+<p>We’ll use the data sets <em>poison</em> [in <em>FactoMineR</em>]</p>
+<pre class="r"><code>data(poison)
+head(poison[, 1:7])</code></pre>
+<pre><code>  Age Time   Sick Sex   Nausea Vomiting Abdominals
+1   9   22 Sick_y   F Nausea_y  Vomit_n     Abdo_y
+2   5    0 Sick_n   F Nausea_n  Vomit_n     Abdo_n
+3   6   16 Sick_y   F Nausea_n  Vomit_y     Abdo_y
+4   9    0 Sick_n   F Nausea_n  Vomit_n     Abdo_n
+5   7   14 Sick_y   M Nausea_n  Vomit_y     Abdo_y
+6  72    9 Sick_y   M Nausea_n  Vomit_n     Abdo_y</code></pre>
+<p>An image of the data is shown below:</p>
+<p><a href="http://www.sthda.com/sthda/RDoc/images/mca-poison-big.png" title="Click to zoom!" target="_blank"> <img src="http://www.sthda.com/sthda/RDoc/images/mca-poison.png" alt="Multiple Correspondence analysis data"/> </a></p>
+<p>This data is a result from a survey carried out on children of primary school who suffered from food poisoning. They were asked about their symptoms and about what they ate.</p>
+<p>The data contains 55 rows (children, individuals) and 15 columns (variables).</p>
+<br/><br />
+<div class="warning">
+<p>Only some of these individuals (children) and variables will be used to perform the <em>multiple correspondence analysis (MCA)</em>.</p>
+The coordinates of the remaining individuals and variables on the factor map will be <strong>predicted</strong> after the MCA.
+</div>
+<p><br/></p>
+<p>In <strong>MCA</strong> terminology, our data contains :</p>
+<br/>
+<div class="block">
+<ul>
+<li><strong>Active individuals</strong> (rows 1:55): Individuals that are used during the correspondence analysis.</li>
+<li><strong>Active variables</strong> (columns 5:15) : Variables that are used for the <strong>MCA</strong>.</li>
+<li><strong>Supplementary variables</strong> : They don’t participate to the MCA. The coordinates of these variables will be predicted.</li>
+<li><strong>Supplementary continuous variables</strong> : Columns 1 and 2 corresponding to the columns <em>age</em> and <em>time</em>, respectively.</li>
+<li><strong>Supplementary qualitative variables</strong> : Columns 3 and 4 corresponding to the columns <em>Sick</em> and <em>Sex</em>, respectively. This factor variables will be used to color individuals by groups.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>Subset only active individuals and variables for multiple correspondence analysis:</p>
+<pre class="r"><code>poison.active &lt;- poison[1:55, 5:15]
+head(poison.active[, 1:6])</code></pre>
+<pre><code>    Nausea Vomiting Abdominals   Fever   Diarrhae   Potato
+1 Nausea_y  Vomit_n     Abdo_y Fever_y Diarrhea_y Potato_y
+2 Nausea_n  Vomit_n     Abdo_n Fever_n Diarrhea_n Potato_y
+3 Nausea_n  Vomit_y     Abdo_y Fever_y Diarrhea_y Potato_y
+4 Nausea_n  Vomit_n     Abdo_n Fever_n Diarrhea_n Potato_y
+5 Nausea_n  Vomit_y     Abdo_y Fever_y Diarrhea_y Potato_y
+6 Nausea_n  Vomit_n     Abdo_y Fever_y Diarrhea_y Potato_y</code></pre>
+</div>
+<div id="exploratory-data-analysis" class="section level1">
+<h1>Exploratory data analysis</h1>
+<p>The function <strong>summary()</strong> can be used to compute the frequency of variable categories. As the data table contains a large number of variables, we’ll display only the results for the first 4 variables.</p>
+<p><strong>Statistical summaries</strong>:</p>
+<pre class="r"><code># Summary of the 4 first variables
+summary(poison.active)[, 1:4]</code></pre>
+<pre><code>      Nausea        Vomiting     Abdominals       Fever     
+ &quot;Nausea_n:43  &quot; &quot;Vomit_n:33  &quot; &quot;Abdo_n:18  &quot; &quot;Fever_n:20  &quot;
+ &quot;Nausea_y:12  &quot; &quot;Vomit_y:22  &quot; &quot;Abdo_y:37  &quot; &quot;Fever_y:35  &quot;</code></pre>
+<p>It’s also possible to plot the frequency of variable categories:</p>
+<pre class="r"><code>for (i in 1:ncol(poison.active)) {
+  plot(poison.active[,i], main=colnames(poison.active)[i],
+       ylab = &quot;Count&quot;, col=&quot;steelblue&quot;, las = 2)
+  }</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-2.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-3.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-4.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-5.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-6.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-7.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-8.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-9.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-10.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-frequency-variables-data-mining-11.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="172.8" style="margin-bottom:10px;" /></p>
+<p><span class="warning">The graphs above can be used to identify variable categories with a very low frequency. These types of variables can distort the analysis.</span></p>
+</div>
+<div id="multiple-correspondence-analysis-mca" class="section level1">
+<h1>Multiple Correspondence Analysis (MCA)</h1>
+<p>The function <strong>MCA()</strong> [in <em>FactoMineR</em> package] can be used. A simplified format is :</p>
+<pre class="r"><code>MCA(X, ncp = 5, graph = TRUE)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>X</strong> : a data frame with n rows (individuals) and p columns (categorical variables)</li>
+<li><strong>ncp</strong> : number of dimensions kept in the final results.</li>
+<li><strong>graph</strong> : a logical value. If TRUE a graph is displayed.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>In the R code below, the MCA is performed only on the active individuals/variables :</p>
+<pre class="r"><code>res.mca &lt;- MCA(poison.active, graph = FALSE)</code></pre>
+<p>The output of the function <strong>MCA()</strong> is a list including :</p>
+<pre class="r"><code>print(res.mca)</code></pre>
+<pre><code>**Results of the Multiple Correspondence Analysis (MCA)**
+The analysis was performed on 55 individuals, described by 11 variables
+*The results are available in the following objects:
+
+   name              description                       
+1  &quot;$eig&quot;            &quot;eigenvalues&quot;                     
+2  &quot;$var&quot;            &quot;results for the variables&quot;       
+3  &quot;$var$coord&quot;      &quot;coord. of the categories&quot;        
+4  &quot;$var$cos2&quot;       &quot;cos2 for the categories&quot;         
+5  &quot;$var$contrib&quot;    &quot;contributions of the categories&quot; 
+6  &quot;$var$v.test&quot;     &quot;v-test for the categories&quot;       
+7  &quot;$ind&quot;            &quot;results for the individuals&quot;     
+8  &quot;$ind$coord&quot;      &quot;coord. for the individuals&quot;      
+9  &quot;$ind$cos2&quot;       &quot;cos2 for the individuals&quot;        
+10 &quot;$ind$contrib&quot;    &quot;contributions of the individuals&quot;
+11 &quot;$call&quot;           &quot;intermediate results&quot;            
+12 &quot;$call$marge.col&quot; &quot;weights of columns&quot;              
+13 &quot;$call$marge.li&quot;  &quot;weights of rows&quot;                 </code></pre>
+<p><span class="success">The object that is created using the function <strong>MCA()</strong> contains results as lists. These values are described in the next sections.</span></p>
+</div>
+<div id="summary-of-mca-outputs" class="section level1">
+<h1>Summary of MCA outputs</h1>
+<p>The function <strong>summary.MCA()</strong> [in <em>FactoMineR</em>] is used to print a summary of <strong>multiple correspondence analysis</strong> results:</p>
+<pre class="r"><code>summary(object, nb.dec = 3, nbelements = 10, 
+        ncp = TRUE, file =&quot;&quot;, ...)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>object</strong>: an object of class <strong>MCA</strong></li>
+<li><strong>nb.dec</strong>: number of decimal printed</li>
+<li><strong>nbelements</strong>: number of row/column variables to be written. To have all the elements, use <em>nbelements = Inf</em>.</li>
+<li><strong>ncp</strong>: Number of dimensions to be printed</li>
+<li><strong>file</strong>: an optional file name for exporting the summaries.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>Print the summary of the MCA for the dimensions 1 and 2:</strong></p>
+<pre class="r"><code>summary(res.mca, nb.dec = 2, ncp = 2)</code></pre>
+<pre><code>
+
+Eigenvalues
+                      Dim.1  Dim.2  Dim.3  Dim.4  Dim.5  Dim.6  Dim.7  Dim.8  Dim.9 Dim.10 Dim.11
+Variance               0.34   0.13   0.11   0.10   0.08   0.07   0.06   0.06   0.04   0.01   0.01
+% of var.             33.52  12.91  10.73   9.59   7.88   7.11   6.02   5.58   4.12   1.30   1.23
+Cumulative % of var.  33.52  46.44  57.17  66.76  74.64  81.75  87.77  93.35  97.47  98.77 100.00
+
+Individuals (the 10 first)
+             Dim.1   ctr  cos2   Dim.2   ctr  cos2  
+1          | -0.45  1.11  0.35 | -0.26  0.98  0.12 |
+2          |  0.84  3.79  0.56 | -0.03  0.01  0.00 |
+3          | -0.45  1.09  0.55 |  0.14  0.26  0.05 |
+4          |  0.88  4.20  0.75 | -0.09  0.10  0.01 |
+5          | -0.45  1.09  0.55 |  0.14  0.26  0.05 |
+6          | -0.36  0.70  0.02 | -0.44  2.68  0.04 |
+7          | -0.45  1.09  0.55 |  0.14  0.26  0.05 |
+8          | -0.64  2.23  0.62 | -0.01  0.00  0.00 |
+9          | -0.45  1.11  0.35 | -0.26  0.98  0.12 |
+10         | -0.14  0.11  0.04 |  0.12  0.21  0.03 |
+
+Categories (the 10 first)
+             Dim.1   ctr  cos2 v.test   Dim.2   ctr  cos2 v.test  
+Nausea_n   |  0.27  1.52  0.26   3.72 |  0.12  0.81  0.05   1.69 |
+Nausea_y   | -0.96  5.43  0.26  -3.72 | -0.43  2.91  0.05  -1.69 |
+Vomit_n    |  0.48  3.73  0.34   4.31 | -0.41  7.07  0.25  -3.68 |
+Vomit_y    | -0.72  5.60  0.34  -4.31 |  0.61 10.61  0.25   3.68 |
+Abdo_n     |  1.32 15.42  0.85   6.76 | -0.04  0.03  0.00  -0.18 |
+Abdo_y     | -0.64  7.50  0.85  -6.76 |  0.02  0.01  0.00   0.18 |
+Fever_n    |  1.17 13.54  0.78   6.51 | -0.17  0.78  0.02  -0.97 |
+Fever_y    | -0.67  7.74  0.78  -6.51 |  0.10  0.45  0.02   0.97 |
+Diarrhea_n |  1.18 13.80  0.80   6.57 |  0.00  0.00  0.00  -0.02 |
+Diarrhea_y | -0.68  7.88  0.80  -6.57 |  0.00  0.00  0.00   0.02 |
+
+Categorical variables (eta2)
+             Dim.1 Dim.2  
+Nausea     |  0.26  0.05 |
+Vomiting   |  0.34  0.25 |
+Abdominals |  0.85  0.00 |
+Fever      |  0.78  0.02 |
+Diarrhae   |  0.80  0.00 |
+Potato     |  0.03  0.40 |
+Fish       |  0.01  0.03 |
+Mayo       |  0.38  0.03 |
+Courgette  |  0.02  0.45 |
+Cheese     |  0.19  0.05 |</code></pre>
+<p>The result of the function <strong>summary()</strong> contains 4 tables:</p>
+<ul>
+<li><strong>Table 1 - Eigenvalues</strong>: table 1 contains the variances and the percentage of variances retained by each dimension.</li>
+<li><strong>Table 2</strong> contains the coordinates, the contribution and the cos2 (quality of representation [in 0-1]) of the first 10 active individuals on the dimensions 1 and 2.</li>
+<li><strong>Table 3</strong> contains the coordinates, the contribution and the cos2 (quality of representation [in 0-1]) of the first 10 active variable categories on the dimensions 1 and 2. This table contains also a column called <em>v.test</em>. The value of the <em>v.test</em> is generally comprised between 2 and -2. For a given variable category, if the absolute value of the <em>v.test</em> is superior to 2, this means that the coordinate is significantly different from 0.</li>
+<li><strong>Table 4</strong> - categorical variables (eta2): contains the squared correlation between each variable and the dimensions.</li>
+</ul>
+<br/>
+<div class="warning">
+<ul>
+<li>For exporting the summary to a file, use the code: <em>summary(res.mca, file =“myfile.txt”)</em></li>
+<li>For displaying the summary of more than 10 elements, use the argument <em>nbelements</em> in the function <strong>summary()</strong></li>
+</ul>
+</div>
+<p><br/></p>
+</div>
+<div id="interpretation-of-mca-outputs" class="section level1">
+<h1>Interpretation of MCA outputs</h1>
+<p>MCA results is interpreted as the results from a simple correspondence analysis (CA).</p>
+<p>I recommend to read the interpretation of simple CA which has been comprehensively described in my previous post: <a href="http://www.sthda.com/english/wiki/correspondence-analysis-in-r-the-ultimate-guide-for-the-analysis-the-visualization-and-the-interpretation-r-software-and-data-mining">Correspondence Analysis in R: The Ultimate Guide for the Analysis, the Visualization and the Interpretation</a>.</p>
+</div>
+<div id="eigenvaluesvariances-and-screeplot" class="section level1">
+<h1>Eigenvalues/variances and screeplot</h1>
+<p>The proportion of variances retained by the different dimensions (axes) can be extracted using the function <strong>get_eigenvalue()</strong> [in <em>factoextra</em>] as follow :</p>
+<pre class="r"><code>eigenvalues &lt;- get_eigenvalue(res.mca)
+head(round(eigenvalues, 2))</code></pre>
+<pre><code>      eigenvalue variance.percent cumulative.variance.percent
+Dim.1       0.34            33.52                       33.52
+Dim.2       0.13            12.91                       46.44
+Dim.3       0.11            10.73                       57.17
+Dim.4       0.10             9.59                       66.76
+Dim.5       0.08             7.88                       74.64
+Dim.6       0.07             7.11                       81.75</code></pre>
+<p>The function <strong>fviz_screeplot()</strong> [in <em>factoextra</em> package] can be used to draw the scree plot (the percentages of inertia explained by the MCA dimensions):</p>
+<pre class="r"><code>fviz_screeplot(res.mca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-scree-pot-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Read more about eigenvalues and screeplot: <a href="http://www.sthda.com/english/wiki/eigenvalues-quick-data-visualization-with-factoextra-r-software-and-data-mining">Eigenvalues data visualization</a></span></p>
+</div>
+<div id="mca-scatter-plot-biplot-of-individuals-and-variable-categories" class="section level1">
+<h1>MCA scatter plot: Biplot of individuals and variable categories</h1>
+<p>The function <strong>plot.MCA()</strong> [in <strong>FactoMineR</strong> package] can be used. A simplified format is :</p>
+<pre class="r"><code>plot(x, axes = c(1,2), choix=c(&quot;ind&quot;, &quot;var&quot;))</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong> : An object of class <strong>MCA</strong></li>
+<li><strong>axes</strong> : A numeric vector of length 2 specifying the component to plot</li>
+<li><strong>choix</strong> : The graph to be plotted. Possible values are “ind” for the individuals and “var” for the variables</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>FactoMineR base graph for MCA</strong>:</p>
+<pre class="r"><code>plot(res.mca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-factor-map-factominer-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>It’s also possible to use the function <strong>fviz_mca_biplot()</strong>[in <em>factoextra</em> package] to draw a nice looking plot:</p>
+<pre class="r"><code>fviz_mca_biplot(res.mca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-biplot-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<pre class="r"><code># Change the theme
+fviz_mca_biplot(res.mca) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-biplot-factoextra-data-mining-2.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Read more about <em>fviz_mca_biplot()</em>: <a href="http://www.sthda.com/english/wiki/fviz-mca-quick-multiple-correspondence-analysis-data-visualization-r-software-and-data-mining">fviz_mca_biplot</a></span></p>
+<p>The graph above shows a global pattern within the data. Rows (individuals) are represented by blue points and columns (variable categories) by red triangles.</p>
+<p>The distance between any row points or column points gives a measure of their similarity (or dissimilarity).</p>
+<p>Row points with similar profile are closed on the factor map. The same holds true for column points.</p>
+</div>
+<div id="variable-categories" class="section level1">
+<h1>Variable categories</h1>
+<p>The function <strong>get_mca_var()</strong>[in <em>factoextra</em>] is used to extract the results for variable categories. This function returns a list containing the coordinates, the cos2 and the contribution of variable categories:</p>
+<pre class="r"><code>var &lt;- get_mca_var(res.mca)
+var</code></pre>
+<pre><code>Multiple Correspondence Analysis Results for variables
+ ===================================================
+  Name       Description                  
+1 &quot;$coord&quot;   &quot;Coordinates for categories&quot; 
+2 &quot;$cos2&quot;    &quot;Cos2 for categories&quot;        
+3 &quot;$contrib&quot; &quot;contributions of categories&quot;</code></pre>
+<div id="correlation-between-variables-and-principal-dimensions" class="section level2">
+<h2>Correlation between variables and principal dimensions</h2>
+<p>Variables can be visualized as follow:</p>
+<pre class="r"><code>plot(res.mca, choix = &quot;var&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-unnamed-chunk-11-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="success">
+<ul>
+<li><p>The plot above helps to identify variables that are the most correlated with each dimension. The squared correlations between variables and the dimensions are used as coordinates.</p></li>
+<li>It can be seen that, the variables <em>Diarrhae, Abdominals and Fever</em> are the most correlated with dimension 1. Similarly, the variables <em>Courgette and Potato</em> are the most correlated with dimension 2.</li>
+</ul>
+</div>
+<p><br/></p>
+</div>
+<div id="coordinates-of-variable-categories" class="section level2">
+<h2>Coordinates of variable categories</h2>
+<pre class="r"><code>head(round(var$coord, 2))</code></pre>
+<pre><code>         Dim 1 Dim 2 Dim 3 Dim 4 Dim 5
+Nausea_n  0.27  0.12 -0.27  0.03  0.07
+Nausea_y -0.96 -0.43  0.95 -0.12 -0.26
+Vomit_n   0.48 -0.41  0.08  0.27  0.05
+Vomit_y  -0.72  0.61 -0.13 -0.41 -0.08
+Abdo_n    1.32 -0.04 -0.01 -0.15 -0.07
+Abdo_y   -0.64  0.02  0.00  0.07  0.03</code></pre>
+<p>Use the function <strong>fviz_mca_var()</strong> [in <em>factoextra</em>] to visualize only variable categories:</p>
+<pre class="r"><code># Default plot
+fviz_mca_var(res.mca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-ca-row-points-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>It’s possible to change the color and the shape of the variable points using the arguments <em>col.var</em> and <em>shape.var</em> as follow:</p>
+<pre class="r"><code>fviz_mca_var(res.mca, col.var=&quot;black&quot;, shape.var = 15)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-ca-row-points-color-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="notice">
+<p>Note that, it’s also possible to make the graph of variables only using <em>FactoMineR</em> base graph. The argument <em>invisible</em> is used to hide the individual points:</p>
+<pre class="r"><code># Hide individuals
+plot(res.mca, invisible=&quot;ind&quot;) </code></pre>
+</div>
+<p><br/></p>
+</div>
+<div id="contribution-of-variable-categories-to-the-dimensions" class="section level2">
+<h2>Contribution of variable categories to the dimensions</h2>
+<p>The contribution of the variable categories (in %) to the definition of the dimensions can be extracted as follow:</p>
+<pre class="r"><code>head(round(var$contrib,2))</code></pre>
+<pre><code>         Dim 1 Dim 2 Dim 3 Dim 4 Dim 5
+Nausea_n  1.52  0.81  4.67  0.08  0.49
+Nausea_y  5.43  2.91 16.73  0.30  1.76
+Vomit_n   3.73  7.07  0.36  4.26  0.19
+Vomit_y   5.60 10.61  0.54  6.39  0.29
+Abdo_n   15.42  0.03  0.00  0.73  0.18
+Abdo_y    7.50  0.01  0.00  0.36  0.09</code></pre>
+<p><span class="success">The variable categories with the larger value, contribute the most to the definition of the dimensions.</span></p>
+<p>The different categories in the table are:</p>
+<pre class="r"><code>categories &lt;- rownames(var$coord)
+length(categories)</code></pre>
+<pre><code>[1] 22</code></pre>
+<pre class="r"><code>print(categories)</code></pre>
+<pre><code> [1] &quot;Nausea_n&quot;   &quot;Nausea_y&quot;   &quot;Vomit_n&quot;    &quot;Vomit_y&quot;    &quot;Abdo_n&quot;     &quot;Abdo_y&quot;     &quot;Fever_n&quot;   
+ [8] &quot;Fever_y&quot;    &quot;Diarrhea_n&quot; &quot;Diarrhea_y&quot; &quot;Potato_n&quot;   &quot;Potato_y&quot;   &quot;Fish_n&quot;     &quot;Fish_y&quot;    
+[15] &quot;Mayo_n&quot;     &quot;Mayo_y&quot;     &quot;Courg_n&quot;    &quot;Courg_y&quot;    &quot;Cheese_n&quot;   &quot;Cheese_y&quot;   &quot;Icecream_n&quot;
+[22] &quot;Icecream_y&quot;</code></pre>
+<p>It’s possible to use the function <strong>corrplot</strong> to highlight the most contributing variables for each dimension:</p>
+<pre class="r"><code>library(&quot;corrplot&quot;)
+corrplot(var$contrib, is.corr = FALSE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-variable-contribution-r-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>The function <strong>fviz_contrib()</strong>[in <em>factoextra</em>] can be used to draw a bar plot of variable contributions:</p>
+<pre class="r"><code># Contributions of variables on Dim.1
+fviz_contrib(res.mca, choice = &quot;var&quot;, axes = 1)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-variable-contribution-dim-1-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="warning">
+<ul>
+<li><p>If the contribution of variable categories were uniform, the expected value would be 1/number_of_categories = 1/22 = 4.5%.</p></li>
+<li>The red dashed line on the graph above indicates the expected average contribution. For a given dimension, any category with a contribution larger than this threshold could be considered as important in contributing to that dimension.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><span class="success"> It can be seen that the categories <em>Abdo_n, Diarrhea_n, Fever_n and Mayo_n</em> are the most important in the definition of the first dimension.</span></p>
+<pre class="r"><code># Contributions of rows on Dim.2
+fviz_contrib(res.mca, choice = &quot;var&quot;, axes = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-variable-contribution-dim-2-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="success">The row items <em>Courg_n, Potato_n, Vomit_y and Icecream_n</em> contribute the most to the dimension 2.</span></p>
+<pre class="r"><code># Total contribution on Dim.1 and Dim.2
+fviz_contrib(res.mca, choice = &quot;var&quot;, axes = 1:2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-variable-contribution-2-dimension-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="block">
+<p>The total contribution of a category, on explaining the variations retained by Dim.1 and Dim.2, is calculated as follow : (C1 * Eig1) + (C2 * Eig2).</p>
+<p>C1 and C2 are the contributions of the category to dimensions 1 and 2, respectively. Eig1 and Eig2 are the eigenvalues of dimensions 1 and 2, respectively.</p>
+The expected average contribution of a category for Dim.1 and Dim.2 is : (4.5 * Eig1) + (4.5 * Eig2) = (4.5<em>0.34) + (4.5</em>0.13) = 2.12%
+</div>
+<p><br/></p>
+<p>If your data contains many categories, the top contributing categories can be displayed as follow:</p>
+<pre class="r"><code>fviz_contrib(res.mca, choice = &quot;var&quot;, axes = 1, top = 10)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-top-5-contributing-variables-r-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Read more about <em>fviz_contrib()</em>: <a href="http://www.sthda.com/english/wiki/fviz-contrib-quick-visualization-of-row-column-contributions-r-software-and-data-mining">fviz_contrib</a></span></p>
+<p>A second option is to draw a scatter plot of categories and to highlight categories according to the amount of their contributions. The function <strong>fviz_mca_var()</strong> is used.</p>
+<p><span class="warning">Note that, using <strong>factoextra</strong> package, the color or the transparency of the variable categories can be automatically controlled by the value of their contributions, their cos2, their coordinates on x or y axis.</span></p>
+<pre class="r"><code># Control category point colors using their contribution
+# Possible values for the argument col.row are :
+  # &quot;cos2&quot;, &quot;contrib&quot;, &quot;coord&quot;, &quot;x&quot;, &quot;y&quot;
+fviz_mca_var(res.mca, col.var = &quot;contrib&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-variables-graph-colors-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<pre class="r"><code># Change the gradient color
+fviz_mca_var(res.mca, col.var=&quot;contrib&quot;)+
+scale_color_gradient2(low=&quot;white&quot;, mid=&quot;blue&quot;, 
+                      high=&quot;red&quot;, midpoint=2)+theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-variables-graph-colors-factoextra-data-mining-2.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="success">
+<p>The scatter plot is also helpful to highlight the most important categories in the determination of the dimensions.</p>
+<p>In addition we can have an idea of what pole of the dimensions the categories are actually contributing to.</p>
+It is evident that the categories <em>Abdo_n, Diarrhea_n, Fever_n and Mayo_n</em> have an important contribution to the positive pole of the first dimension, while the categories <em>Fever_y and Diarrhea_y</em> have a major contribution to the negative pole of the first dimension; etc, ….
+</div>
+<p></br/></p>
+<p>It’s also possible to control automatically the transparency of variable categories by their contributions. The argument <em>alpha.var</em> is used:</p>
+<pre class="r"><code># Control the transparency of categories using their contribution
+# Possible values for the argument alpha.var are :
+  # &quot;cos2&quot;, &quot;contrib&quot;, &quot;coord&quot;, &quot;x&quot;, &quot;y&quot;
+fviz_mca_var(res.mca, alpha.var=&quot;contrib&quot;)+
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-variables-graph-colors-transparency-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><span class="warning">It’s possible to select and display only the top contributing categories as illustrated in the R code below.</span></p>
+<pre class="r"><code># Select the top 10 contributing categories
+fviz_mca_var(res.mca, select.var=list(contrib=10))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-select-top-variables-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="notice">Variable category/individual selections are discussed in details in the next sections</span></p>
+<p><span class="warning">Read more about <em>fviz_mca_var()</em>: <a href="http://www.sthda.com/english/wiki/fviz-mca-quick-multiple-correspondence-analysis-data-visualization-r-software-and-data-mining">fviz_mca_var</a></span></p>
+</div>
+<div id="cos2-the-quality-of-representation-of-variable-categories" class="section level2">
+<h2>Cos2 : The quality of representation of variable categories</h2>
+<p>The two dimensions 1 and 2 are sufficient to retain 46% of the total inertia contained in the data.</p>
+<p><span class="warning">However, not all the points are equally well displayed in the two dimensions.</span></p>
+<p><span class="success">The <strong>quality of representation</strong> of the categories on the factor map is called the <strong>squared cosine</strong> (cos2) or the <strong>squared correlations</strong>.</span></p>
+<p>The cos2 measures the degree of association between variable categories and a particular axis.</p>
+<p>The cos2 of variable categories can be extracted as follow:</p>
+<pre class="r"><code>head(var$cos2)</code></pre>
+<pre><code>             Dim 1        Dim 2        Dim 3       Dim 4       Dim 5
+Nausea_n 0.2562007 0.0528025759 2.527485e-01 0.004084375 0.019466197
+Nausea_y 0.2562007 0.0528025759 2.527485e-01 0.004084375 0.019466197
+Vomit_n  0.3442016 0.2511603912 1.070855e-02 0.112294813 0.004126898
+Vomit_y  0.3442016 0.2511603912 1.070855e-02 0.112294813 0.004126898
+Abdo_n   0.8451157 0.0006215864 1.262496e-05 0.011479077 0.002374929
+Abdo_y   0.8451157 0.0006215864 1.262496e-05 0.011479077 0.002374929</code></pre>
+<p>The values of the cos2 are comprised between 0 and 1.</p>
+<p><strong>The sum of the cos2</strong> for rows on all the MCA dimensions is equal to one.</p>
+<p><span class="warning">The quality of representation of a variable category or an individual in n dimensions is simply the sum of the squared cosine of that variable category or individual over the n dimensions.</span></p>
+<p>If a variable category is well represented by two dimensions, the sum of the cos2 is closed to one.</p>
+<p>For some of the categories, more than 2 dimensions are required to perfectly represent the data.</p>
+<p><strong>Visualize the cos2 of variable categories using corrplot</strong>:</p>
+<pre class="r"><code>library(&quot;corrplot&quot;)
+corrplot(var$cos2, is.corr=FALSE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-row-cos2-r-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>The function <strong>fviz_cos2()</strong>[in <em>factoextra</em>] can be used to draw a bar plot of rows cos2:</p>
+<pre class="r"><code># Cos2 of variable categories on Dim.1 and Dim.2
+fviz_cos2(res.mca, choice = &quot;var&quot;, axes = 1:2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-variable-cos2-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Note that, variable categories <em>Fish_n, Fish_y, Icecream_n and Icecream_y</em> are not very well represented by the first two dimensions. This implies that the position of the corresponding points on the scatter plot should be interpreted with some caution. A higher dimensional solution is probably necessary.</span></p>
+<p><span class="warning">Read more about <em>fviz_cos2()</em>: <a href="http://www.sthda.com/english/wiki/fviz-cos2-quick-visualization-of-the-quality-of-representation-of-rows-columns-r-software-and-data-mining">fviz_cos2</a></span></p>
+</div>
+</div>
+<div id="individuals" class="section level1">
+<h1>Individuals</h1>
+<p>The function <strong>get_mca_ind()</strong>[in <em>factoextra</em>] is used to extract the results for individuals. This function returns a list containing the coordinates, the cos2 and the contributions of individuals:</p>
+<pre class="r"><code>ind &lt;- get_mca_ind(res.mca)
+ind</code></pre>
+<pre><code>Multiple Correspondence Analysis Results for individuals
+ ===================================================
+  Name       Description                       
+1 &quot;$coord&quot;   &quot;Coordinates for the individuals&quot; 
+2 &quot;$cos2&quot;    &quot;Cos2 for the individuals&quot;        
+3 &quot;$contrib&quot; &quot;contributions of the individuals&quot;</code></pre>
+<p><span class="warning"> The result for <em>individuals</em> gives the same information as described for variable categories. For this reason, I’ll just displayed the result for individuals in this section without commenting.</span></p>
+<div id="coordinates-of-individuals" class="section level2">
+<h2>Coordinates of individuals</h2>
+<pre class="r"><code>head(ind$coord)</code></pre>
+<pre><code>       Dim 1       Dim 2       Dim 3       Dim 4       Dim 5
+1 -0.4525811 -0.26415072  0.17151614  0.01369348 -0.11696806
+2  0.8361700 -0.03193457 -0.07208249 -0.08550351  0.51978710
+3 -0.4481892  0.13538726 -0.22484048 -0.14170168 -0.05004753
+4  0.8803694 -0.08536230 -0.02052044 -0.07275873 -0.22935022
+5 -0.4481892  0.13538726 -0.22484048 -0.14170168 -0.05004753
+6 -0.3594324 -0.43604390 -1.20932223  1.72464616  0.04348157</code></pre>
+<p>Use the function <strong>fviz_mca_ind()</strong> [in <em>factoextra</em>] to visualize only column points:</p>
+<pre class="r"><code>fviz_mca_ind(res.mca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-individuals-graph-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Read more about <em>fviz_mca_ind()</em>: <a href="http://www.sthda.com/english/wiki/fviz-mca-quick-multiple-correspondence-analysis-data-visualization-r-software-and-data-mining">fviz_mca_ind</a></span></p>
+<br/>
+<div class="warning">
+<p>Note that, it’s also possible to make the graph of individuals only using <strong>FactoMineR</strong> base graph.The argument <em>invisible</em> is used to hide the variable categories on the factor map:</p>
+<pre class="r"><code># Hide variable categories
+plot(res.mca, invisible=&quot;var&quot;) </code></pre>
+</div>
+<p><br/></p>
+</div>
+<div id="contribution-of-individuals-to-the-dimensions" class="section level2">
+<h2>Contribution of individuals to the dimensions</h2>
+<pre class="r"><code>head(ind$contrib)</code></pre>
+<pre><code>     Dim 1      Dim 2        Dim 3        Dim 4      Dim 5
+1 1.110927 0.98238297  0.498254685  0.003555817 0.31554778
+2 3.792117 0.01435818  0.088003703  0.138637089 6.23134138
+3 1.089470 0.25806722  0.856229950  0.380768961 0.05776914
+4 4.203611 0.10259105  0.007132055  0.100387990 1.21319013
+5 1.089470 0.25806722  0.856229950  0.380768961 0.05776914
+6 0.700692 2.67693398 24.769968729 56.404214518 0.04360547</code></pre>
+<p><span class="notice">Note that, you can use the previously mentioned <strong>corrplot()</strong> function to visualize the contribution of individuals.</span></p>
+<p>Use the function <strong>fviz_contrib()</strong>[in <em>factoextra</em>] to visualize column contributions on dimensions 1+2:</p>
+<pre class="r"><code>fviz_contrib(res.mca, choice = &quot;ind&quot;, axes = 1:2, top = 20)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-individuals-contribution-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="warning">
+<ul>
+<li><p>If the individual contributions were uniform, the expected value would be 1/nrow(poison) = 1/55 = 1.8%.</p></li>
+<li>The expected average contribution (reference line) of a column for Dim.1 and Dim.2 is : (1.8 * Eig1) + (1.8 * Eig2) = (1.8 * 0.34) + (1.8 * 0.13) = 0.85%.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>Draw a scatter plot of individuals points</strong> and highlight individuals according to the amount of their contributions. The function <strong>fviz_mca_ind()</strong> [in <em>factoextra</em>] is used:</p>
+<pre class="r"><code># Control individual colors using their contribution
+# Possible values for the argument col.ind are :
+  # &quot;cos2&quot;, &quot;contrib&quot;, &quot;coord&quot;, &quot;x&quot;, &quot;y&quot;
+fviz_mca_ind(res.mca, col.ind=&quot;contrib&quot;)+
+scale_color_gradient2(low=&quot;white&quot;, mid=&quot;blue&quot;, 
+                      high=&quot;red&quot;, midpoint=0.85)+theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-individuals-graph-colors-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="warning">
+<p>Note that, it’s also possible to control automatically the transparency of individuals by their contributions using the argument <em>alpha.ind</em>:</p>
+<pre class="r"><code># Control the transparency of individuals using their contribution
+# Possible values for the argument alpha.ind are :
+  # &quot;cos2&quot;, &quot;contrib&quot;, &quot;coord&quot;, &quot;x&quot;, &quot;y&quot;
+fviz_mca_ind(res.mca, alpha.ind=&quot;contrib&quot;)</code></pre>
+</div>
+<p><br/></p>
+</div>
+<div id="cos2-the-quality-of-representation-of-individuals" class="section level2">
+<h2>Cos2 : The quality of representation of individuals</h2>
+<pre class="r"><code>head(ind$cos2)</code></pre>
+<pre><code>       Dim 1        Dim 2        Dim 3        Dim 4        Dim 5
+1 0.34652591 0.1180447167 0.0497683175 0.0003172275 0.0231460846
+2 0.55589562 0.0008108236 0.0041310808 0.0058126211 0.2148103098
+3 0.54813888 0.0500176790 0.1379484860 0.0547920948 0.0068349171
+4 0.74773962 0.0070299584 0.0004062504 0.0051072923 0.0507479873
+5 0.54813888 0.0500176790 0.1379484860 0.0547920948 0.0068349171
+6 0.02485357 0.0365775483 0.2813443706 0.5722083217 0.0003637178</code></pre>
+<p><span class="warning">Note that, the value of the cos2 is between 0 and 1. A cos2 closed to 1 corresponds to a variable categories/individuals that are well represented on the factor map.</span></p>
+<p>The function <strong>fviz_cos2()</strong>[in <em>factoextra</em>] can be used to draw a bar plot of individuals cos2:</p>
+<pre class="r"><code># Cos2 of individuals on Dim.1 and Dim.2
+fviz_cos2(res.mca, choice = &quot;ind&quot;, axes = 1:2, top = 20)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-mca-individuals-cos2-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+</div>
+<div id="change-the-color-of-individuals-by-groups" class="section level2">
+<h2>Change the color of individuals by groups</h2>
+<p><span class="warning"> As mentioned above, our data contains <strong>supplementary qualitative variables</strong>: Columns 3 and 4 corresponding to the columns <em>Sick</em> and <em>Sex</em>, respectively. These factor variables will be used to color individuals by groups. </span></p>
+<pre class="r"><code>sick &lt;- as.factor(poison$Sick)
+head(sick)</code></pre>
+<pre><code>[1] Sick_y Sick_n Sick_y Sick_n Sick_y Sick_y
+Levels: Sick_n Sick_y</code></pre>
+<pre class="r"><code>sex &lt;- as.factor(poison$Sex)
+head(sex)</code></pre>
+<pre><code>[1] F F F F M M
+Levels: F M</code></pre>
+<p><strong>Individuals factor map</strong> :</p>
+<pre class="r"><code># Default plot
+fviz_mca_ind(res.mca, label =&quot;none&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-individuals-factor-map-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><strong>Change individual colors by groups</strong> using the levels of the variable <em>sick</em>. The argument <strong>habillage</strong> is used:</p>
+<pre class="r"><code>fviz_mca_ind(res.mca, label = &quot;none&quot;, habillage=sick)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-individuals-factor-map-color-by-groups-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><strong>Add ellipses of point concentrations</strong> : the argument <em>habillage</em> is used to specify the factor variable for coloring the observations by groups.</p>
+<pre class="r"><code>fviz_mca_ind(res.mca, label=&quot;none&quot;, habillage = sick,
+             addEllipses = TRUE, ellipse.level = 0.95)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-individuals-factor-map-concentration-ellipse-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p>Now, let’s :</p>
+<ul>
+<li>make a biplot of individuals and variable categories</li>
+<li>change the color of individuals by groups (sick levels)</li>
+<li>show only the labels for variables</li>
+</ul>
+<pre class="r"><code>fviz_mca_biplot(res.mca, 
+  habillage = sick, addEllipses = TRUE,
+  label = &quot;var&quot;, shape.var = 15) +
+  scale_color_brewer(palette=&quot;Dark2&quot;)+
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-biplot-change-color-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Note that, it’s possible to color the individuals using any of the qualitative variable in the initial data table (poison)</span></p>
+<p>Let’s color the individuals by groups using the levels of the variable <em>Vomiting</em>:</p>
+<pre class="r"><code>fviz_mca_ind(res.mca, 
+  habillage = poison$Vomiting, addEllipses = TRUE) +
+  scale_color_brewer(palette=&quot;Dark2&quot;)+
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-biplot-change-color-group-2-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p>It’s also possible to use the index of the column as follow (<em>habillage = 2</em>):</p>
+<pre class="r"><code>fviz_mca_ind(res.mca, 
+  habillage = 2, addEllipses = TRUE) +
+  scale_color_brewer(palette=&quot;Dark2&quot;)+
+  theme_minimal()</code></pre>
+<p>You can also use the function plotellipses() [in <em>FactoMineR</em>] to draw confidence ellipses around the categories. The simplified format is:</p>
+<pre class="r"><code>plotellipses(model, keepvar=&quot;all&quot;, axis =c(1,2))</code></pre>
+<ul>
+<li><strong>model</strong>: object of class MCA or PCA</li>
+<li><strong>keppvar</strong>: a boolean or numeric vector of indexes of variables or a character vector of names of variables. If <em>keepvar</em> is “all”, “quali” or “quali.sup”, variables which are plotted are all the categorical variables, only those which are used to compute the dimensions (active variables) or only the supplementary categorical variables. If keepvar is a numeric vector of indexes or a character vector of names of variables, only relevant variables are plotted.</li>
+</ul>
+<pre class="r"><code>plotellipses(res.mca, keepvar=1)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-plot-ellipse-datamining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<pre class="r"><code>plotellipses(res.mca, keepvar=1:4)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-plot-ellipse-datamining-2.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<pre class="r"><code>plotellipses(res.mca, keepvar=&quot;Vomiting&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-plot-ellipse-datamining-3.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<pre class="r"><code>plotellipses(res.mca, keepvar=c(&quot;Vomiting&quot;, &quot;Fever&quot;))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-plot-ellipse-datamining-4.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<pre class="r"><code>plotellipses(res.mca, keepvar=&quot;all&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-plot-ellipse-factominer-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+</div>
+</div>
+<div id="mca-using-supplementary-individuals-and-variables" class="section level1">
+<h1>MCA using supplementary individuals and variables</h1>
+<br/>
+<div class="warning">
+<p>As described above, the data set <em>poison</em> contains:</p>
+<ul>
+<li><strong>supplementary continuous variables</strong> (quanti.sup = 1:2, columns 1 and 2 corresponding to the columns <em>Sick</em> and <em>Sex</em>, respectively)</li>
+<li><strong>supplementary qualitative variables</strong> (quali.sup = 3:4, corresponding to the columns <em>Sick</em> and <em>Sex</em>, respectively). This factor variables are used to color individuals by groups</li>
+</ul>
+<p>The data doesn’t contain <strong>supplementary individuals</strong>. However for demonstration, we’ll use the individuals 53:55 as supplementary individuals. The coordinates of these individuals will be predicted from the parameters of the MCA on the active individuals (1:52)</p>
+</div>
+<p><br/></p>
+<p>Supplementary variables and individuals are not used for the determination of the principal dimensions. Their coordinates are predicted using only the information provided by the performed multiple correspondence analysis on active variables/individuals.</p>
+<p>To specify supplementary individuals and variables, the function <strong>MCA()</strong> can be used as follow :</p>
+<pre class="r"><code>MCA(X,  ncp = 5, ind.sup = NULL,
+    quanti.sup=NULL, quali.sup=NULL, graph=TRUE, axes = c(1,2))</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>X</strong> : a data frame. Rows are individuals and columns are variables.</li>
+<li><strong>ncp</strong> : number of dimensions kept in the final results.</li>
+<li><strong>ind.sup</strong> : a numeric vector specifying the indexes of the supplementary individuals</li>
+<li><strong>quanti.sup</strong>, <strong>quali.sup</strong> : a numeric vector specifying, respectively, the indexes of the quantitative and qualitative variables</li>
+<li><strong>graph</strong> : a logical value. If TRUE a graph is displayed.</li>
+<li><strong>axes</strong> : a vector of length 2 specifying the components to be plotted</li>
+</ul>
+</div>
+<p><br/></p>
+<p>Example of usage :</p>
+<pre class="r"><code>res.mca &lt;- MCA(poison, ind.sup=53:55, 
+               quanti.sup = 1:2, quali.sup = 3:4,  graph=FALSE)</code></pre>
+<p>The summary of the MCA is :</p>
+<pre class="r"><code>summary(res.mca, nb.dec = 2, ncp = 2)</code></pre>
+<pre><code>
+
+Eigenvalues
+                      Dim.1  Dim.2  Dim.3  Dim.4  Dim.5  Dim.6  Dim.7  Dim.8  Dim.9 Dim.10 Dim.11
+Variance               0.33   0.13   0.11   0.10   0.09   0.07   0.06   0.06   0.04   0.01   0.01
+% of var.             32.88  13.04  10.63   9.67   8.60   6.66   6.40   5.94   3.89   1.33   0.95
+Cumulative % of var.  32.88  45.92  56.56  66.23  74.83  81.49  87.89  93.83  97.72  99.05 100.00
+
+Individuals (the 10 first)
+             Dim.1   ctr  cos2   Dim.2   ctr  cos2  
+1          | -0.44  1.14  0.35 | -0.27  1.10  0.13 |
+2          |  0.85  4.23  0.54 | -0.01  0.00  0.00 |
+3          | -0.43  1.09  0.50 |  0.13  0.24  0.04 |
+4          |  0.91  4.81  0.77 | -0.03  0.01  0.00 |
+5          | -0.43  1.09  0.50 |  0.13  0.24  0.04 |
+6          | -0.34  0.67  0.02 | -0.45  2.93  0.04 |
+7          | -0.43  1.09  0.50 |  0.13  0.24  0.04 |
+8          | -0.63  2.32  0.61 | -0.02  0.00  0.00 |
+9          | -0.44  1.14  0.35 | -0.27  1.10  0.13 |
+10         | -0.12  0.08  0.03 |  0.14  0.27  0.04 |
+
+Supplementary individuals
+             Dim.1  cos2   Dim.2  cos2  
+53         |  1.08  0.36 |  0.52  0.08 |
+54         | -0.12  0.03 |  0.14  0.04 |
+55         | -0.43  0.50 |  0.13  0.04 |
+
+Categories (the 10 first)
+             Dim.1   ctr  cos2 v.test   Dim.2   ctr  cos2 v.test  
+Nausea_n   |  0.29  1.78  0.28   3.77 |  0.13  0.94  0.06   1.72 |
+Nausea_y   | -0.97  5.94  0.28  -3.77 | -0.44  3.12  0.06  -1.72 |
+Vomit_n    |  0.46  3.56  0.33   4.13 | -0.39  6.57  0.24  -3.53 |
+Vomit_y    | -0.73  5.70  0.33  -4.13 |  0.63 10.51  0.24   3.53 |
+Abdo_n     |  1.32 15.80  0.85   6.58 |  0.02  0.01  0.00   0.12 |
+Abdo_y     | -0.64  7.68  0.85  -6.58 | -0.01  0.01  0.00  -0.12 |
+Fever_n    |  1.17 13.89  0.79   6.35 | -0.12  0.36  0.01  -0.65 |
+Fever_y    | -0.68  8.00  0.79  -6.35 |  0.07  0.21  0.01   0.65 |
+Diarrhea_n |  1.26 15.31  0.85   6.57 |  0.04  0.04  0.00   0.20 |
+Diarrhea_y | -0.67  8.10  0.85  -6.57 | -0.02  0.02  0.00  -0.20 |
+
+Categorical variables (eta2)
+             Dim.1 Dim.2  
+Nausea     |  0.28  0.06 |
+Vomiting   |  0.33  0.24 |
+Abdominals |  0.85  0.00 |
+Fever      |  0.79  0.01 |
+Diarrhae   |  0.85  0.00 |
+Potato     |  0.03  0.40 |
+Fish       |  0.01  0.03 |
+Mayo       |  0.33  0.04 |
+Courgette  |  0.02  0.48 |
+Cheese     |  0.13  0.03 |
+
+Supplementary categories
+             Dim.1  cos2 v.test   Dim.2  cos2 v.test  
+Sick_n     |  1.42  0.89   6.75 |  0.00  0.00   0.01 |
+Sick_y     | -0.63  0.89  -6.75 |  0.00  0.00  -0.01 |
+F          | -0.03  0.00  -0.23 |  0.11  0.01   0.83 |
+M          |  0.03  0.00   0.23 | -0.12  0.01  -0.83 |
+
+Supplementary categorical variables (eta2)
+             Dim.1 Dim.2  
+Sick       |  0.89  0.00 |
+Sex        |  0.00  0.01 |
+
+Supplementary continuous variables
+             Dim.1   Dim.2  
+Age        |  0.00 | -0.01 |
+Time       | -0.84 | -0.08 |</code></pre>
+<p><span class="notice">For the supplementary individuals/variable categories, the coordinates and the quality of representation (cos2) on the factor maps are shown. They don’t contribute to the dimensions.</span></p>
+<div id="make-a-biplot-of-individuals-and-variable-categories" class="section level2">
+<h2>Make a biplot of individuals and variable categories</h2>
+<p><strong>FactomineR base graph</strong>:</p>
+<pre class="r"><code>plot(res.mca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-biplot-supplementary-factominer-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="block">
+<ul>
+<li>Active individuals are in blue</li>
+<li>Supplementary individuals are in darkblue</li>
+<li>Active variable categories are in red</li>
+<li>Supplementary variable categories are in darkgreen</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>Use factoextra</strong>:</p>
+<pre class="r"><code>fviz_mca_biplot(res.mca) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-biplot-supplementary-factoextra-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+</div>
+<div id="visualize-supplementary-variables" class="section level2">
+<h2>Visualize supplementary variables</h2>
+<p>The graph below highlight the correlation between variables (active &amp; supplementary) and dimensions:</p>
+<pre class="r"><code>plot(res.mca, choix =&quot;var&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-variables-correlation-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<div id="supplementary-qualitative-variable-categories" class="section level3">
+<h3>Supplementary qualitative variable categories</h3>
+<p>All the results (coordinates, cos2, v.test and eta2) for the supplementary qualitative variable categories can be extracted as follow :</p>
+<pre class="r"><code>res.mca$quali.sup</code></pre>
+<pre><code>$coord
+             Dim 1         Dim 2       Dim 3        Dim 4       Dim 5
+Sick_n  1.41809140  0.0020394048  0.13199139 -0.016036841 -0.08354663
+Sick_y -0.63026284 -0.0009064021 -0.05866284  0.007127485  0.03713184
+F      -0.03108147  0.1123143957  0.05033124 -0.055927173 -0.06832928
+M       0.03356798 -0.1212995474 -0.05435774  0.060401347  0.07379562
+
+$cos2
+             Dim 1        Dim 2       Dim 3        Dim 4       Dim 5
+Sick_n 0.893770319 1.848521e-06 0.007742990 0.0001143023 0.003102240
+Sick_y 0.893770319 1.848521e-06 0.007742990 0.0001143023 0.003102240
+F      0.001043342 1.362369e-02 0.002735892 0.0033780765 0.005042401
+M      0.001043342 1.362369e-02 0.002735892 0.0033780765 0.005042401
+
+$v.test
+            Dim 1        Dim 2      Dim 3       Dim 4      Dim 5
+Sick_n  6.7514655  0.009709509  0.6284047 -0.07635063 -0.3977615
+Sick_y -6.7514655 -0.009709509 -0.6284047  0.07635063  0.3977615
+F      -0.2306739  0.833551410  0.3735378 -0.41506855 -0.5071119
+M       0.2306739 -0.833551410 -0.3735378  0.41506855  0.5071119
+
+$eta2
+           Dim 1        Dim 2       Dim 3        Dim 4       Dim 5
+Sick 0.893770319 1.848521e-06 0.007742990 0.0001143023 0.003102240
+Sex  0.001043342 1.362369e-02 0.002735892 0.0033780765 0.005042401</code></pre>
+<p><strong>Factor map</strong> :</p>
+<pre class="r"><code>fviz_mca_var(res.mca) + theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-supplementary-rows-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<pre class="r"><code># Hide active variables
+fviz_mca_var(res.mca, invisible =&quot;var&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-supplementary-rows-data-mining-2.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<pre class="r"><code># Hide supplementary qualitative variables
+fviz_mca_var(res.mca, invisible =&quot;quali.sup&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-supplementary-rows-data-mining-3.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="success">Supplementary variable categories are shown in darkgreen color.</span></p>
+</div>
+<div id="supplementary-quantitative-variables" class="section level3">
+<h3>Supplementary quantitative variables</h3>
+<p>The coordinates of supplementary quantitative variables are:</p>
+<pre class="r"><code>res.mca$quanti</code></pre>
+<pre><code>$coord
+            Dim 1       Dim 2       Dim 3       Dim 4       Dim 5
+Age   0.003934896 -0.00741340 -0.26494536  0.20015501  0.02928483
+Time -0.838158507 -0.08330586 -0.08718851 -0.08421599 -0.02316931</code></pre>
+<p>Graph using FactoMineR base graph:</p>
+<pre class="r"><code>plot(res.mca, choix=&quot;quanti.sup&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-supplementary-quantitative-variables-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+</div>
+</div>
+<div id="visualize-supplementary-individuals" class="section level2">
+<h2>Visualize supplementary individuals</h2>
+<p>The results for supplementary individuals can be extracted as follow :</p>
+<pre class="r"><code>res.mca$ind.sup</code></pre>
+<pre><code>$coord
+        Dim 1     Dim 2      Dim 3      Dim 4      Dim 5
+53  1.0835684 0.5172478  0.5794063  0.5390903  0.4553650
+54 -0.1249473 0.1417271 -0.1765234 -0.1526587 -0.2779565
+55 -0.4315948 0.1270468 -0.2071580 -0.1186804 -0.1891760
+
+$cos2
+        Dim 1      Dim 2      Dim 3      Dim 4      Dim 5
+53 0.36304957 0.08272764 0.10380536 0.08986204 0.06411692
+54 0.03157652 0.04062716 0.06302535 0.04713607 0.15626590
+55 0.50232519 0.04352713 0.11572730 0.03798314 0.09650827</code></pre>
+<p><strong>Factor map for individuals</strong>:</p>
+<pre class="r"><code>fviz_mca_ind(res.mca) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-supplementary-individuals-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<pre class="r"><code># Show the label of ind.sup only
+fviz_mca_ind(res.mca, label=&quot;ind.sup&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-supplementary-individuals-data-mining-2.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="success">Supplementary individuals are shown in darkblue.</span></p>
+</div>
+</div>
+<div id="filter-the-mca-result" class="section level1">
+<h1>Filter the MCA result</h1>
+<p>If you have many individuals/variable categories, it’s possible to visualize only some of them using the arguments <em>select.ind</em> and <em>select.var</em>.</p>
+<br/>
+<div class="block">
+<p><strong>select.ind, select.var:</strong> a selection of individuals/variable categories to be drawn. Allowed values are <em>NULL</em> or a <em>list</em> containing the arguments name, cos2 or contrib:</p>
+<ul>
+<li><em>name</em>: is a character vector containing individuals/variable category names to be drawn</li>
+<li><em>cos2</em>: if cos2 is in [0, 1], ex: 0.6, then individuals/variable categories with a cos2 &gt; 0.6 are drawn</li>
+<li><em>if cos2 &gt; 1</em>, ex: 5, then the top 5 active individuals/variable categories and top 5 supplementary columns/rows with the highest cos2 are drawn</li>
+<li><em>contrib</em>: if contrib &gt; 1, ex: 5, then the top 5 individuals/variable categories with the highest cos2 are drawn</li>
+</ul>
+</div>
+<p><br/></p>
+<pre class="r"><code># Visualize variable categories with cos2 &gt;= 0.4
+fviz_mca_var(res.mca, select.var = list(cos2 = 0.4))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-filter-r-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<pre class="r"><code># Top 10 active variables with the highest cos2
+fviz_mca_var(res.mca, select.var= list(cos2 = 10))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-filter-r-data-mining-2.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><span class="warning">The top 10 active individuals and the top 10 supplementary individuals are shown.</span></p>
+<pre class="r"><code># Select by names
+name &lt;- list(name = c(&quot;Fever_n&quot;, &quot;Abdo_y&quot;, &quot;Diarrhea_n&quot;, &quot;Fever_Y&quot;, &quot;Vomit_y&quot;, &quot;Vomit_n&quot;))
+fviz_mca_var(res.mca, select.var = name)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-filter-2-r-data-mining-1.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<pre class="r"><code>#top 5 contributing individuals and variable categories
+fviz_mca_biplot(res.mca, select.ind = list(contrib = 5), 
+               select.var = list(contrib = 5)) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/multiple-correspondance-analysis-filter-2-r-data-mining-2.png" title="Multiple Correspondence Analysis - R software and data mining" alt="Multiple Correspondence Analysis - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Supplementary individuals/variable categories are not shown because they don’t contribute to the construction of the axes.</span></p>
+</div>
+<div id="dimension-description" class="section level1">
+<h1>Dimension description</h1>
+<p>The function <strong>dimdesc()</strong> can be used to identify the most correlated variables with a given dimension.</p>
+<p>A simplified format is :</p>
+<pre class="r"><code>dimdesc(res, axes = 1:2, proba = 0.05)</code></pre>
+<br/>
+<div>
+<ul>
+<li><strong>res</strong> : an object of class MCA</li>
+<li><strong>axes</strong> : a numeric vector specifying the dimensions to be described</li>
+<li><strong>prob</strong> : the significance level</li>
+</ul>
+</div>
+<p><br/></p>
+<p>Example of usage :</p>
+<pre class="r"><code>res.desc &lt;- dimdesc(res.mca, axes = c(1,2))
+# Description of dimension 1
+res.desc$`Dim 1`</code></pre>
+<pre><code>$quanti
+     correlation     p.value
+Time  -0.8381585 9.12658e-15
+
+$quali
+                  R2      p.value
+Sick       0.8937703 5.368221e-26
+Abdominals 0.8493262 3.429439e-22
+Diarrhae   0.8467702 5.229788e-22
+Fever      0.7916690 1.168654e-18
+Vomiting   0.3348718 7.001487e-06
+Mayo       0.3257425 9.967995e-06
+Nausea     0.2794053 5.623583e-05
+Cheese     0.1344785 7.495656e-03
+
+$category
+             Estimate      p.value
+Sick_n      0.5872910 5.368221e-26
+Abdo_n      0.5632879 3.429439e-22
+Diarrhea_n  0.5545730 5.229788e-22
+Fever_n     0.5297728 1.168654e-18
+Vomit_n     0.3410366 7.001487e-06
+Mayo_n      0.4325471 9.967995e-06
+Nausea_n    0.3597065 5.623583e-05
+Cheese_n    0.3290968 7.495656e-03
+Cheese_y   -0.3290968 7.495656e-03
+Nausea_y   -0.3597065 5.623583e-05
+Mayo_y     -0.4325471 9.967995e-06
+Vomit_y    -0.3410366 7.001487e-06
+Fever_y    -0.5297728 1.168654e-18
+Diarrhea_y -0.5545730 5.229788e-22
+Abdo_y     -0.5632879 3.429439e-22
+Sick_y     -0.5872910 5.368221e-26</code></pre>
+<pre class="r"><code># Description of dimension 2
+res.desc$`Dim 2`</code></pre>
+<pre><code>$quali
+                 R2      p.value
+Courgette 0.4839477 1.039252e-08
+Potato    0.4020987 4.489421e-07
+Vomiting  0.2449186 1.917736e-04
+Icecream  0.1366683 6.989716e-03
+
+$category
+             Estimate      p.value
+Courg_n     0.4261065 1.039252e-08
+Potato_y    0.4910893 4.489421e-07
+Vomit_y     0.1836850 1.917736e-04
+Icecream_n  0.2863045 6.989716e-03
+Icecream_y -0.2863045 6.989716e-03
+Vomit_n    -0.1836850 1.917736e-04
+Potato_n   -0.4910893 4.489421e-07
+Courg_y    -0.4261065 1.039252e-08</code></pre>
+</div>
+<div id="infos" class="section level1">
+<h1>Infos</h1>
+<p><span class="warning"> This analysis has been performed using <strong>R software</strong> (ver. 3.2.1), <strong>FactoMineR</strong> (ver. 1.30) and <strong>factoextra</strong> (ver. 1.0.2) </span></p>
+</div>
+<div id="references-and-further-reading" class="section level1">
+<h1>References and further reading</h1>
+<ul>
+<li>Bendixen M.1995, Compositional perceptual mapping using chi-squared tree analysis and Correspondence Analysis, «Journal of Marketing Management», 11, 571-581.</li>
+<li>Bendixen M. 2003, A Practical Guide to the Use of Correspondence Analysis in Marketing Research, Marketing Bulletin, 2003, 14, Technical Note 2. <a href="http://marketing-bulletin.massey.ac.nz/V14/MB_V14_T2_Bendixen.pdf" class="uri">http://marketing-bulletin.massey.ac.nz/V14/MB_V14_T2_Bendixen.pdf</a></li>
+<li>Greenacre M.. Contribution biplots. <a href="http://www.econ.upf.edu/docs/papers/downloads/1162.pdf" class="uri">http://www.econ.upf.edu/docs/papers/downloads/1162.pdf</a></li>
+<li>François Husson, <a href="http://factominer.free.fr/contact/index.html" class="uri">http://factominer.free.fr/contact/index.html</a></li>
+</ul>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+<!--====================== stop here when you copy to sthda================-->
+
+
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="principal-component-analysis-in-r-prcomp-vs-princomp-r-software-and-data-mining">Principal component analysis in R : prcomp() vs. princomp() - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="correspondence-analysis-in-r-the-ultimate-guide-for-the-analysis-the-visualization-and-the-interpretation-r-software-and-data-mining">Correspondence Analysis in R: The Ultimate Guide for the Analysis, the Visualization and the Interpretation - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="factominer-and-factoextra-principal-component-analysis-visualization-r-software-and-data-mining">FactoMineR and factoextra : Principal Component Analysis Visualization - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining">Principal Component Analysis: How to reveal the most important variables in your data? - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="ade4-and-factoextra-principal-component-analysis-r-software-and-data-mining">ade4 and factoextra : Principal Component Analysis - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="principal-component-analysis-the-basics-you-should-read-r-software-and-data-mining">Principal component analysis : the basics you should read - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="correspondence-analysis-basics-r-software-and-data-mining">Correspondence analysis basics - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="factor-analysis">Factor analysis</a><br /> <i class="fa fa-file"></i> <a href="ade4-and-factoextra-correspondence-analysis-r-software-and-data-mining">ade4 and factoextra : Correspondence Analysis - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="ca-package-and-factoextra-correspondence-analysis-r-software-and-data-mining">ca package and factoextra : Correspondence Analysis - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="mass-package-and-factoextra-correspondence-analysis-r-software-and-data-mining">MASS package and factoextra : Correspondence Analysis - R software and data mining</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 4403 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="a6e1c0246ef61f9e">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

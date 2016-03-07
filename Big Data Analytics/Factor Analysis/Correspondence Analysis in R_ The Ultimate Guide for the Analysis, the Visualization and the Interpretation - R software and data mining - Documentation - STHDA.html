@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Correspondence Analysis in R: The Ultimate Guide for the Analysis, the Visualization and the Interpretation - R software and data mining - Documentation - STHDA</title>
+		<meta charset="iso-8859-1" />
+		
+		<meta name="keywords" content="R, statistics, graph, data analysis, training courses in R genomics, sequencing, microarray, gene expression." />
+		<meta name="generator" content="PHPBoost 4.0" />
+		
+		
+		<!-- Theme CSS -->
+		
+		<link rel="stylesheet" href="/english/cache/css/css-cache-7921c200b2f09b704d0a1d0ad31fc770.css" type="text/css" media="screen, print, handheld" />
+		
+		
+		<!-- Modules CSS -->
+		<link rel="stylesheet" href="/english/cache/css/css-cache-e4be9317e570757e9bba0c4ca228015c.css" type="text/css" media="screen, print, handheld" />
+
+		
+		<link rel="shortcut icon" href="/english/logo_mini.png" type="image/png" />
+		
+		
+				<script>
+		<!--
+			var PATH_TO_ROOT = "/english";
+			var TOKEN = "6950e8865d655861";
+			var THEME = "sthda";
+			var LANG = "english";
+		-->
+		</script>
+		<script src="/english/kernel/lib/js/top.js"></script>
+        
+         <!--inclusion de jquery à partir de google si internet et sinon chargement local -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+		
+        <script>window.jQuery || document.write('<script src="/english/sthda/js/jquery-1.11.1.min.js"><\/script>')</script>
+        <script>jQuery.noConflict();  // Use jQuery via jQuery(...)</script>
+        <!-- Cookies reglementation européenne -->
+        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+		<script type="text/javascript">
+		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK!","learnMore":"More info","link":"https://www.google.com/policies/technologies/cookies/","theme":"light-top"};
+		</script>
+		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<!-- End Cookie Consent plugin -->
+
+	</head>
+
+	<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+			
+	<header id="header">
+		<div id="top-header">
+			<div id="site-infos" >
+				<div id="site-logo" style="background: url('/english/images/customization/all_logo_80.png') no-repeat;"></div>
+				<div id="site-name-container">
+					<a id="site-name" href="/english/">STHDA</a>
+                    <span style="color:white; font-size:12px;">
+                        <!-- Langue -->
+                        <a href="http://www.sthda.com/french" style="color:white;"> 
+                                <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                        <a href="http://www.sthda.com/english" style="color:white;">
+                            <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                    </span>
+					<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+				</div>
+                
+                
+	<script>
+	<!--
+	function check_connect()
+	{
+		if( document.getElementById('login').value == "" )
+		{
+			alert("Please enter a nickname !");
+			return false;
+		}
+		if( document.getElementById('password').value == "" )
+		{
+			alert("Please enter a password !");
+			return false;
+		   }
+	}
+	-->
+	</script>
+
+
+	
+	<div id="connect-menu">
+		<div class="horizontal-fieldset">
+			<ul class="connect-content">
+				<li><a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">
+                	<i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+				<!--<li><a href="https://twitter.com/"><i class="fa fa-twitter"></i><span>Twitter</span></a></li>-->
+				<li><a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank">
+                	<i class="fa fa-google-plus"></i><span>Google+</span></a></li>
+				<li><a href="/english/user/connect/" class="small"> <i class="fa fa-sign-in"></i> <span>Log in</span></a></li>
+				
+				<li><a href="/english/user/registration/" class="small"> <i class="fa fa-pencil"></i> <span>Sign up</span></a></li>
+				
+			</ul>
+		</div>
+	</div>
+    
+	
+
+                
+			</div>
+			
+		</div>
+		<div id="sub-header">
+            <div style="max-width: 940px; margin:auto;;">
+            <div id="navigation-menu" >
+                    <span><a href="/english/"><i class="fa fa-home"></i>&nbsp;HOME</a></span>
+                    <span><a href="/english/download/category-7+ebooks.php"><i class="fa fa-folder-open"></i>&nbsp;BOOKS</a></span>
+                    <span><a href="/english/wiki/r-software"><i class="fa fa-area-chart"></i>&nbsp;R/STATISTICS</a></span>
+                    <span><a href="/english/rsthda"><i class="fa fa-cogs"></i>&nbsp;WEB APPLICATIONS</a></span>
+                    <span><a href="/english/contact/"><i class="fa fa-envelope"></i>&nbsp;CONTACT</a></span>
+            </div>
+            
+            
+<!-- google search -->
+
+   <div style="height:30px; margin-top:2px;">
+       <form action="http://www.sthda.com/english/googlesearch/result.php" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="partner-pub-5474463749888038:6267345768" />
+            <input type="hidden" name="cof" value="FORID:10" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input type="text" name="q" size="55" />
+            <input type="submit" name="sa" value="Search" class="submitBtn" />
+          </div>
+        </form>
+        
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+    </div>
+      
+ <!-- End google search -->
+ 
+ <style>
+.submitBtn {
+	height: auto;
+	padding: 4px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+	background-image: linear-gradient(to bottom,  rgba(255,255,255,0.18) 0%, rgba(56,56,56,0.10) 100%);
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-color: #E1E1E1 #E1E1E1 #BFBFBF #CFCFCF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.2), 0 0px 2px rgba(0, 0, 0, 0.05);
+	color: #FEFEFE;
+	background-color: #3B6B9F;
+	border-color: #366393;
+}
+.submitBtn{cursor:pointer;}
+</style>
+            
+                
+            </div>
+		</div>
+		<div class="spacer"></div>
+	</header>
+	
+	<div id="global">
+		
+		
+		
+		
+		
+		
+		<div id="main" role="main">
+			
+			<div id="main-content" itemprop="mainContentOfPage">
+            
+            
+            	<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;">
+                    <!-- Adsense  Link -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- liens_728X15 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:15px"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="3453480168"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+        
+        
+        
+				
+<menu id="actions-links-menu" class="dynamic-menu right">
+	<ul>
+		<li><a><i class="fa fa-cog"></i></a>
+			<ul>
+				
+					<li ><a href="/english/wiki/wiki.php">Home</a>
+	
+</li>
+				
+					<li ><a href="/english/wiki/explorer.php">Explorer</a>
+	
+</li>
+				
+			</ul>
+		</li>
+	</ul>
+</menu>
+
+				<nav id="breadcrumb" itemprop="breadcrumb">
+					<ol>
+						<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+							<a href="/english/" title="Home" itemprop="url">
+								<span itemprop="title">Home</span>
+							</a>
+						</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="wiki.php" title="Documentation" itemprop="url">
+									<span itemprop="title">Documentation</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="r-software" title="R software" itemprop="url">
+									<span itemprop="title">R software</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+								
+								<a href="factor-analysis" title="Factor analysis" itemprop="url">
+									<span itemprop="title">Factor analysis</span>
+								</a>
+								
+							</li>
+						
+							<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+								
+								<span itemprop="title">Correspondence Analysis in R: The Ultimate Guide for the Analysis, the Visualization and the Interpretation - R software and data mining</span>
+								
+							</li>
+						
+					</ol>
+				</nav>
+				
+     <style>
+	 /*link color*/
+	  a{color:#0053F9;} .wiki a:hover{color:red!important;}
+     </style>
+       
+       <div class="wiki">
+       
+        <article>
+            
+			<header>
+				<h1>
+					<a href="/english/syndication/rss/wiki/32" title="Syndication" class="fa fa-syndication"></a>
+					Correspondence Analysis in R: The Ultimate Guide for the Analysis, the Visualization and the Interpretation - R software and data mining
+				</h1>
+			</header>
+            
+           
+            
+            
+			<div class="content">
+						<div style="margin-bottom:10px;">
+			<menu class="dynamic-menu right group">
+				<ul>
+				
+					<li>
+						<a href="property.php?idcom=228&amp;com=0"><i class="fa fa-comments-o"></i> Discussion</a>
+					</li>
+				
+					<li>
+						<a><i class="fa fa-cog"></i> Tools</a>
+						<ul>
+
+							
+
+							<!--
+							AK: Inactivation historique/duplicated content
+							<li><a href="../wiki/history.php?id=228" title="History">
+								<i class="fa fa-reply"></i> History
+							</a> 
+							</li>
+							-->
+						
+
+							
+							
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+								<!--
+								 AK print
+								<li><a href="../wiki/print.php?id=228" title="Printable version">
+									<i class="fa fa-print"></i> Printable version
+								</a></li>
+							   -->
+							
+						</ul>
+					</li>
+				</ul>
+			</menu>
+		</div>
+		<div  class="spacer" style="margin-top:15px;">&nbsp;</div>
+				
+				
+				
+				
+				
+				
+				
+				
+                
+                <br/><br/>
+
+
+                <div id ="sticky-parent">
+                
+                	 <!--side bar -->
+                    <div  style="float:left; width:300px; min-height:700px; text-align:center;" >
+                        <div id="aksidebar">
+
+                        <!-- Adsense -->
+                        <div>
+                        	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- 300X600 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="6825748964"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+
+                         </div>
+
+
+                         <br/><br/>
+                         <div>
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        <!-- /Adsense -->
+
+                         <!-- Publicite AK -->
+                        <div id ="pub"  style="width:300px; text-align:left; margin-top:15px;">
+                            <div id="ebook">
+                                <div style = "color:#A85F16; font-size:1.5em;"><i class="fa fa-book fa-3x"></i> Download R Books</div><br/>
+                                    <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                         <i class ="fa fa-book fa-2x"></i> Complete Guide to 3D Plots in R: Static and interactive 3-dimension graphs</a><br/>
+
+                                    <a href="http://www.sthda.com/english/download/download-5+ggplot2-the-elements-for-elegant-data-visualization-in-r.php" target ="_blank"> <i class ="fa fa-book fa-2x"></i> ggplot2: The Elements for Elegant Data Visualization in R</a><br/>
+                                
+                                <!--
+                                <a href="http://www.sthda.com/english/download/download-6+complete-guide-to-3d-plots-in-r.php" target ="_blank">
+                                    <b>3D Plots in R</b> <br/><br/>
+                                    <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"/>
+                                </a>
+                            -->
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <!-- end pub ak-->
+
+
+                         <div>
+                            
+                         </div>
+                     </div>
+                     <div class="sticky-content-spacer"></div>
+                    </div>
+
+                    
+                
+                	<!-- content -->
+                    <div style="width:580px; float:right;" id = "ak_main">
+                        
+
+
+                    	<div>
+                    		<!-- START HTML -->
+           
+  <!--====================== start from here when you copy to sthda================-->  
+  <div id="rdoc">
+
+
+<div id="TOC">
+<ul>
+<li><a href="#how-this-article-is-organized">How this article is organized?</a></li>
+<li><a href="#required-packages">Required packages</a></li>
+<li><a href="#load-factominer-and-factoextra">Load FactoMineR and factoextra</a></li>
+<li><a href="#data-format-contingency-tables">Data format: Contingency tables</a></li>
+<li><a href="#exploratory-data-analysis-eda">Exploratory data analysis (EDA)</a><ul>
+<li><a href="#visual-inspection">Visual inspection</a></li>
+<li><a href="#visualize-a-contingency-table-using-graphical-matrix">Visualize a contingency table using graphical matrix</a></li>
+<li><a href="#mosaic-association-plots">Mosaic / association plots</a></li>
+<li><a href="#chi-square-statistic">Chi-square statistic</a></li>
+</ul></li>
+<li><a href="#correspondence-analysis-ca">Correspondence analysis (CA)</a></li>
+<li><a href="#summary-of-ca-outputs">Summary of CA outputs</a></li>
+<li><a href="#interpretation-of-ca-outputs">Interpretation of CA outputs</a><ul>
+<li><a href="#significance-of-the-association-between-rows-and-columns">Significance of the association between rows and columns</a></li>
+<li><a href="#eigenvalues-and-scree-plot">Eigenvalues and scree plot</a></li>
+<li><a href="#ca-scatter-plot-biplot-of-row-and-column-variables">CA scatter plot: Biplot of row and column variables</a></li>
+<li><a href="#row-variables">Row variables</a><ul>
+<li><a href="#coordinates-of-rows">Coordinates of rows</a></li>
+<li><a href="#contribution-of-rows-to-the-dimensions">Contribution of rows to the dimensions</a></li>
+<li><a href="#cos2-the-quality-of-representation-of-rows">Cos2 : The quality of representation of rows</a></li>
+</ul></li>
+<li><a href="#column-varables">Column varables</a><ul>
+<li><a href="#coordinates-of-columns">Coordinates of columns</a></li>
+<li><a href="#contribution-of-columns-to-the-dimensions">Contribution of columns to the dimensions</a></li>
+</ul></li>
+<li><a href="#cos2-the-quality-of-representation-of-columns">Cos2 : The quality of representation of columns</a></li>
+</ul></li>
+<li><a href="#biplot-of-rows-and-columns">Biplot of rows and columns</a><ul>
+<li><a href="#symmetric-biplot">Symmetric biplot</a></li>
+<li><a href="#asymmetric-biplot-for-correspondence-analysis">Asymmetric biplot for correspondence analysis</a></li>
+<li><a href="#contribution-biplot">Contribution biplot</a></li>
+<li><a href="#plot-rows-or-columns-only">Plot rows or columns only</a></li>
+</ul></li>
+<li><a href="#correspondence-analysis-using-supplementary-rows-and-columns">Correspondence analysis using supplementary rows and columns</a><ul>
+<li><a href="#data">Data</a></li>
+<li><a href="#ca-with-supplementary-rowscolumns">CA with supplementary rows/columns</a></li>
+<li><a href="#make-a-biplot-of-rows-and-columns">Make a biplot of rows and columns</a></li>
+<li><a href="#visualize-supplementary-rows">Visualize supplementary rows</a></li>
+<li><a href="#visualize-supplementary-columns">Visualize supplementary columns</a></li>
+</ul></li>
+<li><a href="#filter-ca-results">Filter CA results</a></li>
+<li><a href="#dimension-description">Dimension description</a></li>
+<li><a href="#ca-and-outliers">CA and outliers</a></li>
+<li><a href="#infos">Infos</a></li>
+</ul>
+</div>
+
+<p><br/></p>
+<p><strong>Correspondence analysis</strong> (<strong>CA</strong>) is an extension of <a href="http://www.sthda.com/english/wiki/factominer-and-factoextra-principal-component-analysis-visualization-r-software-and-data-mining"><strong>Principal Component Analysis</strong> (<strong>PCA</strong>)</a> suited to handle <strong>qualitative variables</strong> (or categorical data).</p>
+<p><strong>CA</strong> is used to analyze frequencies formed by categorical data (i.e, <strong>contengency table</strong>) and it provides factor scores (coordinates) for both the rows and the columns of contingency table. These coordinates are used to visualize graphically the association between row and column variables in the contingency table.</p>
+<p><span class="success">This article describes how to compute and interpret a <strong>correspondence analysis</strong> using <strong>FactoMineR</strong> and <strong>factoextra</strong> R packages.<span></p>
+<p>The <a href="http://www.sthda.com/english/wiki/correspondence-analysis-basics-r-software-and-data-mining">mathematical procedures of CA</a> has been described in my <a href="http://www.sthda.com/english/wiki/correspondence-analysis-basics-r-software-and-data-mining">previous tutorial</a>. In the current tutorial, we’ll focus on the practical application and interpretation of correspondence analysis rather than the mathematical and statistical details.</p>
+<div id="how-this-article-is-organized" class="section level1">
+<h1>How this article is organized?</h1>
+<p>This article contains mainly 5 important parts:</p>
+<ul>
+<li>Part I describes the <strong>exploratory data analysis tools</strong> for contingency tables</li>
+<li>Part II shows how to use FactoMineR package for <strong>computing correspondence analysis</strong> (CA)</li>
+<li>Part III is a step-by-step guide for <strong>interpreting</strong> and <strong>visualizing</strong> the output of CA</li>
+<li>Part IV provides an explanation about <strong>symmetric and asymmetric biplot</strong>. This section is very important and we’ll see why.</li>
+<li>Part V covers how to apply correspondence analysis using <strong>supplementary rows and colums</strong>. This is important, if you want to make predictions with CA.</li>
+</ul>
+<p>The last sections of this guide describe also how to <strong>filter CA result</strong> in order to keep only the most contributing variables. Finally, we’ll see how to deal with outliers.</p>
+</div>
+<div id="required-packages" class="section level1">
+<h1>Required packages</h1>
+<p>There are many functions from different packages in <strong>R</strong>, to perform correspondence analysis:</p>
+<ul>
+<li><strong>CA</strong> [in <strong>FactoMineR</strong> package]</li>
+<li><strong>ca()</strong> [in <strong>ca</strong> package]</li>
+<li><strong>dudi.coa()</strong> [in <strong>ade4</strong> package]</li>
+<li><strong>corresp()</strong> [in <strong>MASS</strong> package]</li>
+</ul>
+<p><span class="success"> In this tutorial, <strong>FactoMineR</strong>(for computing CA) and <a href="http://www.sthda.com/english/wiki/factoextra-r-package-visualization-of-the-outputs-of-a-multivariate-analysis-r-software-and-data-mining"><strong>factoextra</strong></a> (for CA visualization) packages are used.</span></p>
+<p><span class="warning">Note that, no matter what function you decide to use for computing CA, the output can be visualized using the R functions available in <em>factoextra</em> package, as described in the next sections.</span></p>
+<p>FactoMineR and factoextra R packages can be installed as follow :</p>
+<pre class="r"><code>install.packages(&quot;FactoMineR&quot;)
+
+# install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/factoextra&quot;)</code></pre>
+<p><span class="notice">Note that, for factoextra a version &gt;= 1.0.2 is required for this tutorial. If it’s already installed on your computer, you should re-install it to have the most updated version.</span></p>
+</div>
+<div id="load-factominer-and-factoextra" class="section level1">
+<h1>Load FactoMineR and factoextra</h1>
+<pre class="r"><code>library(&quot;FactoMineR&quot;)
+library(&quot;factoextra&quot;)</code></pre>
+</div>
+<div id="data-format-contingency-tables" class="section level1">
+<h1>Data format: Contingency tables</h1>
+<p>We’ll use the data sets <em>housetasks</em> [in <em>factoextra</em>]</p>
+<pre class="r"><code>data(housetasks)
+# head(housetasks)</code></pre>
+<p>An image of the data is shown below:</p>
+<p><img src="http://www.sthda.com/sthda/RDoc/images/ca-housetasks.png" alt="Data format correspondence analysis" /></p>
+<br/>
+<div class="block">
+<p>The data is a contingency table containing 13 housetasks and their repartition in the couple:</p>
+<ul>
+<li>rows are the different tasks</li>
+<li>values are the frequencies of the tasks done :<br /></li>
+<li>by the <em>wife</em> only</li>
+<li>alternatively</li>
+<li>by the husband only</li>
+<li>or jointly</li>
+</ul>
+</div>
+<p><br/></p>
+</div>
+<div id="exploratory-data-analysis-eda" class="section level1">
+<h1>Exploratory data analysis (EDA)</h1>
+<p>Most of the EDA methods presented here (<strong>graphical matrix</strong>, <strong>mosaic/association plots</strong> and <strong>Chi-square statistic</strong>), have been already described in my <a href="http://www.sthda.com/english/wiki/correspondence-analysis-basics-r-software-and-data-mining">previous tutorial: correspondence analysis basics</a>.</p>
+<p>If you’re already familiar with these approaches, you can skip this section.</p>
+<div id="visual-inspection" class="section level2">
+<h2>Visual inspection</h2>
+<p>The above <em>contingency table</em> is not very large. Therefore, it’s easy to visually inspect and interpret row and column profiles:</p>
+<ul>
+<li>It’s evident that, the housetasks - <em>Laundry, Main_Meal and Dinner</em> - are more frequently done by the “Wife”.<br /></li>
+<li>Repairs and driving are dominantly done by the husband</li>
+<li>Holidays are frequently associated with the column “jointly”</li>
+</ul>
+</div>
+<div id="visualize-a-contingency-table-using-graphical-matrix" class="section level2">
+<h2>Visualize a contingency table using graphical matrix</h2>
+<p>It’s also possible to visualize a contingency table using the function <strong>balloonplot()</strong> [in <em>gplots</em> package]. This function draws a graphical matrix where each cell contains a dot whose size reflects the relative magnitude of the corresponding component.</p>
+<p><span class="notice">To execute the R code below, you should install the package <strong>gplots</strong>: <strong>install.packages(“gplots”)</strong>.</span></p>
+<pre class="r"><code>library(&quot;gplots&quot;)
+# 1. convert the data as a table
+dt &lt;- as.table(as.matrix(housetasks))
+# 2. Graph
+balloonplot(t(dt), main =&quot;housetasks&quot;, xlab =&quot;&quot;, ylab=&quot;&quot;,
+            label = FALSE, show.margins = FALSE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-graph-contingency-table-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Note that, row and column sums are printed by default in the bottom and right margins, respectively. These values can be hidden using the argument <em>show.margins = FALSE</em>.</span></p>
+</div>
+<div id="mosaic-association-plots" class="section level2">
+<h2>Mosaic / association plots</h2>
+<p>The function <strong>mosaicplot()</strong> from the built-in R package <strong>garphics</strong> can be used also to visualize a contingency table.</p>
+<pre class="r"><code>library(&quot;graphics&quot;)
+mosaicplot(dt, shade = TRUE, las=2,
+           main = &quot;housetasks&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-contingency-table-graph-mosaic-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<ul>
+<li>The argument <strong>shade</strong> is used to color the graph</li>
+<li>The argument <strong>las = 2</strong> produces vertical labels</li>
+</ul>
+<p><span class="warning">The surface of an element of the mosaic reflects the relative magnitude of its value.</span></p>
+<ul>
+<li>Blue color indicates that the observed value is higher than the expected value if the data were random</li>
+<li>Red color specifies that the observed value is lower than the expected value if the data were random</li>
+</ul>
+<p><span class="success">From this mosaic plot, it can be seen that the housetasks <em>Laundry, Main_meal, Dinner and breakfeast</em> (blue color) are mainly done by the wife in our example.</span></p>
+<p><span class="warning">It’s also possible to use the package <strong>vcd</strong> to make a mosaic plot (function <strong>mosaic()</strong>) or an association plot (function <strong>assoc()</strong>).</span></p>
+<pre class="r"><code># install.packages(&quot;vcd&quot;)
+library(&quot;vcd&quot;)
+# plot just a subset of the table
+assoc(head(dt), shade = T, las=3)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-contingency-table-graph-association-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+</div>
+<div id="chi-square-statistic" class="section level2">
+<h2>Chi-square statistic</h2>
+<p>Another method to analyse a frequency table is to use the <strong>Chi-square test</strong> of independence. The Chi-square test evaluates whether there is a significant dependence between row and column categories.</p>
+<p>Chi-square statistic can be easily computed using the function <strong>chisq.test()</strong> as follow:</p>
+<pre class="r"><code>chisq &lt;- chisq.test(housetasks)
+chisq</code></pre>
+<pre><code>
+    Pearson&#39;s Chi-squared test
+
+data:  housetasks
+X-squared = 1944.456, df = 36, p-value &lt; 2.2e-16</code></pre>
+<p><span class="success">In our example, the row and the column variables are statistically significantly associated (<em>p-value</em> = 0).</span></p>
+<p>Read more: <a href="http://www.sthda.com/english/wiki/correspondence-analysis-basics-r-software-and-data-mining">correspondence analysis basics</a></p>
+</div>
+</div>
+<div id="correspondence-analysis-ca" class="section level1">
+<h1>Correspondence analysis (CA)</h1>
+<p>The EDA methods described in the previous sections are useful only for small contingency table. For a large contingency table, statistical approaches, such as CA, are required to reduce the dimension of the data without loosing the most important information. In other words, CA is used to graphically visualize row points and column points in a low dimensional space.</p>
+<p>The function <strong>CA()</strong> [in <em>FactoMineR</em> package] can be used. A simplified format is :</p>
+<pre class="r"><code>CA(X, ncp = 5, graph = TRUE)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>X</strong> : a data frame (contingency table)</li>
+<li><strong>ncp</strong> : number of dimensions kept in the final results.</li>
+<li><strong>graph</strong> : a logical value. If TRUE a graph is displayed.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>Example of usage :</p>
+<pre class="r"><code>res.ca &lt;- CA(housetasks, graph = FALSE)</code></pre>
+<p>The output of the function <strong>CA()</strong> is a list including :</p>
+<pre class="r"><code>print(res.ca)</code></pre>
+<pre><code>**Results of the Correspondence Analysis (CA)**
+The row variable has  13  categories; the column variable has 4 categories
+The chi square of independence between the two variables is equal to 1944.456 (p-value =  0 ).
+*The results are available in the following objects:
+
+   name              description                   
+1  &quot;$eig&quot;            &quot;eigenvalues&quot;                 
+2  &quot;$col&quot;            &quot;results for the columns&quot;     
+3  &quot;$col$coord&quot;      &quot;coord. for the columns&quot;      
+4  &quot;$col$cos2&quot;       &quot;cos2 for the columns&quot;        
+5  &quot;$col$contrib&quot;    &quot;contributions of the columns&quot;
+6  &quot;$row&quot;            &quot;results for the rows&quot;        
+7  &quot;$row$coord&quot;      &quot;coord. for the rows&quot;         
+8  &quot;$row$cos2&quot;       &quot;cos2 for the rows&quot;           
+9  &quot;$row$contrib&quot;    &quot;contributions of the rows&quot;   
+10 &quot;$call&quot;           &quot;summary called parameters&quot;   
+11 &quot;$call$marge.col&quot; &quot;weights of the columns&quot;      
+12 &quot;$call$marge.row&quot; &quot;weights of the rows&quot;         </code></pre>
+<p><span class="success">The object that is created using the function <strong>CA()</strong> contains many informations found in many different lists and matrices. These values are described in the next sections.</span></p>
+</div>
+<div id="summary-of-ca-outputs" class="section level1">
+<h1>Summary of CA outputs</h1>
+<p>The function <strong>summary.CA()</strong> is used to print a summary of <strong>correspondence analysis</strong> results:</p>
+<pre class="r"><code>summary(object, nb.dec = 3, nbelements = 10, 
+        ncp = TRUE, file =&quot;&quot;, ...)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>object</strong>: an object of class <strong>CA</strong></li>
+<li><strong>nb.dec</strong>: number of decimal printed</li>
+<li><strong>nbelements</strong>: number of row/column variables to be written. To have all the elements, use <em>nbelements = Inf</em>.</li>
+<li><strong>ncp</strong>: Number of dimensions to be printed</li>
+<li><strong>file</strong>: an optional file name for exporting the summaries.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>Print the summary of the CA analysis for the dimensions 1 and 2:</strong></p>
+<pre class="r"><code>summary(res.ca, nb.dec = 2, ncp = 2)</code></pre>
+<pre><code>
+Call:
+rmarkdown::render(&quot;factominer-correspondance-analysis.Rmd&quot;, encoding = &quot;UTF-8&quot;) 
+
+The chi square of independence between the two variables is equal to 1944.456 (p-value =  0 ).
+
+Eigenvalues
+                      Dim.1  Dim.2  Dim.3  Dim.4
+Variance               0.54   0.45   0.13   0.00
+% of var.             48.69  39.91  11.40   0.00
+Cumulative % of var.  48.69  88.60 100.00 100.00
+
+Rows (the 10 first)
+               Dim.1    ctr   cos2    Dim.2    ctr   cos2  
+Laundry     |  -0.99  18.29   0.74 |   0.50   5.56   0.18 |
+Main_meal   |  -0.88  12.39   0.74 |   0.49   4.74   0.23 |
+Dinner      |  -0.69   5.47   0.78 |   0.31   1.32   0.15 |
+Breakfeast  |  -0.51   3.82   0.50 |   0.45   3.70   0.40 |
+Tidying     |  -0.39   2.00   0.44 |  -0.43   2.97   0.54 |
+Dishes      |  -0.19   0.43   0.12 |  -0.44   2.84   0.65 |
+Shopping    |  -0.12   0.18   0.06 |  -0.40   2.52   0.75 |
+Official    |   0.23   0.52   0.05 |   0.25   0.80   0.07 |
+Driving     |   0.74   8.08   0.43 |   0.65   7.65   0.34 |
+Finances    |   0.27   0.88   0.16 |  -0.62   5.56   0.84 |
+
+Columns
+               Dim.1    ctr   cos2    Dim.2    ctr   cos2  
+Wife        |  -0.84  44.46   0.80 |   0.37  10.31   0.15 |
+Alternating |  -0.06   0.10   0.00 |   0.29   2.78   0.11 |
+Husband     |   1.16  54.23   0.77 |   0.60  17.79   0.21 |
+Jointly     |   0.15   1.20   0.02 |  -1.03  69.12   0.98 |</code></pre>
+<p>The result of the function <strong>summary()</strong> contains the <strong>chi-square statistic</strong> and 3 tables:</p>
+<ul>
+<li><strong>Table 1 - Eigenvalues</strong>: table 1 contains the variances and the percentage of variances retained by each dimension.</li>
+<li><strong>Table 2</strong> contains the coordinates, the contribution and the cos2 (quality of representation [in 0-1]) of the first 10 active row variables on the dimensions 1 and 2.</li>
+<li><strong>Table 3</strong> contains the coordinates, the contribution and the cos2 (quality of representation [in 0-1]) of the first 10 active column variables on the dimensions 1 and 2.</li>
+</ul>
+<br/>
+<div class="warning">
+<p>Note that,</p>
+<ul>
+<li>to export the summary into a file use <em>summary(res.ca, file =“myfile.txt”)</em></li>
+<li>to display the summary of more than 10 elements, use the argument <strong>nbelements</strong> in the function <strong>summary()</strong></li>
+</ul>
+</div>
+<p><br/></p>
+</div>
+<div id="interpretation-of-ca-outputs" class="section level1">
+<h1>Interpretation of CA outputs</h1>
+<div id="significance-of-the-association-between-rows-and-columns" class="section level2">
+<h2>Significance of the association between rows and columns</h2>
+<p>To interpret correspondence analysis, the first step is to evaluate whether there is a significant dependency between the rows and columns.</p>
+<p>There are two methods to inspect the significance:</p>
+<ol style="list-style-type: decimal">
+<li>Using the <strong>trace</strong></li>
+<li>Using the <strong>Chi-square statistic</strong></li>
+</ol>
+<p>The <strong>trace</strong> is the the total inertia of the table (i.e, the sum of the eigenvalues). The square root of the trace is interpreted as the <strong>correlation coefficient</strong> between rows and columns.</p>
+<p>The correlation coefficient is calculated as follow:</p>
+<pre class="r"><code>eig &lt;- get_eigenvalue(res.ca)
+trace &lt;- sum(eig$eigenvalue) 
+cor.coef &lt;- sqrt(trace)
+cor.coef</code></pre>
+<pre><code>[1] 1.055907</code></pre>
+<p><span class="warning">Note that, as a rule of thumb <strong>0.2</strong> is the threshold above which the correlation can be considered as important (Bendixen 1995, 576; Healey 2013, 289-290).</span></p>
+<p><span class="success">In our example, the <strong>correlation coefficient</strong> is 1.0559074 indicating a strong association between row and column variables.</span></p>
+<p>A more rigorous method is to use the <strong>chi-square statistic</strong> for examining the association. This appears at the top of the report generated by the function <strong>summary.CA()</strong>. A high chi-square statistic means strong link between row and column variables.</p>
+<p><span class="success">In our example, the association is highly significant (<em>chi-square: 1944.456, p = 0</em>).</span></p>
+<br/>
+<div class="block">
+<p>Note that, the <strong>chi-square statistics = trace * n</strong>, where n is the grand total of the table (total frequency); see the R code below:</p>
+<pre class="r"><code># Chi-square statistics
+chi2 &lt;- trace*sum(as.matrix(housetasks))
+chi2</code></pre>
+<pre><code>[1] 1944.456</code></pre>
+<pre class="r"><code># Degree of freedom
+df &lt;- (nrow(housetasks) - 1) * (ncol(housetasks) - 1)
+# P-value
+pval &lt;- pchisq(chi2, df = df, lower.tail = FALSE)
+pval</code></pre>
+<pre><code>[1] 0</code></pre>
+</div>
+<p><br/></p>
+</div>
+<div id="eigenvalues-and-scree-plot" class="section level2">
+<h2>Eigenvalues and scree plot</h2>
+<p><span class="question">How many dimensions are sufficient for the data interpretation?</span></p>
+<p>The number of dimensions to retain in the solution can be determined by examining the table of eigenvalues.</p>
+<p>As mentioned above, <strong>trace</strong> is the total sum of eigenvalues. For a given axis, the ratio of the axis eigenvalue to the trace is called the percentage of variance (or total inertia or chi-square value) explained by that axis.</p>
+<p>The proportion of variances retained by the different dimensions (axes) can be extracted using the function <strong>get_eigenvalue()</strong>[in <em>factoextra</em>] as follow :</p>
+<pre class="r"><code>eigenvalues &lt;- get_eigenvalue(res.ca)
+head(round(eigenvalues, 2))</code></pre>
+<pre><code>      eigenvalue variance.percent cumulative.variance.percent
+Dim.1       0.54            48.69                       48.69
+Dim.2       0.45            39.91                       88.60
+Dim.3       0.13            11.40                      100.00
+Dim.4       0.00             0.00                      100.00</code></pre>
+<div class="success">
+<strong>Eigenvalues</strong> correspond to the amount of information retained by each axis. Dimensions are ordered decreasingly and listed according to the amount of variance explained in the solution. Dimension 1 explains the most variance in the solution, followed by dimension 2 and so on.
+</div>
+<p>There is no “rule of thumb” to choose the number of dimension to keep for the data interpretation. It depends on the research question and the researcher’s need. For example, if you are satisfied with 80% of the total inertia explained then use the number of dimensions necessary to achieve that.</p>
+<p>Another method is to visually inspect the <strong>scree plot</strong> in which dimensions are ordered decreasingly according the amount of explained inertia.</p>
+<p>The function <strong>fviz_screeplot()</strong> [in <em>factoextra</em> package] can be used to draw the scree plot (the percentages of inertia explained by the CA dimensions):</p>
+<pre class="r"><code>fviz_screeplot(res.ca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-scree-pot-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">The point at which the <em>scree plot</em> shows a bend (so called “elbow”) can be considered as indicating an optimal dimensionality.</span></p>
+<p>It’s also possible to calculate an average eigenvalue above which the axis should be kept in the solution.</p>
+<br/>
+<div class="block">
+<p>Our data contains 13 rows and 4 columns.</p>
+<p>If the data were random, the expected value of the eigenvalue for each axis would be 1/(nrow(housetasks)-1) = 1/12 = 8.33% in terms of rows.</p>
+Likewise, the average axis should account for 1/(ncol(housetasks)-1) = 1/3 = 33.33% in terms of the 4 columns.
+</div>
+<p><br/></p>
+<p><span class="success">Any axis with a contribution larger than the maximum of these two percentages should be considered as important and included in the solution for the interpretation of the data (see, Bendixen 1995, 577).</span></p>
+<p>The R code below, draws the scree plot with a red dashed line specifying the average eigenvalue:</p>
+<pre class="r"><code>fviz_screeplot(res.ca) +
+ geom_hline(yintercept=33.33, linetype=2, color=&quot;red&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-scree-pot-cut-off-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>According to the graph above, only dimensions 1 and 2 should be used in the solution. The dimension 3 explains only 11.4% of the total inertia which is below the average eigeinvalue (33.33%) and too little to be kept for further analysis.</p>
+<p><span class="notice">Note that, you can use more than 2 dimensions. However, the supplementary dimensions are unlikely to contribute significantly to the interpretation of nature of the association between the rows and columns.</span></p>
+<p>Dimensions 1 and 2 explain approximately 48.7% and 39.9% of the total inertia respectively. This corresponds to a cumulative total of 88.6% of total inertia retained by the 2 dimensions.</p>
+<p><span class="success">The higher the retention, the more subtlety in the original data is retained in the low-dimensional solution (Mike Bendixen, 2003).</span></p>
+<p><span class="warning">Read more about eigenvalues and screeplot: <a href="http://www.sthda.com/english/wiki/eigenvalues-quick-data-visualization-with-factoextra-r-software-and-data-mining">Eigenvalues data visualization</a></span></p>
+</div>
+<div id="ca-scatter-plot-biplot-of-row-and-column-variables" class="section level2">
+<h2>CA scatter plot: Biplot of row and column variables</h2>
+<p>The function <strong>plot.CA()</strong>[in <em>FactoMineR</em>] can be used to plot the coordinates of rows and columns presented in the correspondence analysis output.</p>
+<p>A simplified format is :</p>
+<pre class="r"><code>plot.CA(x, axes = c(1,2), col.row = &quot;blue&quot;, col.col = &quot;red&quot;)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>x</strong> : An object of class <strong>CA</strong></li>
+<li><strong>axes</strong> : A numeric vector of length 2 specifying the component to plot variables</li>
+<li><strong>col.row</strong>, <strong>col.col</strong> : colors for rows and columns respectively</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>FactoMineR base graph for CA</strong>:</p>
+<pre class="r"><code>plot(res.ca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-factor-map-factominer-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>It’s also possible to use the function <strong>fviz_ca_biplot()</strong>[in <em>factoextra</em> package] to draw a nice looking plot:</p>
+<pre class="r"><code>fviz_ca_biplot(res.ca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-biplot-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<pre class="r"><code># Change the theme
+fviz_ca_biplot(res.ca) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-biplot-factoextra-data-mining-2.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Read more about <em>fviz_ca_biplot()</em>: <a href="http://www.sthda.com/english/wiki/fviz-ca-quick-correspondence-analysis-data-visualization-using-factoextra-r-software-and-data-mining">fviz_ca_biplot</a></span></p>
+<p>The graph above is called <strong>symetric plot</strong> and shows a global pattern within the data. Rows are represented by blue points and columns by red triangles.</p>
+<p>The distance between any row points or column points gives a measure of their similarity (or dissimilarity).</p>
+<p>Row points with similar profile are closed on the factor map. The same holds true for column points.</p>
+<br/><br />
+<div class="success">
+<p>This graph shows that :</p>
+<ul>
+<li>housetasks such as dinner, breakfeast, laundry are done more often by the wife</li>
+<li>Driving and repairs are done by the husband</li>
+<li>……</li>
+</ul>
+</div>
+<p><br/></p>
+<br/>
+<div class="warning">
+<ul>
+<li><p><strong>Symetric plot</strong> represents the row and column profiles simultaneously in a common space (Bendixen, 2003). In this case, only the distance between row points or the distance between column points can be really interpreted.</p></li>
+<li><p>The distance between any row and column items is not meaningful! You can only make a general statements about the observed pattern.</p></li>
+<li>In order to interpret the distance between column and row points, the column profiles must be presented in row space or vice-versa. This type of map is called <strong>asymmetric biplot</strong> and is discussed at the end of this article.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>The next step for the interpretation is to determine which row and column variables contribute the most in the definition of the different dimensions retained in the model.</p>
+</div>
+<div id="row-variables" class="section level2">
+<h2>Row variables</h2>
+<p>The function <strong>get_ca_row()</strong>[in <em>factoextra</em>] is used to extract the results for row variables. This function returns a list containing the coordinates, the cos2, the contribution and the inertia of row variables:</p>
+<pre class="r"><code>row &lt;- get_ca_row(res.ca)
+row</code></pre>
+<pre><code>Correspondence Analysis - Results for rows
+ ===================================================
+  Name       Description                
+1 &quot;$coord&quot;   &quot;Coordinates for the rows&quot; 
+2 &quot;$cos2&quot;    &quot;Cos2 for the rows&quot;        
+3 &quot;$contrib&quot; &quot;contributions of the rows&quot;
+4 &quot;$inertia&quot; &quot;Inertia of the rows&quot;      </code></pre>
+<div id="coordinates-of-rows" class="section level3">
+<h3>Coordinates of rows</h3>
+<pre class="r"><code>head(row$coord)</code></pre>
+<pre><code>                Dim 1      Dim 2       Dim 3
+Laundry    -0.9918368  0.4953220 -0.31672897
+Main_meal  -0.8755855  0.4901092 -0.16406487
+Dinner     -0.6925740  0.3081043 -0.20741377
+Breakfeast -0.5086002  0.4528038  0.22040453
+Tidying    -0.3938084 -0.4343444 -0.09421375
+Dishes     -0.1889641 -0.4419662  0.26694926</code></pre>
+<p><span class="success">The data indicate the coordinates of each row point in each dimension (1, 2 and 3)</span></p>
+<p>Use the function <strong>fviz_ca_row()</strong> [in factoextra] to visualize only row points:</p>
+<pre class="r"><code># Default plot
+fviz_ca_row(res.ca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-row-points-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>It’s possible to change the color and the shape of the row points using the arguments <em>col.row</em> and <em>shape.row</em> as follow:</p>
+<pre class="r"><code>fviz_ca_row(res.ca, col.row=&quot;steelblue&quot;, shape.row = 15)</code></pre>
+<br/>
+<div class="nootice">
+<p>Note that, it’s also possible to make the graph of rows only using <em>FactoMineR</em> base graph. The argument <em>invisible</em> is used to hide the column points:</p>
+<pre class="r"><code># Hide columns
+plot(res.ca, invisible=&quot;col&quot;) </code></pre>
+</div>
+<p><br/></p>
+<p><span class="warning">Read more about <em>fviz_ca_row()</em>: <a href="http://www.sthda.com/english/wiki/fviz-ca-quick-correspondence-analysis-data-visualization-using-factoextra-r-software-and-data-mining">fviz_ca_row</a></span></p>
+</div>
+<div id="contribution-of-rows-to-the-dimensions" class="section level3">
+<h3>Contribution of rows to the dimensions</h3>
+<p>The contribution of rows (in %) to the definition of the dimensions can be extracted as follow:</p>
+<pre class="r"><code>head(row$contrib)</code></pre>
+<pre><code>                Dim 1    Dim 2    Dim 3
+Laundry    18.2867003 5.563891 7.968424
+Main_meal  12.3888433 4.735523 1.858689
+Dinner      5.4713982 1.321022 2.096926
+Breakfeast  3.8249284 3.698613 3.069399
+Tidying     1.9983518 2.965644 0.488734
+Dishes      0.4261663 2.844117 3.634294</code></pre>
+<p><span class="success">The row variables with the larger value, contribute the most to the definition of the dimensions.</span></p>
+<p>It’s possible to use the function <strong>corrplot</strong> to highlight the most contributing variables for each dimension:</p>
+<pre class="r"><code>library(&quot;corrplot&quot;)
+corrplot(row$contrib, is.corr=FALSE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-row-contribution-r-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>The function <strong>fviz_contrib()</strong>[in <em>factoextra</em>] can be used to draw a bar plot of row contributions:</p>
+<pre class="r"><code># Contributions of rows on Dim.1
+fviz_contrib(res.ca, choice = &quot;row&quot;, axes = 1)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-row-contribution-dim-1-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="warning">
+<ul>
+<li><p>If the row contributions were uniform, the expected value would be 1/nrow(housetasks) = 1/13 = 7.69%.</p></li>
+<li>The red dashed line on the graph above indicates the expected average contribution. For a given dimension, any row with a contribution larger than this threshold could be considered as important in contributing to that dimension.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><span class="success"> It can be seen that the row items <em>Repairs, Laundry, Main_meal and Driving</em> are the most important in the definition of the first dimension.</span></p>
+<pre class="r"><code># Contributions of rows on Dim.2
+fviz_contrib(res.ca, choice = &quot;row&quot;, axes = 2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-row-contribution-dim-2-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="success">The row items <em>Holidays and Repairs</em> contribute the most to the dimension 2.</span></p>
+<pre class="r"><code># Total contribution on Dim.1 and Dim.2
+fviz_contrib(res.ca, choice = &quot;row&quot;, axes = 1:2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-row-contribution-2-dimension-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="block">
+<p>The total contribution of a row, on explaining the variations retained by Dim.1 and Dim.2, is calculated as follow : (C1 * Eig1) + (C2 * Eig2).</p>
+<p>C1 and C2 are the contributions of the row to dimensions 1 and 2, respectively. Eig1 and Eig2 are the eigenvalues of dimensions 1 and 2, respectively.</p>
+The expected average contribution of a row for Dim.1 and Dim.2 is : (7.69 * Eig1) + (7.69 * Eig2) = (7.69<em>0.54) + (7.69</em>0.44) = 7.53%
+</div>
+<p><br/></p>
+<p>If your data contains many row items, the top contributing rows can be displayed as follow:</p>
+<pre class="r"><code>fviz_contrib(res.ca, choice = &quot;row&quot;, axes = 1, top = 5)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-top-5-contributing-rows-r-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Read more about <em>fviz_contrib()</em>: <a href="http://www.sthda.com/english/wiki/fviz-contrib-quick-visualization-of-row-column-contributions-r-software-and-data-mining">fviz_contrib</a></span></p>
+<p>A second option is to draw a scatter plot of row points and to highlight rows according to the amount of their contributions. The function <strong>fviz_ca_row()</strong> is used.</p>
+<p><span class="warning">Note that, using <strong>factoextra</strong> package, the color or the transparency of the row variables can be automatically controlled by the value of their contributions, their cos2, their coordinates on x or y axis.</span></p>
+<pre class="r"><code># Control row point colors using their contribution
+# Possible values for the argument col.row are :
+  # &quot;cos2&quot;, &quot;contrib&quot;, &quot;coord&quot;, &quot;x&quot;, &quot;y&quot;
+fviz_ca_row(res.ca, col.row = &quot;contrib&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-rows-graph-colors-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<pre class="r"><code># Change the gradient color
+fviz_ca_row(res.ca, col.row=&quot;contrib&quot;)+
+scale_color_gradient2(low=&quot;white&quot;, mid=&quot;blue&quot;, 
+                      high=&quot;red&quot;, midpoint=10)+theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-rows-graph-colors-factoextra-data-mining-2.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="success">
+<p>The scatter plot is also helpful to highlight the most important row variables in the determination of the dimensions.</p>
+<p>In addition we can have an idea of what pole of the dimensions the row categories are actually contributing to.</p>
+<p>It is evident that row categories <em>Repair and Driving</em> have an important contribution to the positive pole of the first dimension, while the categories <em>Laundry and Main_meal</em> have a major contribution to the negative pole of the first dimension; etc, ….</p>
+In other words, dimension 1 is mainly defined by the opposition of <em>Repair and Driving</em> (positive pole), and <em>Laundry and Main_meal</em> (negative pole).
+</div>
+<p></br/></p>
+<p>It’s also possible to control automatically the transparency of rows by their contributions. The argument <em>alpha.row</em> is used:</p>
+<pre class="r"><code># Control the transparency of rows using their contribution
+# Possible values for the argument alpha.var are :
+  # &quot;cos2&quot;, &quot;contrib&quot;, &quot;coord&quot;, &quot;x&quot;, &quot;y&quot;
+fviz_ca_row(res.ca, alpha.row=&quot;contrib&quot;)+
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-rows-graph-colors-transparency-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><span class="warning">It’s possible to select and display only the top contributing row as illustrated in the R code below.</span></p>
+<pre class="r"><code># Select the top 5 contributing rows
+fviz_ca_row(res.ca, alpha.row=&quot;contrib&quot;, select.row=list(contrib=5))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-select-top-rows-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="notice">Row/column selections are discussed in details in the next sections</span></p>
+<p><span class="warning">The contribution of row/column variables can be visualized using the so-called <strong>contribution biplots</strong> (discussed in the last sections of this article).</span></p>
+<p><span class="warning">Read more about <em>fviz_ca_row()</em>: <a href="http://www.sthda.com/english/wiki/fviz-ca-quick-correspondence-analysis-data-visualization-using-factoextra-r-software-and-data-mining">fviz_ca_row</a></span></p>
+</div>
+<div id="cos2-the-quality-of-representation-of-rows" class="section level3">
+<h3>Cos2 : The quality of representation of rows</h3>
+<p>The result of the analysis shows that, the contingency table has been successfully represented in low dimension space using <strong>correspondence analysis</strong>. The two dimensions 1 and 2 are sufficient to retain 88.6% of the total inertia contained in the data.</p>
+<p><span class="warning">However, not all the points are equally well displayed in the two dimensions.</span></p>
+<p><span class="success">The <strong>quality of representation</strong> of the rows on the factor map is called the <strong>squared cosine</strong> (cos2) or the <strong>squared correlations</strong>.</span></p>
+<p>The cos2 measures the degree of association between rows/columns and a particular axis.</p>
+<p>The cos2 of rows can be extracted as follow:</p>
+<pre class="r"><code>head(row$cos2)</code></pre>
+<pre><code>               Dim 1     Dim 2      Dim 3
+Laundry    0.7399874 0.1845521 0.07546047
+Main_meal  0.7416028 0.2323593 0.02603787
+Dinner     0.7766401 0.1537032 0.06965666
+Breakfeast 0.5049433 0.4002300 0.09482670
+Tidying    0.4398124 0.5350151 0.02517249
+Dishes     0.1181178 0.6461525 0.23572969</code></pre>
+<p>The values of the cos2 are comprised between 0 and 1.</p>
+<p><strong>The sum of the cos2</strong> for rows on all the CA dimensions is equal to one.</p>
+<p><span class="warning">The quality of representation of a row or column in n dimensions is simply the sum of the squared cosine of that row or column over the n dimensions.</span></p>
+<p>If a row item is well represented by two dimensions, the sum of the cos2 is closed to one.</p>
+<p>For some of the row items, more than 2 dimensions are required to perfectly represent the data.</p>
+<p><strong>Visualize the cos2 of rows using corrplot</strong>:</p>
+<pre class="r"><code>library(&quot;corrplot&quot;)
+corrplot(row$cos2, is.corr=FALSE)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-row-cos2-r-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>The function <strong>fviz_cos2()</strong>[in <em>factoextra</em>] can be used to draw a bar plot of rows cos2:</p>
+<pre class="r"><code># Cos2 of rows on Dim.1 and Dim.2
+fviz_cos2(res.ca, choice = &quot;row&quot;, axes = 1:2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-row-cos2-dim-1-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Note that, all row points except <em>Official</em> are well represented by the first two dimensions. This implies that the position of the point corresponding the item <em>Official</em> on the scatter plot should be interpreted with some caution. A higher dimensional solution is probably necessary for the item <em>Official</em>.</span></p>
+<p><span class="warning">Read more about <em>fviz_cos2()</em>: <a href="http://www.sthda.com/english/wiki/fviz-cos2-quick-visualization-of-the-quality-of-representation-of-rows-columns-r-software-and-data-mining">fviz_cos2</a></span></p>
+</div>
+</div>
+<div id="column-varables" class="section level2">
+<h2>Column varables</h2>
+<p>The function <strong>get_ca_col()</strong>[in <em>factoextra</em>] is used to extract the results for column variables. This function returns a list containing the coordinates, the cos2, the contribution and the inertia of columns variables:</p>
+<pre class="r"><code>col &lt;- get_ca_col(res.ca)
+col</code></pre>
+<pre><code>Correspondence Analysis - Results for columns
+ ===================================================
+  Name       Description                   
+1 &quot;$coord&quot;   &quot;Coordinates for the columns&quot; 
+2 &quot;$cos2&quot;    &quot;Cos2 for the columns&quot;        
+3 &quot;$contrib&quot; &quot;contributions of the columns&quot;
+4 &quot;$inertia&quot; &quot;Inertia of the columns&quot;      </code></pre>
+<p><span class="warning"> The result for columns gives the same information as described for rows. For this reason, I’ll just displayed the result for columns in this section without commenting.</span></p>
+<div id="coordinates-of-columns" class="section level3">
+<h3>Coordinates of columns</h3>
+<pre class="r"><code>head(col$coord)</code></pre>
+<pre><code>                  Dim 1      Dim 2       Dim 3
+Wife        -0.83762154  0.3652207 -0.19991139
+Alternating -0.06218462  0.2915938  0.84858939
+Husband      1.16091847  0.6019199 -0.18885924
+Jointly      0.14942609 -1.0265791 -0.04644302</code></pre>
+<p>Use the function <strong>fviz_ca_col()</strong> [in <em>factoextra</em>] to visualize only column points:</p>
+<pre class="r"><code>fviz_ca_col(res.ca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-columns-graph-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="warning">
+<p>Note that, it’s also possible to make the graph of columns only using <strong>FactoMineR</strong> base graph.The argument <em>invisible</em> is used to hide the rows on the factor map:</p>
+<pre class="r"><code># Hide rows
+plot(res.ca, invisible=&quot;row&quot;) </code></pre>
+</div>
+<p><br/></p>
+<p><span class="warning">Read more about <em>fviz_ca_col()</em>: <a href="http://www.sthda.com/english/wiki/fviz-ca-quick-correspondence-analysis-data-visualization-using-factoextra-r-software-and-data-mining">fviz_ca_col</a></span></p>
+</div>
+<div id="contribution-of-columns-to-the-dimensions" class="section level3">
+<h3>Contribution of columns to the dimensions</h3>
+<pre class="r"><code>head(col$contrib)</code></pre>
+<pre><code>                Dim 1     Dim 2      Dim 3
+Wife        44.462018 10.312237 10.8220753
+Alternating  0.103739  2.782794 82.5492464
+Husband     54.233879 17.786612  6.1331792
+Jointly      1.200364 69.118357  0.4954991</code></pre>
+<p><span class="notice">Note that, you can use the previously mentioned <strong>corrplot()</strong> function to visualize the contribution of columns.</span></p>
+<p>Use the function <a href="http://www.sthda.com/english/wiki/fviz-contrib-quick-visualization-of-row-column-contributions-r-software-and-data-mining"><strong>fviz_contrib()</strong></a> [in <em>factoextra</em>] to visualize column contributions on dimensions 1+2:</p>
+<pre class="r"><code>fviz_contrib(res.ca, choice = &quot;col&quot;, axes = 1:2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-column-contribution-dim-1-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="warning">
+<ul>
+<li><p>If the column contributions were uniform, the expected value would be 1/ncol(housetasks) = 1/4 = 25%.</p></li>
+<li>The expected average contribution (reference line) of a column for Dim.1 and Dim.2 is : (25 * Eig1) + (25 * Eig2) = (25 * 0.54) + (25 * 0.44) = 24.5%.</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>Draw a scatter plot of column points</strong> and highlight columns according to the amount of their contributions. The function <strong>fviz_ca_col()</strong> [in <em>factoextra</em>] is used:</p>
+<pre class="r"><code># Control column point colors using their contribution
+# Possible values for the argument col.col are :
+  # &quot;cos2&quot;, &quot;contrib&quot;, &quot;coord&quot;, &quot;x&quot;, &quot;y&quot;
+fviz_ca_col(res.ca, col.col=&quot;contrib&quot;)+
+scale_color_gradient2(low=&quot;white&quot;, mid=&quot;blue&quot;, 
+                      high=&quot;red&quot;, midpoint=24.5)+theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-columns-graph-colors-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="warning">
+<p>Note that, it’s also possible to control automatically the transparency of columns by their contributions using the argument <em>alpha.col</em>:</p>
+<pre class="r"><code># Control the transparency of rows using their contribution
+# Possible values for the argument alpha.col are :
+  # &quot;cos2&quot;, &quot;contrib&quot;, &quot;coord&quot;, &quot;x&quot;, &quot;y&quot;
+fviz_ca_col(res.ca, alpha.col=&quot;contrib&quot;)</code></pre>
+</div>
+<p><br/></p>
+</div>
+</div>
+<div id="cos2-the-quality-of-representation-of-columns" class="section level2">
+<h2>Cos2 : The quality of representation of columns</h2>
+<pre class="r"><code>head(col$cos2)</code></pre>
+<pre><code>                  Dim 1     Dim 2       Dim 3
+Wife        0.801875947 0.1524482 0.045675847
+Alternating 0.004779897 0.1051016 0.890118521
+Husband     0.772026244 0.2075420 0.020431728
+Jointly     0.020705858 0.9772939 0.002000236</code></pre>
+<p><span class="warning">Note that, the value of the cos2 is between 0 and 1. A cos2 closed to 1 corresponds to a column/row variables that are well represented on the factor map.</span></p>
+<p>The function <a href="http://www.sthda.com/english/wiki/fviz-cos2-quick-visualization-of-the-quality-of-representation-of-rows-columns-r-software-and-data-mining"><strong>fviz_cos2()</strong></a> [in <em>factoextra</em>] can be used to draw a bar plot of columns cos2:</p>
+<pre class="r"><code># Cos2 of columns on Dim.1 and Dim.2
+fviz_cos2(res.ca, choice = &quot;col&quot;, axes = 1:2)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-ca-columns-cos2-dim-1-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Note that, only the column item <em>Alternating</em> is not very well displayed on the first two dimensions. The position of this item must be interpreted with caution in the space formed by dimensions 1 and 2.</span></p>
+</div>
+</div>
+<div id="biplot-of-rows-and-columns" class="section level1">
+<h1>Biplot of rows and columns</h1>
+<div id="symmetric-biplot" class="section level2">
+<h2>Symmetric biplot</h2>
+<p>As mentioned above, the standard plot of <strong>correspondence analysis</strong> is a <strong>symmetric biplot</strong> in which both rows (blue points) and columns (red triangles) are represented in the same space using the <strong>principal coordinates</strong>. These coordinates represent the row and column profiles. In this case, only the distance between row points or the distance between column points can be really interpreted.</p>
+<p><span class="notice">With symmetric plot, the inter-distance between rows and columns can’t be interpreted. Only a general statements can be made about the pattern.</span></p>
+<pre class="r"><code>fviz_ca_biplot(res.ca)+
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-biplot-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><strong>Remove the points from the graph, use texts only</strong> :</p>
+<pre class="r"><code>fviz_ca_biplot(res.ca, geom=&quot;text&quot;)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-columns-graph-factoextra-remove-points-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<br/><br />
+<div class="warning">
+<p>Note that, allowed values for the argument <strong>geom</strong> are the combination of :</p>
+<ul>
+<li><strong>“point”</strong> to show only points (dots)</li>
+<li><strong>“text”</strong> to show only labels</li>
+<li><strong>c(“point”, “text”)</strong> to show both types</li>
+</ul>
+</div>
+<p><br/></p>
+<p><span class="warning">Note that, in order to interpret the distance between column points and row points, the simplest way is to make an <strong>asymmetric plot</strong> (Bendixen, 2003). This means that, the column profiles must be presented in row space or vice-versa.</span></p>
+<p><span class="warning">Read more about <em>fviz_ca_biplot()</em>: <a href="http://www.sthda.com/english/wiki/fviz-ca-quick-correspondence-analysis-data-visualization-using-factoextra-r-software-and-data-mining">fviz_ca_biplot</a></span></p>
+</div>
+<div id="asymmetric-biplot-for-correspondence-analysis" class="section level2">
+<h2>Asymmetric biplot for correspondence analysis</h2>
+<p>To make an <strong>asymetric plot</strong>, rows (or columns) points are plotted from the <strong>standard co-ordinates</strong> (<em>S</em>) and the profiles of the columns (or the rows) are plotted from the <strong>principale coordinates</strong> (<em>P</em>) (Bendixen 2003).</p>
+<br/>
+<div class="block">
+<p>For a given axis, the standard and principle co-ordinates are related as follows:</p>
+<p><em>P = sqrt(eigenvalue) X S</em></p>
+<ul>
+<li><em>P</em>: the principal coordinate of a row (or a column) on the axis</li>
+<li><em>eigenvalue</em>: the eigenvalue of the axis</li>
+</ul>
+</div>
+<p><br/></p>
+<p>Depending on the situation, other types of display can be set using the argument <em>map</em> for the function <strong>fviz_ca_biplot()</strong>[in <em>factoextra</em>]. This is inspired from <em>ca</em> package (Michael Greenacre).</p>
+<p>The allowed options for the argument <em>map</em> are:</p>
+<ol style="list-style-type: decimal">
+<li><strong>“rowprincipal”</strong> or <strong>“colprincipal”</strong> - these are the so-called <strong>asymmetric biplots</strong>, with either rows in principal coordinates and columns in standard coordinates, or vice versa (also known as row-metric-preserving or column-metric-preserving respectively).<br /></li>
+</ol>
+<ul>
+<li><strong>“rowprincipal”</strong>: columns are represented in row space</li>
+<li><strong>“colprincipal”</strong>: rows are represented in column space</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><p><strong>“symbiplot”</strong> - both rows and columns are scaled to have variances equal to the singular values (square roots of eigenvalues), which gives a <strong>symmetric biplot</strong> but does not preserve row or column metrics.</p></li>
+<li><strong>“rowgab”</strong> or <strong>“colgab”</strong>: <strong>Asymetric maps</strong> proposed by <em>Gabriel &amp; Odoroff (1990)</em>:</li>
+</ol>
+<ul>
+<li>“<em>rowgab</em>”: rows in principal coordinates and columns in standard coordinates multiplied by the mass.</li>
+<li>“<em>colgab</em>”: columns in principal coordinates and rows in standard coordinates multiplied by the mass.</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>“rowgreen”</strong> or <strong>“colgreen”</strong>: The so-called <strong>contribution biplots</strong> showing visually the most contributing points (Greenacre 2006b).</li>
+</ol>
+<ul>
+<li>“<em>rowgreen</em>”: rows in principal coordinates and columns in standard coordinates multiplied by square root of the mass.</li>
+<li>“<em>colgreen</em>”: columns in principal coordinates and rows in standard coordinates multiplied by the square root of the mass.</li>
+</ul>
+<p>The R code below draw a standard <strong>asymetric biplot</strong>:</p>
+<pre class="r"><code>fviz_ca_biplot(res.ca, map =&quot;rowprincipal&quot;, arrow = c(TRUE, TRUE))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-biplot-asymmetric-map-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="notice">The argument <em>arrows</em> is a vector of two logicals specifying if the plot should contain points (FALSE, default) or arrows (TRUE). First value sets the rows and the second value sets the columns.</span></p>
+<br/>
+<div class="warning">
+<p>If the angle between two arrows is acute, then their is a strong association between the corresponding row and column.</p>
+To interpret the distance between rows and and a column you should perpendicularly project row points on the column arrow.
+</div>
+<p><br/></p>
+</div>
+<div id="contribution-biplot" class="section level2">
+<h2>Contribution biplot</h2>
+<p>In correspondence analysis, <strong>biplot</strong> is a graphical display of rows and columns in 2 or 3 dimensions.</p>
+<p>In the standard <strong>symmetric biplot</strong> (mentioned in the previous sections), it’s difficult to know the most contributing points to the solution of the CA.</p>
+<p><a href="http://www.econ.upf.edu/docs/papers/downloads/1162.pdf"><em>Michael Greenacre</em></a> proposed a new scaling displayed (called contribution biplot) which incorporates the contribution of points. In this display, points that contribute very little to the solution, are close to the center of the biplot and are relatively unimportant to the interpretation.</p>
+<p><span class="warning">A <strong>contribution biplot</strong> can be drawn using the argument <strong>map = “rowgreen”</strong> or <strong>map = “colgreen”</strong>.</span></p>
+<p>Firstly, you have to decide whether to analyse the contributions of rows or columns to the definition of the axes.</p>
+<p>In our example we’ll interpret the contribution of rows to the axes. The argument <strong>map =“colgreen”</strong> is used. In this case, remember that columns are in principal coordinates and rows in standard coordinates multiplied by the square root of the mass. For a given row, the square of the new coordinate on an axis i is exactly the contribution of this row to the inertia of the axis i.</p>
+<pre class="r"><code>fviz_ca_biplot(res.ca, map =&quot;colgreen&quot;,
+               arrow = c(TRUE, FALSE))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-contribution-biplot-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p>In the graph above, the position of the column profile points is unchanged relative to that in the conventional biplot. However, the distances of the row points from the plot origin are related to their contributions to the two-dimensional factor map.</p>
+<p>The closer an arrow is (in terms of angular distance) to an axis the greater is the contribution of the row category on that axis relative to the other axis. If the arrow is halfway between the two, its row category contributes to the two axes to the same extent.</p>
+<br/>
+<div class="block">
+<ul>
+<li><p>It is evident that row category <em>Repairs</em> have an important contribution to the positive pole of the first dimension, while the categories <em>Laundry</em> and <em>Main_meal</em> have a major contribution to the negative pole of the first dimension;</p></li>
+<li><p>Dimension 2 is mainly defined by the row category <em>Holidays</em>.</p></li>
+<li>The row category <em>Driving</em> contributes to the two axes to the same extent.</li>
+</ul>
+</div>
+<p><br/></p>
+</div>
+<div id="plot-rows-or-columns-only" class="section level2">
+<h2>Plot rows or columns only</h2>
+<p><span class="warning">It’s also possible to draw the rows or columns only using the function <strong>fviz_ca_biplot()</strong> (instead of using fviz_ca_row() and fviz_ca_col)</span></p>
+<p>Plot rows only by hiding the columns (<em>invisible =“col”</em>):</p>
+<pre class="r"><code>fviz_ca_biplot(res.ca, invisible = &quot;col&quot;)+
+  theme_minimal()</code></pre>
+<p>Plot columns only by hiding the rows (<em>invisible =“row”</em>):</p>
+<pre class="r"><code>fviz_ca_biplot(res.ca, invisible = &quot;row&quot;)+
+  theme_minimal()</code></pre>
+</div>
+</div>
+<div id="correspondence-analysis-using-supplementary-rows-and-columns" class="section level1">
+<h1>Correspondence analysis using supplementary rows and columns</h1>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>We’ll use the data set <em>children</em> [in <em>FactoMineR</em> package]. It contains 18 rows and 8 columns:</p>
+<pre class="r"><code>data(children)
+# head(children)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/images/ca-children.png" alt="Data format correspondence analysis" /></p>
+<p><span class="notice"> The data used here is a contingency table describing the answers given by different categories of people to the following question: What are the reasons that can make hesitate a woman or a couple to have children? </span></p>
+<br/><br />
+<div class="warning">
+<p>Only some of the rows and columns will be used to perform the correspondence analysis (CA).</p>
+The coordinates of the remaining (supplementary) rows/columns on the factor map will be <strong>predicted</strong> after the CA.
+</div>
+<p><br/></p>
+<p>In CA terminology, our data contains :</p>
+<br/>
+<div class="block">
+<ul>
+<li><strong>Active rows</strong> (rows 1:14) : Rows that are used during the correspondence analysis.</li>
+<li><strong>Supplementary rows</strong> (row.sup 15:18) : The coordinates of these rows will be predicted using the CA informations and parameters obtained with active rows/columns</li>
+<li><strong>Active columns</strong> (columns 1:5) : Columns that are used for the correspondence analysis.</li>
+<li><strong>Supplementary columns</strong> (col.sup 6:8) : As supplementary rows, the coordinates of these columns will be predicted also.</li>
+</ul>
+</div>
+<p><br/></p>
+</div>
+<div id="ca-with-supplementary-rowscolumns" class="section level2">
+<h2>CA with supplementary rows/columns</h2>
+<p>As mentioned above, supplementary rows and columns are not used for the definition of the principal dimensions. Their coordinates are predicted using only the informations provided by the performed CA on active rows/columns.</p>
+<p>To specify supplementary rows/columns, the function <strong>CA()</strong>[in <em>FactoMineR</em>] can be used as follow :</p>
+<pre class="r"><code>CA(X,  ncp = 5, row.sup = NULL, col.sup = NULL,
+   graph = TRUE)</code></pre>
+<br/>
+<div class="block">
+<ul>
+<li><strong>X</strong> : a data frame (contingency table)</li>
+<li><strong>row.sup</strong> : a numeric vector specifying the indexes of the supplementary rows</li>
+<li><strong>col.sup</strong> : a numeric vector specifying the indexes of the supplementary columns</li>
+<li><strong>ncp</strong> : number of dimensions kept in the final results.</li>
+<li><strong>graph</strong> : a logical value. If TRUE a graph is displayed.</li>
+</ul>
+</div>
+<p><br/></p>
+<p>Example of usage :</p>
+<pre class="r"><code>res.ca &lt;- CA (children, row.sup = 15:18, col.sup = 6:8,
+              graph = FALSE)</code></pre>
+<p>The summary of the CA is :</p>
+<pre class="r"><code>summary(res.ca, nb.dec = 2, ncp = 2)</code></pre>
+<pre><code>
+Call:
+rmarkdown::render(&quot;factominer-correspondance-analysis.Rmd&quot;, encoding = &quot;UTF-8&quot;) 
+
+The chi square of independence between the two variables is equal to 98.80159 (p-value =  9.748064e-05 ).
+
+Eigenvalues
+                      Dim.1  Dim.2  Dim.3  Dim.4  Dim.5
+Variance               0.04   0.01   0.01   0.01   0.00
+% of var.             57.04  21.13  11.76  10.06   0.00
+Cumulative % of var.  57.04  78.17  89.94 100.00 100.00
+
+Rows (the 10 first)
+                      Dim.1   ctr  cos2   Dim.2   ctr  cos2  
+money               | -0.12  4.55  0.43 |  0.02  0.37  0.01 |
+future              |  0.18 17.57  0.72 | -0.10 14.59  0.22 |
+unemployment        | -0.21 22.62  0.87 | -0.07  6.78  0.10 |
+circumstances       |  0.40  6.27  0.58 |  0.33 11.54  0.40 |
+hard                | -0.25  2.99  0.88 |  0.07  0.59  0.06 |
+economic            |  0.35 12.00  0.48 |  0.32 26.60  0.40 |
+egoism              |  0.06  0.68  0.07 | -0.03  0.34  0.01 |
+employment          | -0.14  2.62  0.16 |  0.22 17.55  0.41 |
+finances            | -0.24  2.79  0.28 | -0.21  5.69  0.21 |
+war                 |  0.22  2.17  0.75 | -0.07  0.69  0.09 |
+
+Columns
+                      Dim.1   ctr  cos2   Dim.2   ctr  cos2  
+unqualified         | -0.21 25.11  0.68 | -0.08 10.08  0.10 |
+cep                 | -0.14 18.30  0.64 |  0.06  8.08  0.11 |
+bepc                |  0.11  6.76  0.31 | -0.03  1.25  0.02 |
+high_school_diploma |  0.27 37.98  0.76 | -0.12 20.10  0.15 |
+university          |  0.23 11.86  0.31 |  0.32 60.49  0.59 |
+
+Supplementary rows
+                      Dim.1 cos2   Dim.2 cos2  
+comfort             |  0.21 0.07 |  0.70 0.78 |
+disagreement        |  0.15 0.13 |  0.12 0.09 |
+world               |  0.52 0.88 |  0.14 0.07 |
+to_live             |  0.31 0.14 |  0.50 0.37 |
+
+Supplementary columns
+                      Dim.1  cos2   Dim.2  cos2  
+thirty              |  0.11  0.14 | -0.06  0.04 |
+fifty               | -0.02  0.01 |  0.05  0.09 |
+more_fifty          | -0.18  0.29 | -0.05  0.02 |</code></pre>
+<p><span class="notice">For the supplementary rows/columns, the coordinates and the quality of representation (cos2) on the factor maps are displayed. They don’t contribute to the dimensions.</span></p>
+</div>
+<div id="make-a-biplot-of-rows-and-columns" class="section level2">
+<h2>Make a biplot of rows and columns</h2>
+<p><strong>FactomineR base graph</strong>:</p>
+<pre class="r"><code>plot(res.ca)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-biplot-supplementary-factominer-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<br/>
+<div class="block">
+<ul>
+<li>Active rows are in blue</li>
+<li>Supplementary rows are in darkblue</li>
+<li>Columns are in red</li>
+<li>Supplementary columns are in darkred</li>
+</ul>
+</div>
+<p><br/></p>
+<p><strong>Use factoextra</strong>:</p>
+<pre class="r"><code>fviz_ca_biplot(res.ca) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-biplot-supplementary-factoextra-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p>It’s also possible to hide supplementary rows and columns using the argument <em>invisible</em>:</p>
+<pre class="r"><code>fviz_ca_biplot(res.ca, invisible = c(&quot;row.sup&quot;, &quot;col.sup&quot;) ) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-hide-supplementary-rows-columns-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><span class="notice">The argument <em>invisible</em> is also available in <em>FactoMineR</em> base graph.</span></p>
+</div>
+<div id="visualize-supplementary-rows" class="section level2">
+<h2>Visualize supplementary rows</h2>
+<p>All the results (coordinates and cos2) for the supplementary rows can be extracted as follow :</p>
+<pre class="r"><code>res.ca$row.sup</code></pre>
+<pre><code>$coord
+                 Dim 1     Dim 2      Dim 3      Dim 4
+comfort      0.2096705 0.7031677 0.07111168  0.3071354
+disagreement 0.1462777 0.1190106 0.17108916 -0.3132169
+world        0.5233045 0.1429707 0.08399269 -0.1063597
+to_live      0.3083067 0.5020193 0.52093397  0.2557357
+
+$cos2
+                  Dim 1      Dim 2       Dim 3      Dim 4
+comfort      0.06892759 0.77524032 0.007928672 0.14790342
+disagreement 0.13132177 0.08692632 0.179649183 0.60210272
+world        0.87587685 0.06537746 0.022564054 0.03618163
+to_live      0.13899699 0.36853645 0.396830367 0.09563620</code></pre>
+<p><strong>Factor map for rows</strong> :</p>
+<pre class="r"><code>fviz_ca_row(res.ca) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-supplementary-rows-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="success">Supplementary rows are shown in darkblue color.</span></p>
+</div>
+<div id="visualize-supplementary-columns" class="section level2">
+<h2>Visualize supplementary columns</h2>
+<p><strong>Factor map for columns</strong>:</p>
+<pre class="r"><code>fviz_ca_col(res.ca) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-supplementary-columns-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="432" style="margin-bottom:10px;" /></p>
+<p><span class="success">Supplementary columns are shown in darkred.</span></p>
+<p>The results for supplementary columns can be extracted as follow :</p>
+<pre class="r"><code>res.ca$col.sup</code></pre>
+<pre><code>$coord
+                 Dim 1       Dim 2       Dim 3       Dim 4
+thirty      0.10541339 -0.05969594 -0.10322613  0.06977996
+fifty      -0.01706444  0.04907657 -0.01568923 -0.01306117
+more_fifty -0.17706810 -0.04813788  0.10077299 -0.08517528
+
+$cos2
+               Dim 1      Dim 2       Dim 3       Dim 4
+thirty     0.1375601 0.04411543 0.131910759 0.060278490
+fifty      0.0108695 0.08990298 0.009188167 0.006367804
+more_fifty 0.2860989 0.02114509 0.092666735 0.066200714</code></pre>
+</div>
+</div>
+<div id="filter-ca-results" class="section level1">
+<h1>Filter CA results</h1>
+<p>If you have many row/column variables, it’s possible to visualize only some of them using the arguments <em>select.row</em> and <em>select.col</em>.</p>
+<br/>
+<div class="block">
+<p><strong>select.col, select.row:</strong> a selection of columns/rows to be drawn. Allowed values are <em>NULL</em> or a <em>list</em> containing the arguments name, cos2 or contrib:</p>
+<ul>
+<li><em>name</em>: is a character vector containing column/row names to be drawn</li>
+<li><em>cos2</em>: if cos2 is in [0, 1], ex: 0.6, then columns/rows with a cos2 &gt; 0.6 are drawn</li>
+<li><em>if cos2 &gt; 1</em>, ex: 5, then the top 5 active columns/rows and top 5 supplementary columns/rows with the highest cos2 are drawn</li>
+<li><em>contrib</em>: if contrib &gt; 1, ex: 5, then the top 5 columns/rows with the highest cos2 are drawn</li>
+</ul>
+</div>
+<p><br/></p>
+<pre class="r"><code># Visualize rows with cos2 &gt;= 0.8
+fviz_ca_row(res.ca, select.row = list(cos2 = 0.8))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-filter-r-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<pre class="r"><code># Top 5 active rows and 5 suppl. rows with the highest cos2
+fviz_ca_row(res.ca, select.row = list(cos2 = 5))</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-filter-r-data-mining-2.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><span class="warning">The top 5 active rows and the top 5 supplementary rows are shown.</span></p>
+<pre class="r"><code># Select by names
+name &lt;- list(name = c(&quot;employment&quot;, &quot;fear&quot;, &quot;future&quot;))
+fviz_ca_row(res.ca, select.row = name)</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-filter-2-r-data-mining-1.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<pre class="r"><code>#top 5 contributing rows and columns
+fviz_ca_biplot(res.ca, select.row = list(contrib = 5), 
+               select.col = list(contrib = 5)) +
+  theme_minimal()</code></pre>
+<p><img src="http://www.sthda.com/sthda/RDoc/figure/factor-analysis/factominer-correspondance-analysis-filter-2-r-data-mining-2.png" title="Correspondence analysis, visualization and interpretation - R software and data mining" alt="Correspondence analysis, visualization and interpretation - R software and data mining" width="480" style="margin-bottom:10px;" /></p>
+<p><span class="warning">Supplementary rows/columns are not shown because they don’t contribute to the construction of the axes.</span></p>
+</div>
+<div id="dimension-description" class="section level1">
+<h1>Dimension description</h1>
+<p>The function <strong>dimdesc()</strong> [in <em>FactoMineR</em>] can be used to identify the most correlated variables with a given dimension.</p>
+<p>A simplified format is :</p>
+<pre class="r"><code>dimdesc(res, axes = 1:2, proba = 0.05)</code></pre>
+<br/>
+<div>
+<ul>
+<li><strong>res</strong> : an object of class CA</li>
+<li><strong>axes</strong> : a numeric vector specifying the dimensions to be described</li>
+<li><strong>prob</strong> : the significance level</li>
+</ul>
+</div>
+<p><br/></p>
+<p>Example of usage :</p>
+<pre class="r"><code>res.desc &lt;- dimdesc(res.ca, axes = c(1,2))
+# Description of dimension 1
+res.desc$`Dim 1`</code></pre>
+<pre><code>$row
+                     coord
+hard          -0.249984356
+finances      -0.236995598
+unemployment  -0.212227692
+work          -0.211677086
+employment    -0.136754598
+money         -0.115267468
+housing       -0.006680991
+egoism         0.059889455
+health         0.111651752
+disagreement   0.146277736
+future         0.176449413
+fear           0.203347917
+comfort        0.209670471
+war            0.216824026
+to_live        0.308306674
+economic       0.353963920
+circumstances  0.400922001
+world          0.523304472
+
+$col
+                          coord
+unqualified         -0.20931790
+more_fifty          -0.17706810
+cep                 -0.13857658
+fifty               -0.01706444
+thirty               0.10541339
+bepc                 0.10875778
+university           0.23123279
+high_school_diploma  0.27403930</code></pre>
+<pre class="r"><code># Description of dimension 2
+res.desc$`Dim 2`</code></pre>
+<pre><code>$row
+                    coord
+finances      -0.20598461
+future        -0.09786326
+war           -0.07466267
+unemployment  -0.07071770
+fear          -0.05806796
+egoism        -0.02566733
+health         0.00429124
+money          0.02004613
+hard           0.06765048
+work           0.10888448
+disagreement   0.11901056
+housing        0.12824218
+world          0.14297067
+employment     0.21539408
+economic       0.32072390
+circumstances  0.33098674
+to_live        0.50201935
+comfort        0.70316769
+
+$col
+                          coord
+high_school_diploma -0.12134373
+unqualified         -0.08072742
+thirty              -0.05969594
+more_fifty          -0.04813788
+bepc                -0.02848299
+fifty                0.04907657
+cep                  0.05604703
+university           0.31785751</code></pre>
+</div>
+<div id="ca-and-outliers" class="section level1">
+<h1>CA and outliers</h1>
+<p>If one or more “outliers” are present in the contingency table, they can dominate the interpretation the axes (Bendixen M. 2003).</p>
+<p>Outliers are points that have high absolute co-ordinate values and high contributions. They are represented, on the graph, very far from the centroïd. In this case, the remaining row/column points tend to be tightly clustered in the graph which become difficult to interpret.</p>
+<p>In the CA output, the coordinates of row/column points represent the number of standard deviations the row/column is away from the barycentre (Bendixen M. 2003).</p>
+<p><span class="warning">Outliers are points that are are at least <strong>one standard deviation away from the barycentre</strong>. They contribute also, significantly to the interpretation to one pole of an axis (Bendixen M. 2003).</span></p>
+<p><span class="success">There are no apparent outliers in our data.</span></p>
+<p><span class="notice">If there are outliers in the data, they must be suppressed or treated as supplementary points when re-running the correspondence analysis.</span></p>
+</div>
+<div id="infos" class="section level1">
+<h1>Infos</h1>
+<p><span class="warning"> This analysis has been performed using <strong>R software</strong> (ver. 3.1.2), <strong>FactoMineR</strong> (ver. 1.29) and <strong>factoextra</strong> (ver. 1.0.2) </span></p>
+<p><strong>References and further reading</strong>:</p>
+<ul>
+<li>Bendixen M.1995, Compositional perceptual mapping using chi-squared tree analysis and Correspondence Analysis, «Journal of Marketing Management», 11, 571-581.</li>
+<li>Bendixen M. 2003, A Practical Guide to the Use of Correspondence Analysis in Marketing Research, Marketing Bulletin, 2003, 14, Technical Note 2. <a href="http://marketing-bulletin.massey.ac.nz/V14/MB_V14_T2_Bendixen.pdf">http://marketing-bulletin.massey.ac.nz/V14/MB_V14_T2_Bendixen.pdf</a></li>
+<li>G Alberti, An R Script to Facilitate Correspondence Analysis. A Guide to the Use and the Interpretation of Results from an Archaeological Perspective, in Archeologia e Calcolatori 24 2013, 25-53. <a href="http://soi.cnr.it/archcalc/indice/PDF24/02_Alberti.pdf">http://soi.cnr.it/archcalc/indice/PDF24/02_Alberti.pdf</a></li>
+<li>Greenacre M.. Contribution biplots. <a href="http://www.econ.upf.edu/docs/papers/downloads/1162.pdf">http://www.econ.upf.edu/docs/papers/downloads/1162.pdf</a></li>
+<li>Healey J.F. 2013, The Essentials of Statistics. A Tool for Social Research, 3rded., Belmont, Wadsworth.</li>
+<li>Laura Doey and Jessica Kurta. Correspondence Analysis applied to psychological research. Tutorials in Quantitative Methods for Psychology 2011, Vol. 7(1), p. 5-14. <a href="http://www.tqmp.org/RegularArticles/vol07-1/p005/p005.pdf">http://www.tqmp.org/RegularArticles/vol07-1/p005/p005.pdf</a></li>
+<li>François Husson. FactomineR. <a href="http://factominer.free.fr">http://factominer.free.fr</a></li>
+</ul>
+</div>
+
+<script>jQuery(document).ready(function () {
+	jQuery('h1').addClass('wiki_paragraph1');
+	jQuery('h2').addClass('wiki_paragraph2');
+	jQuery('h3').addClass('wiki_paragraph3');
+	jQuery('h4').addClass('wiki_paragraph4');
+	});//add phpboost class to header</script>
+<style>.content{padding:0px;}</style>
+</div><!--end rdoc-->
+<!--====================== stop here when you copy to sthda================-->
+
+<!-- END HTML -->
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- laddthis, ike -->
+                        <div class="addthis_native_toolbox"></div>
+
+                        <br/>
+                        <br/> 
+                        <div>
+							<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- lien_200X90 -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:200px;height:90px"
+                                 data-ad-client="ca-pub-5474463749888038"
+                                 data-ad-slot="7994647366"></ins>
+                            <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <br/><br/>
+                        
+                        <center>
+
+
+                            <br/><br/><br/>
+                             <div>
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- 336X280_text_only -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-5474463749888038"
+                                     data-ad-slot="4090131761"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+
+                        </center>
+
+
+                     </div>
+                     <!-- end of content -->
+                    
+                   
+                    <div style="clear:both;"></div>
+               </div> <!--end of sticky-parent-->
+                
+                
+                <!-- ===========Add by AKASSAMBARA ============
+                 -->
+                 
+             <div>
+             
+             
+             	<br/>
+                
+                
+                <!-- get involved -->
+                <div class="block get_involved">
+                	<strong><i class="fa fa-2x fa-group"></i>&nbsp;Get involved : </strong><br/>
+            	 	<i class="fa fa-share fa-2x"></i>&nbsp;
+                    	Click to <b>follow us</b> on <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank">Facebook</a> and 
+                         <a href="https://plus.google.com/108962828449690000520" rel="publisher">Google+</a> : 
+                         <a href="https://www.facebook.com/1570814953153056" class="facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;&nbsp;
+                        <a href="https://plus.google.com/108962828449690000520" rel="publisher" class="google" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a><br/>
+                        
+                     <i class="fa fa-comment fa-2x"></i>&nbsp; <b>Comment this article</b> by clicking on "Discussion" button (top-right position of this page)<br/>
+                     <i class="fa fa-user fa-2x"></i>&nbsp; <a href="../user/registration/">Sign up as a member</a> and post <a href="how-to-contribute-to-sthda-web-site">news and articles</a> on STHDA web site.<br/>
+            	 </div>
+               </div>
+                 
+                            
+                <!--=============== Related articles================ -->
+                <br/><br/>
+                 
+                    <!--articles dans la mÃªme categorie -->
+                    <div class="related_article">
+                        <h1 class="wiki_paragraph1">Suggestions</h1> <br/>
+                          
+                        <div>
+                             <i class="fa fa-file"></i> <a href="principal-component-analysis-in-r-prcomp-vs-princomp-r-software-and-data-mining">Principal component analysis in R : prcomp() vs. princomp() - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="factominer-and-factoextra-principal-component-analysis-visualization-r-software-and-data-mining">FactoMineR and factoextra : Principal Component Analysis Visualization - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining">Principal Component Analysis: How to reveal the most important variables in your data? - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="ade4-and-factoextra-principal-component-analysis-r-software-and-data-mining">ade4 and factoextra : Principal Component Analysis - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="principal-component-analysis-the-basics-you-should-read-r-software-and-data-mining">Principal component analysis : the basics you should read - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="multiple-correspondence-analysis-essentials-interpretation-and-application-to-investigate-the-associations-between-categories-of-multiple-qualitative-variables-r-software-and-data-mining">Multiple Correspondence Analysis Essentials: Interpretation and application to investigate the associations between categories of multiple qualitative variables  - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="correspondence-analysis-basics-r-software-and-data-mining">Correspondence analysis basics - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="factor-analysis">Factor analysis</a><br /> <i class="fa fa-file"></i> <a href="ade4-and-factoextra-correspondence-analysis-r-software-and-data-mining">ade4 and factoextra : Correspondence Analysis - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="ca-package-and-factoextra-correspondence-analysis-r-software-and-data-mining">ca package and factoextra : Correspondence Analysis - R software and data mining</a><br /> <i class="fa fa-file"></i> <a href="mass-package-and-factoextra-correspondence-analysis-r-software-and-data-mining">MASS package and factoextra : Correspondence Analysis - R software and data mining</a><br />
+                         </div>
+                    </div>
+                    <br/>
+                    <div>
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- 728X90 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-5474463749888038"
+                             data-ad-slot="6756867106"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                
+                
+                 
+             <!-- ======================END of related articles =================-->
+             
+            
+            
+             
+             
+          </div>
+                      
+                
+				
+				<div class="spacer" style="margin-top:30px;">&nbsp;</div>
+			</div>
+			<footer>
+				<div style="text-align:center;margin-top:8px;margin-bottom:10px;">This page has been seen 16134 times</div>
+			</footer>
+		</article>
+        
+        
+  
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+	 jQuery("#aksidebar, #ak_main").stick_in_parent({parent: "#sticky-parent", spacer: ".sticky-content-spacer"});
+
+	//involv visitors
+	 setGetInvolvedBlock(getLang());
+	}); 
+</script> 
+
+</div>
+
+			</div>
+			
+		</div>
+		
+		<div id="top-footer">
+			
+<div id="newsletter">
+	<form action="/english/newsletter/?url=/subscribe/" method="post">
+		<div class="newsletter-form input-element-button">
+			<span class="newsletter-title">Newsletter</span> 
+			<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+			<input type="hidden" name="subscribe" value="subscribe">
+			<input type="hidden" name="token" value="6950e8865d655861">
+			<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+		</div>
+	</form>
+</div>
+
+			<div class="spacer"></div>
+		</div>
+		
+		
+		<div class="spacer"></div>
+	</div>
+    
+	<footer id="footer">
+		
+		<div class="footer-infos">
+        
+        	<div id="footer_columns_container">
+		
+        		<!--
+                <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+                 <div class="footer_columns">
+                    <div class="footer_columns_title"> 
+                        <img src="/english/templates/sthda/theme/images/icones/connexion-et-inscription.png" align="middle">
+                        Inscrivez-vous
+                    </div>
+                    <ul>
+                        <li><a href="/user/connect">Connectez-vous</a></li>
+                        <li><a href="/user/registration">CrÃ©er un compte</a></li>
+                        <li><a href="/user/password/lost">Mot de passe oubliÃ© ?</a></li>
+    
+                    </ul>
+                </div>	
+                
+            </div>
+            
+            <div style="clear:both;"></div
+            -->
+            
+            <span>
+            	<a href="/english/sitemap/">Sitemap</a> |
+        	</span>
+			<span>
+				Boosted by <a href="http://www.phpboost.com" title="PHPBoost">PHPBoost 4.0</a> 
+			</span>	
+			
+			
+		</div>
+	</footer>
+    
+     <!-- JQwidgets
+    =============================== -->  
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script>
+    <script type="text/javascript" src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script>
+
+    <!--- ak -->
+    <script type="text/javascript" src="/english/templates/sthda/ak/global.js"></script>
+    <script type="text/javascript" src="/english/sthda/js/jquery.sticky-kit.min.js"></script><!--fixation d'un div -->
+    
+       <!-- GOOgle doc viewer : permet de visualiser des documents embarquÃ©s online
+    http://www.jawish.org/blog/archives/394-Google-Docs-Viewer-plugin-for-jQuery.html
+    https://docs.google.com/viewer
+    -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.gdocsviewer.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    
+    jQuery(document).ready(function() {
+       if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+        if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+    });
+    /*]]>*/
+    </script>  
+    
+     <!-- R knitr -->
+    <link rel="stylesheet" href="/english/sthda/RDoc/libs/style.css"/>
+    <script src="/english/sthda/RDoc/libs/highlight.js"></script>
+    <script type="text/javascript">
+    if (window.hljs && document.readyState && document.readyState === "complete") {
+       window.setTimeout(function() {
+          hljs.initHighlighting();
+       }, 0);
+    }
+    </script>
+   
+     <!--=================================
+     Generer automatiquement une table des matiÃ¨re (TOC)
+     #Utilisation : placer <ul id="toc"></ul> ou <ol id="toc"></ol> Ã  l'endroit de votre page oÃ¹ vous souhaitez mettre la table des matiÃ¨res
+     #Lien : http://fuelyourcoding.com/scripts/toc/index.html
+    ================================= -->
+    <script type="text/javascript" src="/english/sthda/js/jquery.tableofcontents.min.js"></script>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+        jQuery(document).ready(function(){ 
+        if(jQuery('ul#toc').length!=0) {
+            jQuery("ul#toc").tableOfContents(
+                null,                        // Default scoping
+                    {
+                      startLevel:           2,   // H2
+                      depth:                3,   // H1 through 3
+                      
+                    }
+            ); 
+        }
+        });
+    /*]]>*/
+    </script>
+
+     <style>
+    ul#toc{
+        float: right;font-size: 10pt;
+        width: 270px;padding: 10px 10px 10px 20px;border: solid 1px #ccd136;margin: 0 0 10px 15px;border: 1px solid #CCCCCC;
+        border-radius: 5px;box-shadow: 2px 2px 10px -2px #666666;background-color: #f6f6f6;
+    }
+    /*fait un retrait Ã  chaque niveau hiÃ©rarchique*/	
+    #toc ul,  #toc ol{padding-left:30px;}
+    </style>
+ <!--================END TOC================= --> 
+
+ 
+ 
+ 
+ <!-- Go to www.addthis.com/dashboard to customize your tools 
+ right side-->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script>
+<!-- Recommended for you->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530" async></script>
+
+
+
+				<script src="/english/kernel/lib/js/bottom.js"></script>
+		<!--[if lt IE 9]>
+		<script async src="/english/kernel/lib/js/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		<script>
+		<!-- 
+			$$('[data-confirmation]').each(function(a) {
+				var data_confirmation = a.readAttribute('data-confirmation');
+				
+				if (data_confirmation == 'delete-element')
+					var message = 'Do you really want to delete this item ?';
+				else
+					var message = data_confirmation;
+
+				a.onclick = function () { return confirm(message); }
+			}); 
+		-->
+		</script>
+	</body>
+</html>

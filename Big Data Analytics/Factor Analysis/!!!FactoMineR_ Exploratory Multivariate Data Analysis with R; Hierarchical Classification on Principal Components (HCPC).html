@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+<title>FactoMineR: Exploratory Multivariate Data Analysis with R; Hierarchical Classification on Principal Components (HCPC)</title>
+
+  <meta name="description" content="Hierarchical classification on principle components" />
+  <meta name="Author" content="S&eacute;bastien L&ecirc;, Gwena&euml;lle Fournier" />
+  <meta name="Keywords" content="factominer, exploratory, data analysis, R, package, multivariate data, multiway, multi, way, multi-way, PCA, principal component analysis, CA, correspondence analysis, MCA, multiple correspondence analysis, MFA, multiple factorial analysis, HMFA, hierarchical multiple factorial analysis, HAC, hierarchical ascendant classification, description, categories, dimensions, axes" />
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="Distribution" content="Global" />
+  <meta name="robots" content="index, follow, noarchive" />
+  <meta name="verify-v1" content="ogk9jgIZW4FCBugOLc8WRCko795k3hqdkAOwhI8Lcew=" />
+  <meta name="Identifier-URL" content="http://factominer.free.fr" />
+
+<link rel="stylesheet" href="../images/Techmania.css" type="text/css" />
+
+<style type="text/css">
+<!--
+.Style1 {color: #5368A7}
+-->
+</style>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15555791-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+
+<body>
+<!-- wrap starts here -->	
+<div id="wrap">
+
+		<div id="header">
+									
+			<div id="header-tabs">
+				<ul>
+  					<li><a href="../index.html"><span>Home</span></a></li>
+  					<li id="current"><a href="../classical-methods/index.html"><span>Classical Methods</span></a></li>
+  					<li><a href="../advanced-methods/index.html"><span>Advanced Methods</span></a></li>
+	  				<li><a href="../interface/index.html"><span>Interface</span></a></li>
+  					<li><a href="../factosbest/index.html"><span>Facto's best</span></a></li>
+  					<li><a href="../Excel/index.html"><span>Excel</span></a></li>
+  					<li><a href="../faq/index.html"><span>F.A.Q.</span></a></li>
+  					<li><a href="../docs/index.html"><span>Docs</span></a></li>
+	  				<li><a href="../contact/index.html"><span>Contact</span></a></li>
+				</ul>
+			</div>				
+		</div>
+	  
+	  <!-- content-wrap starts here -->
+	  <div id="content-wrap">
+	  
+  		<div id="main"> 
+	
+				<a name="TemplateInfo"></a>
+				<h1>Hierarchical Clustering on Principal Components </h1>
+
+<p>The following article describe in details why it is interesting to perform a hierachical clustering with principal component methods. It also gives some examples. <br>
+Husson, F., Josse, J. &amp; Pagès J. (2010). <a href="../docs/HCPC_husson_josse.pdf" target="_blank">Principal component methods - hierarchical
+clustering - partitional clustering: why would we need to choose for visualizing data?</a>. <em>Technical report</em>. </p>
+
+				
+				<p>We are going to perform a hierarchical classification on the principal components of a factorial analysis.
+				The dataset used is the dataset &quot;tea&quot; already taken to illustrate the Multiple Correspondence Analysis. </p>
+				
+				<h2>Objectives</h2>
+				
+		  <p>We want to gather the 300 individuals of the dataset into a couple of clusters which would correspond to different consumption profiles.</p>
+
+		  <p>As the variables are categorical, we will first perform an MCA then use the coordinates of the individuals on the principal components for the hierarchical classification. MCA is used as a preprocessing to transform categorical variables into continuous ones. </p>
+
+				<h2>HCPC</h2>
+
+		  <p>The first step is to perform an MCA on the individuals. </p>
+
+		  <p>As well as previously (see <a href="multiple-correspondence-analysis.html">MCA</a> page), we perform the MCA using the variables about consumption behavior as active ones.<br />
+		  We do not use the last axes of the MCA because they are considered as noise and would make the clustering less stable. We thus keep only the 20 first axis of the MCA which resume 87% of the information.</p>
+		  
+		  <p>Type: 
+		  <span class="Style1"><code>library(FactoMineR)<br />
+		  data(tea)</code></span>
+		  <span class="Style1"><code>res.mca = MCA(tea, ncp=20, quanti.sup=19, quali.sup=c(20:36), graph=FALSE)</code></span>
+		  <span class="Style1"><code>#tea: the data set used<br />
+		  #ncp: number of dimensions which are kept for the analysis<br />
+		  #quanti.sup: vector of indexes of continuous supplementary variables<br />
+		  #quali.sup: vector of indexes of categorical supplementary variables<br />
+		  #graph: logical. If FALSE, no graph is plotted</code></span></p>  
+
+		<p> We then perform the hierarchical classification: 
+		<span class="Style1"><code>res.hcpc = HCPC(res.mca)</code></span>
+		<span class="Style1"><code>#res.mca: the result of an MCA</code></span></p>
+		
+		<p>The hierarchical tree  suggests a clustering into three clusters: </p>
+		<p><a href="images/hierarchical-clustering-on-principal-components-coupure-arbre.PNG" target="_blank"><img src="images/hierarchical-clustering-on-principal-components-coupure-arbre-small.png" alt="Hierarchical Clustering on Principal Components: hierarchical tree" width="196" height="196" title="Hierarchical tree" /></a> 	click to view	<a href="images/hierarchical-clustering-on-principal-components-coupe.PNG" target="_blank"><img src="images/hierarchical-clustering-on-principal-components-coupe-small.png" alt="Hierarchical Clustering on Principal Components: hierarchical tree cut into three clusters" width="196" height="196" title="Hierarchical tree cut into three clusters" /></a></p>
+		
+		<p>We get a three dimensional tree and a factorial map where individuals are coloured depending on the cluster they belong to.</p>
+		
+		<p><a href="images/hierarchical-clustering-on-principal-components-arbre3d.PNG" target="_blank"><img src="images/hierarchical-clustering-on-principal-components-arbre3d-small.png" alt="Hierarchical Clustering on Principal Components: 3D hierarchical tree" width="196" height="196" title="3D hierarchical tree" /></a> 	click to view	<a href="images/hierarchical-clustering-on-principal-components-map.PNG" target="_blank"><img src="images/hierarchical-clustering-on-principal-components-map-small.png" alt="Hierarchical Clustering on Principal Components: factorial map of the individuals coloured by cluster" width="196" height="196" title="Factorial map of the individuals coloured by cluster" /></a></p>
+		
+		<h2>Description of the clusters</h2>
+		
+		<p>Clusters can be described by:
+		<ul><li><span>Variables and/or categories</span></li>
+		<li><span>Factorial axes</span></li>
+		<li><span>Individuals</span></li>
+		</ul>
+		
+		<h3>Description by Variables and/or categories</h3>
+		
+		<p><span class="Style1"><code>res.hcpc$desc.var$test.chi2<br />
+		res.hcpc$desc.var$category</code></span></p>
+
+		<p><a href="images/hierarchical-clustering-on-principal-components-chi2.PNG" target="_blank"><img src="images/hierarchical-clustering-on-principal-components-chi2-small.png" alt="Hierarchical Clustering on Principal Components: chi² test" width="196" height="150" title="Chi² test" /></a> 	click to view <a href="images/hierarchical-clustering-on-principal-components-category.PNG" target="_blank"><img src="images/hierarchical-clustering-on-principal-components-category-small.png" alt="Hierarchical Clustering on Principal Components: description of the third cluster by the categories" width="196" height="150" title="Description of the third cluster by the categories" /></a></p>
+
+		<p>Variables <em>&quot;where&quot;</em> and <em>&quot;how&quot;</em> are those which characterize the most the partition in three clusters.</p>
+		
+		<p>Each cluster is characterized by a category of the variables <em>&quot;where&quot;</em> and <em>&quot;how&quot;</em>. Only the categories whose p-value is less than 0.02 are used. For example, individuals who belong to the third cluster buy tea as tea bag and unpackaged tea both in chain stores and tea shops.</p>
+		
+		<h3>description by principal components</h3>
+		
+		<p><span class="Style1"><code>res.hcpc$desc.axes</code></span></p>
+		
+		<p><a href="images/hierarchical-clustering-on-principal-components-descaxes.PNG" target="_blank"><img src="images/hierarchical-clustering-on-principal-components-descaxes-small.png" alt="Hierarchical Clustering on Principal Components: description by factorial axes" width="196" height="150" title="Description by factorial axes" /></a> 	click to view </p>
+
+		<p>Individuals in cluster 1 have low coordinates on axes 1 and 2. Individuals in cluster 2 have high coordinates on the second axis and individuals who belong to the third cluster have high coordinates on the first axis. Here, a dimension is kept only when the v-test is higher than 3.</p>
+		
+		<h3>description by Individuals</h3>
+		
+		<p>Two kinds of specific individuals exist to describe the clusters:
+		<ul><li><span>Individuals closest to their cluster's center</span></li>
+		<li><span>Individuals the farest from other clusters' center</span></li></ul></p>
+		
+		<p><span class="Style1"><code>res.hcpc$desc.ind</code></span></p>		
+		
+		<p><a href="images/hierarchical-clustering-on-principal-components-desind1.PNG" target="_blank"><img src="images/hierarchical-clustering-on-principal-components-desind1-small.png" alt="Hierarchical Clustering on Principal Components: individuals closest to their cluster's center" width="196" height="150" title="Individuals closest to their cluster's center" /></a>click to view <a href="images/hierarchical-clustering-on-principal-components-desind2.PNG" target="_blank"><img src="images/hierarchical-clustering-on-principal-components-desind2-small.png" alt="Hierarchical Clustering on Principal Components: individuals farest from other clusters' center" width="196" height="150" title="Individuals farest from other clusters' center" /></a> </p>	
+		
+		<p>Individual <em>285</em> belongs to cluster 1 and is the closest to cluster 1's center.<br />
+		Individual <em>82</em> belongs to cluster 1 and is the farest from clusters 2 and 3's centers.</p>	
+		
+		<h2>To go further</h2>
+
+		<h3>Transformation of continuous variables into categorical ones</h3>
+
+		<p>To cut a single continuous variable into clusters: 
+		<span class="Style1"><code>vari = tea[,19]<br />
+		res.hcpc = HCPC(vari, iter.max=10)
+		max.cla=unlist(by(res.hcpc$data.clust[,1], res.hcpc$data.clust[,2], max))<br />
+		breaks = c(min(vari), max.cla)<br />
+		aaQuali = cut(vari, breaks, include.lowest=TRUE)<br />
+		summary(aaQuali)</code></span>
+		<span class="Style1"><code>#iter.max: The maximum number of iterations for the consolidation</code></span></p>
+		
+		<p>To cut several continuous variables into clusters: 
+		<span class="Style1"><code>data.cat = data<br />
+		for (i in 1:ncol(data.cat)){<br />
+			vari = data.cat[,i]<br />
+			res.hcpc = HCPC(vari, nb.clust=-1, graph=FALSE)<br />
+			maxi = unlist(by(res.hcpc$data.clust[,1], res.hcpc$data.clust[,2], max))<br />
+			breaks = c(min(vari), maxi)<br />
+			aaQuali = cut(vari, breaks, include.lowest=TRUE)<br />
+			data.cat[,i] = aaQuali<br />
+		}</code></span>
+		<span class="Style1"><code>#data: dataset with the continuous variables to be cut into clusters</code></span></p>
+
+
+
+  		</div> 	
+			  
+  		<div id="sidebar">
+					
+			<h1> Classical Methods </h1>				
+			<ul class="sidemenu">
+					<li><a href="principal-components-analysis.html">Principal Components Analysis</a></li>	
+					<li><a href="correspondence-analysis.html">Correspondence Analysis </a></li>
+                    <li><a href="multiple-correspondence-analysis.html">Multiple Correspondence Analysis </a></li> 
+                    <li><a href="hierarchical-clustering-on-principal-components.html">Hierarchical Clustering on Principal Components </a></li> 					
+                                  <!-- content-wrap ends here -->					
+          </ul>
+
+		  
+		  <h1> Top Menu</h1>				
+				<ul class="sidemenu">
+  					<li><a href="../index.html">Home</a></li>
+  					<li><a href="../classical-methods/index.html">Classical Methods</a></li>
+					<li><a href="../advanced-methods/index.html">Advanced Methods</a></li>
+  					<li><a href="../interface/index.html">Interface</a></li>
+  					<li><a href="../factosbest/index.html">Facto's best</a></li>
+  					<li><a href="../Excel/index.html">FactoMineR and Excel</a></li>
+  					<li><a href="../faq/index.html">F.A.Q.</a></li>
+  					<li><a href="../docs/index.html">Documents</a></li>
+  					<li><a href="../contact/index.html">Contact</a></li>
+				</ul>
+
+                <div align="center">
+                  <!-- phpmyvisites -->
+                  <a href="http://st.free.fr/" title="phpMyVisites | Open source web analytics" onclick="window.open(this.href);return(false);">
+                    <script type="text/javascript">
+<!--
+var a_vars = Array();
+var pagename='';
+
+var phpmyvisitesSite = 84284;
+var phpmyvisitesURL = "http://st.free.fr/phpmyvisites.php";
+//-->
+                </script>
+                  <script language="javascript" src="http://st.free.fr/phpmyvisites.js" type="text/javascript"></script>
+                  <object>
+                    <noscript>
+                      <p>phpMyVisites | Open source web analytics
+                        <img src="http://st.free.fr/phpmyvisites.php" alt="Statistics" style="border:0" />
+                    </p>
+                    </noscript>
+                  </object>
+                  </a>
+                  <!-- /phpmyvisites --> 
+                </div>
+		</div>	
+		
+		<!-- content-wrap ends here -->
+  </div>
+		
+		<div id="footer">
+		
+			<span id="footer-left">
+				&copy; 2008 <!--<strong><a href="../about/author.html">Robert I. Kabacoff, Ph.D.</a>  </strong> | -->
+				Design by: <strong><a href="http://www.styleshout.com/">styleshout</a></strong> | 
+				Valid: <a href="http://validator.w3.org/check?uri=referer">XHTML</a> | 
+				<a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>			</span>		
+			
+			<span id="footer-right">
+			<a href="../index.html">Home</a> | <a href="../index.html">Sitemap</a></span>		</div>	
+
+        <!-- wrap ends here -->		
+</div>	
+</body>
+
+</html>

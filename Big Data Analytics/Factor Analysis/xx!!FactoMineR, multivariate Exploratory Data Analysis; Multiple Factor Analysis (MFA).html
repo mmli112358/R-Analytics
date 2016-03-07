@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>FactoMineR, multivariate Exploratory Data Analysis; Multiple Factor Analysis (MFA)</title>
+
+  <meta name="description" content="Multiple Factor Analysis" />
+  <meta name="Author" content="S&eacute;bastien L&ecirc;, Gwena&euml;lle Fournier" />
+  <meta name="Keywords" content="factominer, exploratory, data analysis, R, package, multivariate data, multiway, multi, way, multi-way, PCA, principal component analysis, CA, correspondence analysis, MCA, multiple correspondence analysis, MFA, multiple factor analysis, HMFA, hierarchical multiple factorial analysis, HAC, hierarchical ascendant classification, description, categories, dimensions, axes" />
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="Distribution" content="Global" />
+  <meta name="robots" content="index, follow, noarchive" />
+  <meta name="verify-v1" content="ogk9jgIZW4FCBugOLc8WRCko795k3hqdkAOwhI8Lcew=" />
+  <meta name="Identifier-URL" content="http://factominer.free.fr" />
+
+  <link rel="stylesheet" href="../images/Techmania.css" type="text/css" />
+
+  <style type="text/css">
+<!--
+.Style1 {color: #5368A7}
+-->
+  </style>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15555791-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+
+	
+
+
+<body>
+
+<!-- wrap starts here -->
+<div id="wrap">
+<div id="header">
+<div id="header-tabs">
+				<ul>
+  					<li><a href="../index.html"><span>Home</span></a></li>
+  					<li><a href="../classical-methods/index.html"><span>Classical Methods</span></a></li>
+  					<li id="current"><a href="../advanced-methods/index.html"><span>Advanced Methods</span></a></li>
+	  				<li><a href="../interface/index.html"><span>Interface</span></a></li>
+  					<li><a href="../factosbest/index.html"><span>Facto's best</span></a></li>
+  					<li><a href="../Excel/index.html"><span>Excel</span></a></li>
+  					<li><a href="../faq/index.html"><span>F.A.Q.</span></a></li>
+  					<li><a href="../docs/index.html"><span>Docs</span></a></li>
+	  				<li><a href="../contact/index.html"><span>Contact</span></a></li>
+				</ul>
+</div>
+
+</div>
+
+<!-- content-wrap starts here -->
+<div id="content-wrap">
+<div id="main"> <a name="TemplateInfo"></a>
+<h1>Multiple Factor Analysis </h1>
+
+<p>Multiple Factor Analysis is dedicated to datasets
+where&nbsp;variables&nbsp;are structured into groups. Several
+sets of variables (continuous or categorical) are therefore
+simultaneously studied.</p>
+
+<p>This specific method is useful in many fields where variables
+are structured into groups, for example:</p>
+
+<ul>
+
+  <li><span>Genomic: protein variables, DNA variables</span></li>
+
+  <li><span>Sensory analysis: sensorial and
+physico-chemical variables</span></li>
+
+  <li><span>Questionnaires: student health (addicted
+consumptions variables, psychological conditions variables, sleep,
+identification variables...)</span></li>
+
+  <li><span>Comparison of coding (continous variables,
+categorical variables)</span></li>
+
+</ul>
+
+<p>Taking into account the structure of the data allows to:</p>
+
+<ul>
+
+  <li><span>Balance the influence of each group of variables</span></li>
+
+  <li><span>Study the links between the sets of variables </span></li>
+
+  <li><span>Give the classical graphs but also specific
+ones:</span></li>
+
+  <ul>
+
+    <li><span>Partial representation (individuals seen by
+one group of variables)</span></li>
+
+    <li><span>Groups of variables</span></li>
+
+  </ul>
+
+</ul>
+
+<p>For further information on the MFA, see the following papers:<br />
+
+<a href="../docs/PagesAFM.pdf" target="_blank">Multiple
+Factor Analysis: main features and application to sensory data</a><br />
+
+<a href="../docs/AFM.pdf" target="_blank"> Multiple
+Factor Analysis presentation (french)</a><br />
+
+<a href="../docs/sfds08_facto.pdf" target="_blank">
+SFDS 2008 slides about FactoMineR</a><br />
+
+<a href="../docs/user2007-josse-le-husson.pdf" target="_blank">
+User! 2007 slides about FactoMineR</a></p>
+
+<p>The example illustrated here deals with sensory evaluation of
+red wines.<br />
+
+Load the data set as a text file by clicking <a href="datasets/wine.txt" target="_blank">here</a>.</p>
+
+<h2>Presentation of the data</h2>
+
+<p>The data set is made of 21 rows (wines) and 31 columns.<br />
+
+The first two columns are categorical variables : label (Saumur,
+Bourgueil or Chinon) and soil (Reference, Env1, Env2 or Env4).<br />
+
+The 29 next columns are continuous sensory variables. For each wine,
+the value is the mean for all the judges.</p>
+
+<p><a href="images/wine.PNG" target="_blank"><img src="images/wine_small.png" alt="Dataset wine" title="Dataset wine" height="150" width="196" /></a>
+click to view</p>
+
+<p>To load the package and the data set, type the following line code: <span class="Style8 Style1"><code>library(FactoMineR)<br />data(wine)</code></span>
+</p>
+
+<h2>Objectives</h2>
+
+<p>We want to characterize the wines. We are looking for a
+typology of the wines.</p>
+
+<p>The appropriate principal component method to characterize the wines
+by continuous variables is the Principal Components Analysis.<br />
+
+However, we can see that the data set is structured. Variables form
+different groups:</p>
+
+<ul>
+
+  <li><span>One categorical group (variables <em>label</em>
+and <em>soil</em>)</span></li>
+
+  <li><span>One group concerning the odor before shaking
+(variables <em>Odor.Intensity.before.shaking</em>, <em>Aroma.quality.before.shaking</em>,
+    <em>Fruity.before.shaking</em>, <em>Flower.before.shaking</em>
+and <em>Spice.before.shaking)</em></span></li>
+
+  <li><span>One group concerning visual evaluation
+(variables <em>Visual.intensity</em>, <em>Nuance</em>
+and <em>Surface.feeling</em>)</span></li>
+
+  <li><span>One group concerning the odor after shaking
+(variables <em>Odor.Intensity</em>, <em>Quality.of.odour</em>,
+    <em>Fruity</em>, <em>Flower</em>, <em>Spice</em>,
+    <em>Plante</em>, <em>Phenolic</em>, <em>Aroma.intensity</em>,
+    <em>Aroma.persistency</em> and <em>Aroma.quality</em>)</span></li>
+
+  <li><span>One group concerning the taste (variables <em>Attack.intensity</em>,
+    <em>Acidity</em>, <em>Astringency</em>, <em>Alcohol</em>,
+    <em>Balance</em>, <em>Smooth</em>, <em>Bitterness</em>,
+    <em>Intensity</em> and <em>Harmony</em>)</span></li>
+
+  <li><span>And one last group concerning an overall
+judgement (variables <em>Overall.quality</em> and <em>Typical</em>)</span></li>
+
+</ul>
+
+<p>New objectives arise like comparing groups of variables (two
+sets of variables are close to each other if two wines which are close
+to each other according to the first set of variables are close to each
+other according to the second one) and highlight a typology of the
+groups or comparing simultaneously the typologies of wines seen by each
+group of variables taken one by one. </p>
+
+<h2>MFA</h2>
+
+<p>We are going to study the wines' profiles according to sensory
+evaluation. We will use as active groups the <em>odor</em>,
+<em>visual</em>, <em>odor after shaking</em>
+and <em>taste</em> groups and <em>origin</em>
+and <em>overall</em> groups as supplementary ones.</p>
+
+<p>Type:
+<span class="Style8 Style1"><code>res = MFA(wine,
+group=c(2,5,3,10,9,2), type=c("n",rep("s",5)), ncp=5,
+name.group=c("origin","odor","visual","odor.after.shaking",
+"taste","overall"), num.group.sup=c(1,6))</code></span>
+<span class="Style8 Style1"><code>#wine: the data
+set used<br />
+
+#group: a vector indicating the number of variables in each group<br />
+
+#type: the type of the variables in each group. "s" for scaled
+continuous variables, "c" for centered (unscaled) continuous variables
+and "n" for categorical variables<br />
+
+#ncp: number of dimensions kept in the result<br />
+
+#name.group: names of the groups<br />
+
+#num.group.sup: indexes of the supplementary groups</code></span>
+</p>
+
+<p><a href="images/multiple-factor-analysis-var-quanti.PNG" target="_blank"><img src="images/multiple-factor-analysis-var-quanti-small.png" alt="Multiple Factor Analysis: scatterplot of variables" title="Scatterplot of variables" height="150" width="196" /></a>click to view<a href="images/multiple-factor-analysis-indetquali.PNG" target="_blank"><img src="images/multiple-factor-analysis-indetquali-small.png" alt="Multiple Factor Analysis: scatterplot of individuals and categories" title="Scatterplot of individuals and categories" height="150" width="196" /></a></p>
+
+<p>These first results can be interpreted the same way as the
+ones of a PCA.</p>
+
+<p>The representation of variables shows that most of the
+variables are highly correlated to the first dimension, whatever group
+the belong to. This dimension represents "intensity" and "harmony",
+positive notions which are commonly used when speaking of wines.<br />
+
+The variables the most correlated to the second dimension are <em>Spice
+before shaking</em> and <em>Odor intensity before shaking</em>
+for the <strong>odor</strong> group, <em>Spice</em>,
+<em>Plant</em> and <em>Odor intensity</em> for
+the <strong>odor after shaking</strong> group and <em>Bitterness</em>
+for the <strong>taste</strong> group. This dimension
+represents a spicy, vegetal characteristic essentially due to olfaction.</p>
+
+<p>The coordinates of individuals and categories can be linked to
+this interpretation of the two first principal components through the
+second graph.<br />
+
+The wine 1DAM was evaluated as the most "intense" and "harmonious"
+contrary to wines 1VAU and 2ING which are the least "intense" and
+"harmonious". The second axis is essentially due to wines T1 and T2. As
+these two wines were in fact the same one evaluated twice by the
+assessors, the second dimension will be designed as the "particular
+case of the wine T". <br />
+
+Most of the categories are close to the origin of the principal component map,
+which means that these categories are not related to "intensity",
+"harmony" or the "wine T". The category <em>Env4</em> has
+high coordinates on the second axis but only related to T1 and T2. The
+category <em>Reference</em>, <em>a priori</em>
+related to an excellent wine-producing soil, has high coordinates on
+the first axis and thus positively correlated to "intensity" and
+"harmony", which confirms the <em>a priori</em>. </p>
+
+<p><a href="images/multiple-factor-analysis-ind-partiels.PNG" target="_blank"><img src="images/multiple-factor-analysis-ind-partiels-small.png" alt="Multiple Factor Analysis: scatterplot of partial individuals" title="Scatterplot of partial individuals" height="150" width="196" /></a>click to view <a href="images/multiple-factor-analysis-quali-partiels.PNG" target="_blank"><img src="images/multiple-factor-analysis-quali-partiels-small.png" alt="Scatterplot of partial categories" title="Multiple Factor Analysis: scatterplot of partial categories" height="196" width="196" /></a></p>
+
+<p>
+The graph of partial individuals represents each wine viewed by each
+group and its barycenter. By default, the two wines with the smallest within inertia and the two wines with the largest within inertia are represented. If you want to plot all the partial points, use the folowwing line of code: <br />
+<span class="Style8 Style1"><code>plot(res,choix="ind",partial="all")</code></span></p>
+
+<p>1DAM was evaluated as particularly "intense" and "harmonious"
+especially by the <strong>odor</strong> group: its
+coordinates on the first axis are more extreme from this group's point
+of view than from the other groups' one. From the <strong>odor</strong> group's point of
+view, 2ING was more "intense" and "harmonious" than 1VAU but from the <strong>taste</strong>
+group's point of view, 1VAU was more "intense" and "harmonious" than
+2ING. </p>
+
+<p>
+All the groups have quite the same vision of the categories except for <em>Env4</em>
+which resumes what we already said from the individuals principal component map. </p>
+
+<p><a href="images/multiple-factor-analysis-groups.PNG" target="_blank"><img src="images/multiple-factor-analysis-groups-small.png" alt="Multiple Factor Analysis: scatterplot of groups" title="Scatterplot of groups" height="196" width="196" /></a>click
+to view</p>
+
+<p>
+This graph shows the quality of representation of each group.<br />
+
+The four active groups have close coordinates on the first dimension
+which means that their contribution to the first principal component is
+quite the same. It also means that the first principal component of the MFA is common to all the groups.<br />
+
+As for the second dimension, it is the olfactory groups that have the
+highest coordinates. These two groups contribute the most to the second
+principal component.<br />
+
+</p>
+
+<p><a href="images/multiple-factor-analysis-var-partiels.PNG" target="_blank"><img src="images/multiple-factor-analysis-var-partiels-small.png" alt="Scatterplot of groups' dimensions" title="Multiple Factor Analysis: scatterplot of groups' dimensions" height="150" width="196" /></a>click to view</p>
+
+<p>
+This graph is diplayed to look at the link between the principal
+components of the MFA and the ones of each single group.<br />
+
+Except for the <strong>origin</strong> group, the first
+dimension of each group is highly correlated to the MFA's first one.<br />
+
+The second dimension of the MFA is essentially correlated to the second
+dimension of the olfactory groups.
+</p>
+
+</div>
+
+<div id="sidebar">
+			<h1> Advanced Methods </h1>				
+			<ul class="sidemenu">
+					<li><a href="multiple-factor-analysis.html">Multiple Factor Analysis</a></li>	
+					<li><a href="hierarchical-multiple-factor-analysis.html">Hierarchical Multiple Factor Analysis</a></li>	
+                    <li><a href="factor-analysis-of-mixed-data.html">Factor Analysis of Mixed Data</a></li> 
+					<li><a href="dual-multiple-factor-analysis.html">Dual Multiple Factor Analysis</a></li>
+					<li><a href="generalized-procustean-analysis.html">Generalized Procrustean Analysis</a></li>
+
+                                  <!-- content-wrap ends here -->					
+          </ul>
+
+		  
+		  <h1> Top Menu</h1>				
+				<ul class="sidemenu">
+  					<li><a href="../index.html">Home</a></li>
+  					<li><a href="../classical-methods/index.html">Classical Methods</a></li>
+					<li><a href="../advanced-methods/index.html">Advanced Methods</a></li>
+  					<li><a href="../interface/index.html">Interface</a></li>
+  					<li><a href="../factosbest/index.html">Facto's best</a></li>
+  					<li><a href="../Excel/index.html">FactoMineR and Excel</a></li>
+  					<li><a href="../faq/index.html">F.A.Q.</a></li>
+  					<li><a href="../docs/index.html">Documents</a></li>
+  					<li><a href="../contact/index.html">Contact</a></li>
+				</ul>
+
+<div align="center"><!-- phpmyvisites --> <a href="http://st.free.fr/" title="phpMyVisites | Open source web analytics" onclick="window.open(this.href);return(false);">
+<script type="text/javascript">
+<!--
+var a_vars = Array();
+var pagename='';
+var phpmyvisitesSite = 84284;
+var phpmyvisitesURL = "http://st.free.fr/phpmyvisites.php";
+//-->
+</script>
+<script language="javascript" src="http://st.free.fr/phpmyvisites.js" type="text/javascript"></script>
+<object>
+<noscript> <p>phpMyVisites | Open source web analytics
+<img src="http://st.free.fr/phpmyvisites.php" alt="Statistics"
+style="border:0" /> </p> </noscript>
+
+</object> </a><!-- /phpmyvisites --> </div>
+
+</div>
+
+<!-- content-wrap ends here --> </div>
+
+<div id="footer"> <span id="footer-left">
+&copy; 2008 Design by: <strong><a href="http://www.styleshout.com/">styleshout</a></strong>
+| Valid: <a href="http://validator.w3.org/check?uri=referer">XHTML</a>
+| <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+</span> <span id="footer-right"> <a href="../index.html">Home</a> | <a href="../index.html">Sitemap</a></span> </div>
+
+<!-- wrap ends here --> </div>
+
+</body>
+</html>

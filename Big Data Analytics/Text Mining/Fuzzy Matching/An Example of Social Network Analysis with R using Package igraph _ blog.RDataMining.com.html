@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" lang="en">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" lang="en">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" lang="en">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<title>An Example of Social Network Analysis with R using Package igraph | blog.RDataMining.com</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="stylesheet" type="text/css" media="all" href="https://s0.wp.com/wp-content/themes/pub/twentyten/style.css" />
+<link rel="pingback" href="https://rdatamining.wordpress.com/xmlrpc.php" />
+<link rel="alternate" type="application/rss+xml" title="blog.RDataMining.com &raquo; Feed" href="https://rdatamining.wordpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="blog.RDataMining.com &raquo; Comments Feed" href="https://rdatamining.wordpress.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="blog.RDataMining.com &raquo; An Example of Social Network Analysis with R using Package&nbsp;igraph Comments Feed" href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+	<link rel='stylesheet' id='all-css-0' href='https://s2.wp.com/_static/??-eJyNktFSwyAQRX9IZLSx9sXxWwhsCenCMrCRyd9LGrWNrYwvsBfuYVkWWaLQFBgCSz+JiJN1IcvsHcIcE42geasedc4P8j6G7gRZjsBR6ZM4qxt7j2QvAFkLhiYWR0KkIoszFm5zbKBCySiTpUXqFf7Py6VuzXVffDy3KkiAisGISJl/qRamKUFd91Hx4vBgnAIEX20tzMf9N7WEQ321ZpoSq1v0fUyQs6ijd5MXPNREt9y6LOPUX6qXmWcEcT6nlQg8jW4dV5uTgdhVZ/4JWrwFEkhasaOwEeKIyqV2B5YG1tDK6rqSLWhp0Hq0zINKC/w1t28ZIK1F3Q3/etKhu/p77/7tqXvZd7vD4XU3fgLM4UCY' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyFj90OwiAMhV9IJJvzwgvjs2yjI0WgSEGiTy9L1MS5aNKkf985aWUJAv1oswKWpsYlQ7w909bwRv4ChEMd+wRbh/4Fj+QT+DSzjga0IDJD7HWdVaOJVrhAnBwwV2hl+3kS+itC+YsZSKEfzyIC4/3LdbCkRbBZo2dZaw2KchITWUtFFlQa0lLj8lsRwdanlZjvXnRVdXLHput2bdscmr15AHGYhE4='></script>
+<link rel='stylesheet' id='all-css-0' href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://rdatamining.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Book “R and Data Mining: Examples and Case Studies” on&nbsp;CRAN' href='https://rdatamining.wordpress.com/2012/05/09/book-r-and-data-mining-examples-and-case-studies-on-cran/' />
+<link rel='next' title='CFP: the 10th Australasian Data Mining Conference (AusDM&nbsp;2012)' href='https://rdatamining.wordpress.com/2012/05/21/cfp-the-10th-australasian-data-mining-conference-ausdm-2012/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/" />
+<link rel='shortlink' href='http://wp.me/p1tZAA-4j' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Frdatamining.wordpress.com%2F2012%2F05%2F17%2Fan-example-of-social-network-analysis-with-r-using-package-igraph%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Frdatamining.wordpress.com%2F2012%2F05%2F17%2Fan-example-of-social-network-analysis-with-r-using-package-igraph%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="An Example of Social Network Analysis with R using Package igraph" />
+<meta property="og:url" content="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/" />
+<meta property="og:description" content="by Yanchang Zhao, RDataMining.com This post presents an example of social network analysis with R using package igraph. The data to analyze is Twitter text data of @RDataMining used in the example …" />
+<meta property="article:published_time" content="2012-05-17T01:50:51+00:00" />
+<meta property="article:modified_time" content="2012-07-04T12:40:05+00:00" />
+<meta property="og:site_name" content="blog.RDataMining.com" />
+<meta property="og:image" content="http://www.rdatamining.com/_/rsrc/1336980501594/examples/social-network-analysis/sna-terms-2.png" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:image" content="http://www.rdatamining.com/_/rsrc/1336980493578/examples/social-network-analysis/sna-terms-1.png?w=240" />
+<meta name="twitter:card" content="summary" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/ecb644e3c64e3a5db8099ec3cf4389dd?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/ecb644e3c64e3a5db8099ec3cf4389dd?s=16" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/af8355f39da770027225b5acad1f11f1?s=114" />
+<link rel='openid.server' href='https://rdatamining.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://rdatamining.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://rdatamining.wordpress.com/osd.xml" title="blog.RDataMining.com" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="blog.RDataMining.com" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="R and Data Mining" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://rdatamining.wordpress.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/ecb644e3c64e3a5db8099ec3cf4389dd?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="An Example of Social Network Analysis with R using Package&nbsp;igraph | blog.RDataMining.com on WordPress.com" />
+<meta name="description" content="by Yanchang Zhao, RDataMining.com This post presents an example of social network analysis with R using package igraph. The data to analyze is Twitter text data of @RDataMining used in the example of Text Mining, and it can be downloaded as file &quot;termDocMatrix.rdata&quot; at the Data webpage. Putting it in a general scenario of social&hellip;" />
+		<script type="text/javascript" src="//c.amazon-adsystem.com/aax2/amzn_ads.js"></script>
+		<script type="text/javascript">
+		try { amznads.getAds("3033"); } catch(e) { /* ignore */ }
+		</script>
+		<script type="text/javascript">
+		try {
+			var a9_p = amznads.getKeys(),
+			_ipw_custom = {
+				wordAds: '0',
+				adSafe: '1',
+				domain: 'rdatamining.wordpress.com',
+				pageURL: 'https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/'
+			};
+			if("undefined"!=typeof a9_p&&""!=a9_p&&null!==a9_p&&"[object Array]"===Object.prototype.toString.call(a9_p)){var a="",b=0,c=a9_p.length;a9_p.sort();for(var d=0;d<c;d++){a9_p[d-b]=a9_p[d-b].replace(/a1x6p/,"a160x600p");var e=a9_p[d-b].split("p");e[0]==a&&(a9_p.splice(d-b,1),b++);a=e[0]}_ipw_custom.amznPay=a9_p};document.close();
+		} catch(e) {}
+		</script>		<!-- IPONWEB header script -->
+		<script type="text/javascript">
+			window.__ATA = {
+				scriptSrc: '//s.pubmine.com/showad.js',
+				slotPrefix: 'automattic-id-',
+				initAd: function(o) {
+					var o = o || {},
+						g = window,
+						d = g.document,
+						wr = d.write,
+						id = g.__ATA.id();
+					wr.call(d, '<div id="' + id + '" data-section="' + (o.sectionId || 0) + '"' + (o.type ? ('data-type="' + o.type + '"') : '') + ' ' + (o.forcedUrl ? ('data-forcedurl="' + o.forcedUrl + '"') : '') + ' style="width:' + (o.width || 0) + 'px; height:' + (o.height || 0) + 'px;">');
+					g.__ATA.displayAd(id);
+					wr.call(d, '</div>');
+				},
+				displayAd: function(id) {
+					window.__ATA.ids = window.__ATA.ids || {};
+					window.__ATA.ids[id] = 1;
+				},
+				customParams: _ipw_custom,
+				id: function() {
+					return window.__ATA.slotPrefix + (parseInt(Math.random() * 10000, 10) + 1 + (new Date()).getMilliseconds());
+				}
+			};
+			(function(d, ata) {
+				var pr = "https:" === d.location.protocol ? "https:" : "http:",
+					src = pr + ata.scriptSrc,
+					st = "text/javascript";
+				d.write('<scr' + 'ipt type="' + st + '" src="' + src + '"><\/scr' + 'ipt>');
+			})(window.document, window.__ATA);
+		</script>
+		<script type="text/javascript">
+		jQuery(window).ready(function () {
+			jQuery("a.wpa-about").text("About these ads");
+		});
+		</script><link rel="amphtml" href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/amp/" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="single single-post postid-267 single-format-standard mp6 customizer-styles-applied single-author highlander-enabled highlander-light">
+<div id="wrapper" class="hfeed">
+	<div id="header">
+		<div id="masthead">
+			<div id="branding" role="banner">
+								<div id="site-title">
+					<span>
+						<a href="https://rdatamining.wordpress.com/" title="blog.RDataMining.com" rel="home">blog.RDataMining.com</a>
+					</span>
+				</div>
+				<div id="site-description">R and Data Mining</div>
+
+										<a class="home-link" href="https://rdatamining.wordpress.com/" title="blog.RDataMining.com" rel="home">
+							<img src="https://rdatamining.files.wordpress.com/2012/02/cropped-rdmlogo-long-2.jpg" width="940" height="198" alt="" />
+						</a>
+								</div><!-- #branding -->
+
+			<div id="access" role="navigation">
+			  				<div class="skip-link screen-reader-text"><a href="#content" title="Skip to content">Skip to content</a></div>
+								<div class="menu"><ul><li ><a href="https://rdatamining.wordpress.com/">Home</a></li><li class="page_item page-item-2"><a href="https://rdatamining.wordpress.com/about/">About</a></li></ul></div>
+			</div><!-- #access -->
+		</div><!-- #masthead -->
+	</div><!-- #header -->
+
+	<div id="main">
+
+		<div id="container">
+			<div id="content" role="main">
+
+			
+
+				<div id="nav-above" class="navigation">
+					<div class="nav-previous"><a href="https://rdatamining.wordpress.com/2012/05/09/book-r-and-data-mining-examples-and-case-studies-on-cran/" rel="prev"><span class="meta-nav">&larr;</span> Book “R and Data Mining: Examples and Case Studies” on&nbsp;CRAN</a></div>
+					<div class="nav-next"><a href="https://rdatamining.wordpress.com/2012/05/21/cfp-the-10th-australasian-data-mining-conference-ausdm-2012/" rel="next">CFP: the 10th Australasian Data Mining Conference (AusDM&nbsp;2012) <span class="meta-nav">&rarr;</span></a></div>
+				</div><!-- #nav-above -->
+
+				<div id="post-267" class="post-267 post type-post status-publish format-standard hentry category-data-mining category-r tag-r tag-social-network-analysis">
+											<h2 class="entry-title"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/" rel="bookmark">An Example of Social Network Analysis with R using Package&nbsp;igraph</a></h2>					
+					<div class="entry-meta">
+						<span class="meta-prep meta-prep-author">Posted on</span> <a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/" title="11:50 am" rel="bookmark"><span class="entry-date">May 17, 2012</span></a>						<span class="by-author"><span class="sep">by</span> <span class="author vcard"><a class="url fn n" href="https://rdatamining.wordpress.com/author/rdatamining/" title="View all posts by Yanchang Zhao" rel="author">Yanchang Zhao</a></span> </span>					</div><!-- .entry-meta -->
+
+					<div class="entry-content">
+						<div>by Yanchang Zhao, <a href="http://www.rdatamining.com/" target="_blank">RDataMining.com</a></div>
+<p>This post presents an example of social network analysis with R using package igraph.</p>
+<p>The data to analyze is Twitter text data of @RDataMining used in <a href="http://www.rdatamining.com/examples/text-mining">the example of Text Mining</a>, and it can be downloaded as file &#8220;termDocMatrix.rdata&#8221; at <a href="http://www.rdatamining.com/data">the Data webpage</a>. Putting it in a general scenario of social networks, the terms can be taken as people and the tweets as groups on LinkedIn, and the term-document matrix can then be taken as the group membership of people. We will build a network of terms based on their co-occurrence in the same tweets, which is similar with a network of people based on their group memberships.</p>
+<div>
+<p>At first, a term-document matrix, termDocMatrix, is loaded into R. After that, it is transformed into a term-term adjacency matrix, based on which a graph is built. Then we plot the graph to show the relationship between frequent terms, and also make the graph more readable by setting colors, font sizes and transparency of vertices and edges.</p>
+</div>
+<div></div>
+<div>
+<h3><a name="TOC-Load-Data"></a>Load Data</h3>
+<p>&gt; # load termDocMatrix<br />
+&gt; load(&#8220;data/termDocMatrix.rdata&#8221;)<br />
+&gt; # inspect part of the matrix<br />
+&gt; termDocMatrix[5:10,1:20]</p>
+<pre>             Docs
+Terms        1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+data         1 1 0 0 2 0 0 0 0  0  1  2  1  1  1  0  1  0  0  0
+examples     0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0
+introduction 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  1
+mining       0 0 0 0 0 0 0 0 0  0  0  1  1  0  1  0  0  0  0  0
+network      0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  1  0  1  1  1
+package      0 0 0 1 1 0 0 0 0  0  0  1  0  0  0  0  0  0  0  0</pre>
+<h3><a name="TOC-Transform-Data-into-an-Adjacency-Matrix"></a>Transform Data into an Adjacency Matrix</h3>
+<p>&gt; # change it to a Boolean matrix<br />
+&gt; termDocMatrix[termDocMatrix&gt;=1] &lt;- 1<br />
+&gt; # transform into a term-term adjacency matrix<br />
+&gt; termMatrix &lt;- termDocMatrix %*% t(termDocMatrix)<br />
+&gt; # inspect terms numbered 5 to 10<br />
+&gt; termMatrix[5:10,5:10]</p>
+</div>
+<pre>             Terms
+Terms        data examples introduction mining network package
+data         53          5            2     34       0       7
+examples      5         17            2      5       2       2
+introduction  2          2           10      2       2       0
+mining       34          5            2     47       1       5
+network       0          2            2      1      17       1
+package       7          2            0      5       1      21</pre>
+<div>
+<h3><a name="TOC-Build-a-Graph"></a>Build a Graph</h3>
+<p>Now we have built a term-term adjacency matrix, where the rows and columns represents terms, and every entry is the number of co-occurrences of two terms. Next we can build a graph with graph.adjacency() from package igraph.</p>
+<p>&gt; library(igraph)<br />
+&gt; # build a graph from the above matrix<br />
+&gt; g &lt;- graph.adjacency(termMatrix, weighted=T, mode = &#8220;undirected&#8221;)<br />
+&gt; # remove loops<br />
+&gt; g &lt;- simplify(g)<br />
+&gt; # set labels and degrees of vertices<br />
+&gt; V(g)$label &lt;- V(g)$name<br />
+&gt; V(g)$degree &lt;- degree(g)</p>
+</div>
+<div>
+<h3><a name="TOC-Plot-a-Graph"></a>Plot a Graph</h3>
+<p>&gt; # set seed to make the layout reproducible<br />
+&gt; set.seed(3952)<br />
+&gt; layout1 &lt;- layout.fruchterman.reingold(g)<br />
+&gt; plot(g, layout=layout1)</p>
+<div><img src="https://i2.wp.com/www.rdatamining.com/_/rsrc/1336980493578/examples/social-network-analysis/sna-terms-1.png" alt="" border="0" /></div>
+<p>A different layout can be generated with the first line of code below. The second line produces an interactive plot, which allows us to manually rearrange the layout. Details about other layout options can be obtained by running ?igraph::layout in R.</p>
+<p>&gt; plot(g, layout=layout.kamada.kawai)<br />
+&gt; tkplot(g, layout=layout.kamada.kawai)</p>
+</div>
+<div>
+<h3><a name="TOC-Make-it-Look-Better"></a>Make it Look Better</h3>
+<p>Next, we will set the label size of vertices based on their degrees, to make important terms stand out. Similarly, we also set the width and transparency of edges based on their weights. This is useful in applications where graphs are crowded with many vertices and edges. In the code below, the vertices and edges are accessed with V() and E(). Function rgb(red, green, blue, alpha) defines a color, with an alpha transparency. We plot the graph in the same layout as the above figure.</p>
+<p>&gt; V(g)$label.cex &lt;- 2.2 * V(g)$degree / max(V(g)$degree)+ .2<br />
+&gt; V(g)$label.color &lt;- rgb(0, 0, .2, .8)<br />
+&gt; V(g)$frame.color &lt;- NA<br />
+&gt; egam &lt;- (log(E(g)$weight)+.4) / max(log(E(g)$weight)+.4)<br />
+&gt; E(g)$color &lt;- rgb(.5, .5, 0, egam)<br />
+&gt; E(g)$width &lt;- egam<br />
+&gt; # plot the graph in layout1<br />
+&gt; plot(g, layout=layout1)</p>
+</div>
+<p><img src="https://i0.wp.com/www.rdatamining.com/_/rsrc/1336980501594/examples/social-network-analysis/sna-terms-2.png" alt="" border="0" /></p>
+<h3><a name="TOC-More-Examples"></a>More Examples</h3>
+<p>More examples on social network analysis with R and other data mining techniques can be found in my book &#8220;<a href="http://www.rdatamining.com/docs">R and Data Mining: Examples and Case Studies</a>&#8220;, which is downloadable as a .PDF file at the link.</p>
+		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<a class="wpa-about" href="https://wordpress.com/about-these-ads/" rel="nofollow"></a>
+				<div class="u">
+					<script type='text/javascript'>
+					(function(g){g.__ATA.initAd({sectionId:26942, width:300, height:250});})(window);
+					</script>
+				</div>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-267" class="share-twitter sd-button share-icon" href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-267" class="share-facebook sd-button share-icon" href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?share=facebook" target="_blank" title="Share on Facebook"><span>Facebook</span></a></li><li class="share-linkedin"><a rel="nofollow" data-shared="sharing-linkedin-267" class="share-linkedin sd-button share-icon" href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span>LinkedIn</span></a></li><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-267" class="share-google-plus-1 sd-button share-icon" href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?share=google-plus-1" target="_blank" title="Click to share on Google+"><span>Google</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-21924600-267-56dce637b1325' data-src='//widgets.wp.com/likes/#blog_id=21924600&amp;post_id=267&amp;origin=rdatamining.wordpress.com&amp;obj_id=21924600-267-56dce637b1325' data-name='like-post-frame-21924600-267-56dce637b1325'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>											</div><!-- .entry-content -->
+
+					<div id="entry-author-info">
+						<div id="author-avatar">
+							<img alt='' src='https://0.gravatar.com/avatar/06766dfed44b291c4bd5c42a4454c1fa?s=60&#038;d=identicon&#038;r=G' class='avatar avatar-60' height='60' width='60' />						</div><!-- #author-avatar -->
+						<div id="author-description">
+							<h2>About Yanchang Zhao</h2>
+							I am a data miner, using R for data mining applications.   
+
+My work on R and data mining:
+ <a href="http://www.rdatamining.com/">RDataMining.com</a>; 
+ <a href="http://twitter.com/RDataMining">Twitter</a>; 
+ <a href="http://group.rdatamining.com/">Group on Linkedin</a>; and <a href="http://group2.rdatamining.com">Group on Google</a>.							<div id="author-link">
+								<a href="https://rdatamining.wordpress.com/author/rdatamining/" rel="author">
+									View all posts by Yanchang Zhao <span class="meta-nav">&rarr;</span>								</a>
+							</div><!-- #author-link	-->
+						</div><!-- #author-description -->
+					</div><!-- #entry-author-info -->
+
+					<div class="entry-utility">
+												This entry was posted in <a href="https://rdatamining.wordpress.com/category/data-mining/" rel="category tag">Data Mining</a>, <a href="https://rdatamining.wordpress.com/category/r/" rel="category tag">R</a> and tagged <a href="https://rdatamining.wordpress.com/tag/r/" rel="tag">R</a>, <a href="https://rdatamining.wordpress.com/tag/social-network-analysis/" rel="tag">Social Network Analysis</a>. Bookmark the <a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/" title="Permalink to An Example of Social Network Analysis with R using Package&nbsp;igraph" rel="bookmark">permalink</a>.											</div><!-- .entry-utility -->
+				</div><!-- #post-## -->
+
+				<div id="nav-below" class="navigation">
+					<div class="nav-previous"><a href="https://rdatamining.wordpress.com/2012/05/09/book-r-and-data-mining-examples-and-case-studies-on-cran/" rel="prev"><span class="meta-nav">&larr;</span> Book “R and Data Mining: Examples and Case Studies” on&nbsp;CRAN</a></div>
+					<div class="nav-next"><a href="https://rdatamining.wordpress.com/2012/05/21/cfp-the-10th-australasian-data-mining-conference-ausdm-2012/" rel="next">CFP: the 10th Australasian Data Mining Conference (AusDM&nbsp;2012) <span class="meta-nav">&rarr;</span></a></div>
+				</div><!-- #nav-below -->
+
+				
+			<div id="comments">
+
+
+			<h3 id="comments-title">16 Responses to <em>An Example of Social Network Analysis with R using Package&nbsp;igraph</em></h3>
+
+
+			<ol class="commentlist">
+					<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-175">
+		<div id="comment-175">
+			<div class="comment-author vcard">
+				<img alt='' src='https://1.gravatar.com/avatar/7fb6139c46a88fac3b04fd44dc799363?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn">Joel Cadwell</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#comment-175">
+				May 18, 2012 at 9:18 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Well done.  Very straightforward example that is easy to follow.  Not just for text mining, but also showing how to use igraph.</p>
+<p>I use the gRbase package to convert Rgraphviz objects from the pcalg package into igraphs:<br />
+ig&lt;-as(rgraphviz@graph, &quot;igraph&quot;).  </p>
+<p>Your reference to tkplot helped me clean up the graphs and save for insertion into Excel or Powerpoint.  Thanks.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?replytocom=175#respond' onclick='return addComment.moveForm( "comment-175", "175", "respond", "267" )' aria-label='Reply to Joel Cadwell'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://www.scoop.it/t/prueba-de-topic/p/1812097431/an-example-of-social-network-analysis-with-r-using-package-igraph' rel='external nofollow' class='url'>An Example of Social Network Analysis with R using Package&nbsp;igraph | Prueba de topic | Scoop.it</a></p>
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://tm.durusau.net/?p=25404' rel='external nofollow' class='url'>An Example of Social Network Analysis with R using Package igraph &laquo; Another Word For It</a></p>
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://trinkerrstuff.wordpress.com/2012/06/29/igraph-and-structured-text-exploration/' rel='external nofollow' class='url'>igraph and structured text exploration | TRinker&#039;s R Blog</a></p>
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://tm.durusau.net/?p=27116' rel='external nofollow' class='url'>igraph and structured text exploration &laquo; Another Word For It</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-699">
+		<div id="comment-699">
+			<div class="comment-author vcard">
+				<img alt='' src='https://1.gravatar.com/avatar/4269d68451addeac84d3e2005aaa879a?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn">Asif</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#comment-699">
+				May 22, 2013 at 1:28 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Hi ,<br />
+I want to create a network data file for further analysis using igraph.<br />
+ I want to create a network of ingredients.<br />
+The current data format that I have looks like this :<br />
+Column1  Column2<br />
+Food1     ingredient1, ingredient2 , ingredient3<br />
+Food2    ingredient2, ingredeint3<br />
+Food3    ingredeint3, ingredeint4</p>
+<p>From this file I want to create an adjacency matrix of ingredients   . My final goal is to find out<br />
+which ingredients go together.<br />
+Could you please give me suggestion how to create adjacency matrix from the above datafile.<br />
+Thanks</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?replytocom=699#respond' onclick='return addComment.moveForm( "comment-699", "699", "respond", "267" )' aria-label='Reply to Asif'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-rdatamining comment-author-is-site-member bypostauthor even depth-2 highlander-comment" id="li-comment-700">
+		<div id="comment-700">
+			<div class="comment-author vcard">
+				<img alt='' src='https://0.gravatar.com/avatar/06766dfed44b291c4bd5c42a4454c1fa?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn"><a href='https://rdatamining.wordpress.com' rel='external nofollow' class='url'>Yanchang Zhao</a></cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#comment-700">
+				May 22, 2013 at 7:04 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>First, create a data frame with 2 columns: food and ingredient, You might use stack() or unstack() for that. In you case, the data frame will look like:<br />
+Column1 Column2<br />
+Food1 ingredient1<br />
+Food1 ingredient2<br />
+Food1 ingredient3<br />
+Food2 ingredient2<br />
+Food2 ingredient3<br />
+&#8230; </p>
+<p>Second, convert it to graph with graph.data.frame(YourDataFrame)</p>
+<p>For future questions, please post them to my RDataMining group on LinkedIn at <a href="http://group.rdatamining.com/" rel="nofollow">http://group.rdatamining.com/</a></p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?replytocom=700#respond' onclick='return addComment.moveForm( "comment-700", "700", "respond", "267" )' aria-label='Reply to Yanchang Zhao'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1 highlander-comment" id="li-comment-719">
+		<div id="comment-719">
+			<div class="comment-author vcard">
+				<img alt='' src='https://0.gravatar.com/avatar/f0411e2d50f403da3bc96c944b598ed0?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn">sarah</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#comment-719">
+				July 22, 2013 at 6:41 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Hi,</p>
+<p>I am trying to do network analysis for my data-set but facing few difficulties. Would be very grateful if could get some help.</p>
+<p>My dataset has 5 columns and 110 rows and I am trying to build link which rows are more likely to be connected to the columns. I want to use Jaccard similarity coefficient as the weight for my network.   I am doing this in igraph library so far but would be happy to use any other library package.</p>
+<p>I am not sure how to import my dataset into R for network analysis purposes and I also can&#8217;t seem to add weights to my network and would be very grateful if someone could guide me as to how can I do it in R.</p>
+<p>Thanks<br />
+Sarah</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?replytocom=719#respond' onclick='return addComment.moveForm( "comment-719", "719", "respond", "267" )' aria-label='Reply to sarah'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-rdatamining comment-author-is-site-member bypostauthor even depth-2 highlander-comment" id="li-comment-720">
+		<div id="comment-720">
+			<div class="comment-author vcard">
+				<img alt='' src='https://0.gravatar.com/avatar/06766dfed44b291c4bd5c42a4454c1fa?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn"><a href='https://rdatamining.wordpress.com' rel='external nofollow' class='url'>Yanchang Zhao</a></cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#comment-720">
+				July 23, 2013 at 9:50 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>You can set values to E(g)$weight. Alternatively, you can use graph.adjacency() by setting parameter &#8220;weighted&#8221;. See igraph documentation at <a href="http://cran.r-project.org/web/packages/igraph/igraph.pdf" rel="nofollow">http://cran.r-project.org/web/packages/igraph/igraph.pdf</a> for details.</p>
+<p>For future questions, please post them to my RDataMining group on LinkedIn at <a href="http://group.rdatamining.com/" rel="nofollow">http://group.rdatamining.com/</a>.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?replytocom=720#respond' onclick='return addComment.moveForm( "comment-720", "720", "respond", "267" )' aria-label='Reply to Yanchang Zhao'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://ec2-184-73-3-155.compute-1.amazonaws.com/blog/blog/2013/08/16/venture-capital-startup-network/' rel='external nofollow' class='url'>Venture Capital – Startup Network &laquo; nTreees</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-740">
+		<div id="comment-740">
+			<div class="comment-author vcard">
+				<img alt='' src='https://1.gravatar.com/avatar/45e0334a7c937df10c03dd0a0bedb0d1?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn">Dan</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#comment-740">
+				September 17, 2013 at 11:20 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Hi,</p>
+<p>This is really fantastic. By may way of thinking (and please correct me if I&#8217;m wrong), the diagonal on the adjacency matrix should dictate the value for the vertex, while values on the upper or lower side of the diagonal (depending on whether mode is set to &#8216;upper&#8217; or &#8216;lower&#8217;) will dictate the values for the edges?</p>
+<p>If this is the case, then the values for the vertex from the following code:</p>
+<p>&gt; V(g)$label.cex  V(g)$label.color  V(g)$frame.color  egam  E(g)$color  E(g)$width  # plot the graph in layout1<br />
+&gt; plot(g, layout=layout1)</p>
+<p>Does not correspond with the values presented in the adjacency matrix. Eg. The diagonal value for the value &#8216;r&#8217; is 70 (and the largest in the adjacency table) however &#8216;mining&#8217; ends up with the larger label, despite the diagonal value being 47. </p>
+<p>I&#8217;m inclined to think I am misinterpreting something, but could you please confirm this for me?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?replytocom=740#respond' onclick='return addComment.moveForm( "comment-740", "740", "respond", "267" )' aria-label='Reply to Dan'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-741">
+		<div id="comment-741">
+			<div class="comment-author vcard">
+				<img alt='' src='https://1.gravatar.com/avatar/45e0334a7c937df10c03dd0a0bedb0d1?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn">Dan</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#comment-741">
+				September 17, 2013 at 11:50 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Sorry, I see where I have gone wrong &#8211; &#8216;degree&#8217; refers to the number of edges from each vertex, as opposed to the size of the vertex. Apologies.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?replytocom=741#respond' onclick='return addComment.moveForm( "comment-741", "741", "respond", "267" )' aria-label='Reply to Dan'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://www.scoop.it/t/statistics-and-diet/p/4024338898/2014/07/09/an-example-of-social-network-analysis-with-r-using-package-igraph' rel='external nofollow' class='url'>An Example of Social Network Analysis with R us...</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-1084">
+		<div id="comment-1084">
+			<div class="comment-author vcard">
+				<img alt='' src='https://2.gravatar.com/avatar/887b53d4725c0125f2c394f053951996?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn">S Ram</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#comment-1084">
+				December 11, 2014 at 7:23 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Thanks for this example.  I have one question on the specific purpose of this type of analysis.  Based on the above, I have created a network for my case and now what does this convey and what is the next step.  Could you please guide?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?replytocom=1084#respond' onclick='return addComment.moveForm( "comment-1084", "1084", "respond", "267" )' aria-label='Reply to S Ram'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-rdatamining comment-author-is-site-member bypostauthor even thread-even depth-1 highlander-comment" id="li-comment-1087">
+		<div id="comment-1087">
+			<div class="comment-author vcard">
+				<img alt='' src='https://0.gravatar.com/avatar/06766dfed44b291c4bd5c42a4454c1fa?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn"><a href='https://rdatamining.wordpress.com' rel='external nofollow' class='url'>Yanchang Zhao</a></cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#comment-1087">
+				December 15, 2014 at 9:40 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>You might do community detection by find groups of closely connected vertices. You can also find brokers, which are important vertices that connect two parts of networks. You may also simply filter vertices by degrees and/or links by weights to find interesting clusters. </p>
+<p>Please feel free to post your questions to my RDataMining group on LinkedIn at <a href="http://group.rdatamining.com/" rel="nofollow">http://group.rdatamining.com/</a>, where you will get answers from many group members.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/?replytocom=1087#respond' onclick='return addComment.moveForm( "comment-1087", "1087", "respond", "267" )' aria-label='Reply to Yanchang Zhao'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://www.rEGXf.com' rel='external nofollow' class='url'>Homepage</a></p>
+	</li><!-- #comment-## -->
+			</ol>
+
+
+	
+
+				<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://rdatamining.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="f38e5c8b48" /><input type="hidden" name="_wp_http_referer" value="/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="https://public-api.wordpress.com/connect/?googleplus-sign-in=https%3A%2F%2Frdatamining.wordpress.com" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='267' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="9a69c5f820" /></p>
+<input type="hidden" name="genseq" value="1457317431" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="43"/></p>				</form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments -->
+
+
+			</div><!-- #content -->
+		</div><!-- #container -->
+
+
+		<div id="primary" class="widget-area" role="complementary">
+						<ul class="xoxo">
+
+<li id="search-2" class="widget-container widget_search"><form role="search" method="get" id="searchform" class="searchform" action="https://rdatamining.wordpress.com/">
+				<div>
+					<label class="screen-reader-text" for="s">Search for:</label>
+					<input type="text" value="" name="s" id="s" />
+					<input type="submit" id="searchsubmit" value="Search" />
+				</div>
+			</form></li>		<li id="recent-posts-2" class="widget-container widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+					<li>
+				<a href="https://rdatamining.wordpress.com/2015/08/24/canberra-data-miners-seminar-on-text-knowledge-and-information-extraction-by-dr-lizhen-qu-nicta-canberra-430-530pm-tuesday-1-sept/">Canberra Data Miners: Seminar on Text, Knowledge and Information Extraction, by Dr Lizhen Qu (NICTA), Canberra, 4:30-5:30pm, Tuesday 1&nbsp;Sept</a>
+						</li>
+					<li>
+				<a href="https://rdatamining.wordpress.com/2015/08/17/slides-of-10-excellent-tutorials-at-kdd-2015-spark-graph-mining-and-many-more/">Slides of 10+ excellent tutorials at KDD 2015: Spark, graph mining and many&nbsp;more</a>
+						</li>
+					<li>
+				<a href="https://rdatamining.wordpress.com/2015/08/05/www2-rdatamining-com-a-mirror-site-of-rdatamining-com-for-chinese-users/">www2.rdatamining.com: a mirror site of RDataMining.com for Chinese&nbsp;users</a>
+						</li>
+					<li>
+				<a href="https://rdatamining.wordpress.com/2015/07/23/call-for-participation-ausdm-2015-sydney-8-9-august/">Call for participation: AusDM 2015, Sydney, 8-9&nbsp;August</a>
+						</li>
+					<li>
+				<a href="https://rdatamining.wordpress.com/2015/07/15/the-2015-big-data-summit-9-10-august-2015-collocated-with-acm-kdd-2015-sydney/">The 2015 Big Data Summit, 9-10 August 2015, collocated with ACM KDD 2015,&nbsp;Sydney</a>
+						</li>
+				</ul>
+		</li>		<li id="recent-comments-2" class="widget-container widget_recent_comments"><h3 class="widget-title">Recent Comments</h3>				<table class="recentcommentsavatar" cellspacing="0" cellpadding="0" border="0">
+					<tr><td title="Harshad M" class="recentcommentsavatartop" style="height:48px; width:48px;"><img alt='' src='https://2.gravatar.com/avatar/ea64e1d8a6cf1281a3e2ff84dcd57c05?s=48&#038;d=identicon&#038;r=G' class='avatar avatar-48' height='48' width='48' /></td><td class="recentcommentstexttop" style="">Harshad M on <a href="https://rdatamining.wordpress.com/2011/08/23/time-series-analysis-and-mining-with-r/#comment-1293">Time Series Analysis and Minin&hellip;</a></td></tr><tr><td title="Canberra Data Miners: Seminar on Text, Knowledge and Information Extraction, by Dr Lizhen Qu (NICTA), Canberra, 4:30-5:30pm, Tuesday 1 Sept | Mubashir Qasim" class="recentcommentsavatarend" style="height:48px; width:48px;"><a href="http://mqasim.me/?p=37628" rel="nofollow"></a></td><td class="recentcommentstextend" style=""><a href="http://mqasim.me/?p=37628" rel="nofollow">Canberra Data Miners&hellip;</a> on <a href="https://rdatamining.wordpress.com/2015/08/24/canberra-data-miners-seminar-on-text-knowledge-and-information-extraction-by-dr-lizhen-qu-nicta-canberra-430-530pm-tuesday-1-sept/#comment-1290">Canberra Data Miners: Seminar&hellip;</a></td></tr><tr><td title="www2.rdatamining.com: a mirror site of RDataMining.com for Chinese users | Mubashir Qasim" class="recentcommentsavatarend" style="height:48px; width:48px;"><a href="http://mqasim.me/?p=35129" rel="nofollow"></a></td><td class="recentcommentstextend" style=""><a href="http://mqasim.me/?p=35129" rel="nofollow">www2.rdatamining.com&hellip;</a> on <a href="https://rdatamining.wordpress.com/2015/08/05/www2-rdatamining-com-a-mirror-site-of-rdatamining-com-for-chinese-users/#comment-1286">www2.rdatamining.com: a mirror&hellip;</a></td></tr><tr><td title="Magister Dixit | Data Analytics &amp; R" class="recentcommentsavatarend" style="height:48px; width:48px;"><a href="http://advanceddataanalytics.net/2015/08/05/magister-dixit-214/" rel="nofollow"></a></td><td class="recentcommentstextend" style=""><a href="http://advanceddataanalytics.net/2015/08/05/magister-dixit-214/" rel="nofollow">Magister Dixit | Dat&hellip;</a> on <a href="https://rdatamining.wordpress.com/2014/11/09/sbs-documentary-the-age-of-big-data/#comment-1285">SBS documentary &#8220;The Age&hellip;</a></td></tr><tr><td title="The 2015 Big Data Summit, 9-10 August 2015, collocated with ACM KDD 2015, Sydney | Mubashir Qasim" class="recentcommentsavatarend" style="height:48px; width:48px;"><a href="http://mqasim.me/?p=32318" rel="nofollow"></a></td><td class="recentcommentstextend" style=""><a href="http://mqasim.me/?p=32318" rel="nofollow">The 2015 Big Data Su&hellip;</a> on <a href="https://rdatamining.wordpress.com/2015/07/15/the-2015-big-data-summit-9-10-august-2015-collocated-with-acm-kdd-2015-sydney/#comment-1278">The 2015 Big Data Summit, 9-10&hellip;</a></td></tr>				</table>
+				</li><li id="archives-2" class="widget-container widget_archive"><h3 class="widget-title">Archives</h3>		<ul>
+			<li><a href='https://rdatamining.wordpress.com/2015/08/'>August 2015</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2015/07/'>July 2015</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2015/05/'>May 2015</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2015/04/'>April 2015</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2015/02/'>February 2015</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2014/12/'>December 2014</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2014/11/'>November 2014</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2014/10/'>October 2014</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2014/09/'>September 2014</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2014/07/'>July 2014</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2014/05/'>May 2014</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2013/12/'>December 2013</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2013/08/'>August 2013</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2013/07/'>July 2013</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2013/04/'>April 2013</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2013/03/'>March 2013</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2013/01/'>January 2013</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2012/10/'>October 2012</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2012/09/'>September 2012</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2012/08/'>August 2012</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2012/07/'>July 2012</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2012/06/'>June 2012</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2012/05/'>May 2012</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2012/04/'>April 2012</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2012/03/'>March 2012</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2011/12/'>December 2011</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2011/11/'>November 2011</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2011/10/'>October 2011</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2011/09/'>September 2011</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2011/08/'>August 2011</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2011/05/'>May 2011</a></li>
+	<li><a href='https://rdatamining.wordpress.com/2011/04/'>April 2011</a></li>
+		</ul>
+		</li><li id="categories-2" class="widget-container widget_categories"><h3 class="widget-title">Categories</h3>		<ul>
+	<li class="cat-item cat-item-46197788"><a href="https://rdatamining.wordpress.com/category/big-data-2/" >Big Data</a>
+</li>
+	<li class="cat-item cat-item-867"><a href="https://rdatamining.wordpress.com/category/data-mining/" >Data Mining</a>
+</li>
+	<li class="cat-item cat-item-10189"><a href="https://rdatamining.wordpress.com/category/r/" >R</a>
+</li>
+	<li class="cat-item cat-item-186779"><a href="https://rdatamining.wordpress.com/category/text-mining/" >text mining</a>
+</li>
+		</ul>
+</li><li id="meta-2" class="widget-container widget_meta"><h3 class="widget-title">Meta</h3>			<ul>
+			<li><a href="https://wordpress.com/start?ref=wplogin">Register</a></li>			<li><a href="https://rdatamining.wordpress.com/wp-login.php">Log in</a></li>
+			<li><a href="https://rdatamining.wordpress.com/feed/">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://rdatamining.wordpress.com/comments/feed/">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://wordpress.com/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.com</a></li>			</ul>
+			</li>			</ul>
+		</div><!-- #primary .widget-area -->
+
+	</div><!-- #main -->
+
+	<div id="footer" role="contentinfo">
+		<div id="colophon">
+
+
+
+			<div id="site-info">
+				<a href="https://rdatamining.wordpress.com/" title="blog.RDataMining.com" rel="home">
+					blog.RDataMining.com				</a>
+			</div><!-- #site-info -->
+
+			<div id="site-generator">
+				<a href="https://wordpress.com/themes/twentyten/" title="Learn more about this theme">The Twenty Ten Theme</a>.				<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+			</div><!-- #site-generator -->
+
+		</div><!-- #colophon -->
+	</div><!-- #footer -->
+
+</div><!-- #wrapper -->
+
+<!-- wpcom_wp_footer -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201610y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781g'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-06766dfed44b291c4bd5c42a4454c1fa">
+	</div>
+	<div class="grofile-hash-map-7fb6139c46a88fac3b04fd44dc799363">
+	</div>
+	<div class="grofile-hash-map-4269d68451addeac84d3e2005aaa879a">
+	</div>
+	<div class="grofile-hash-map-06766dfed44b291c4bd5c42a4454c1fa">
+	</div>
+	<div class="grofile-hash-map-f0411e2d50f403da3bc96c944b598ed0">
+	</div>
+	<div class="grofile-hash-map-45e0334a7c937df10c03dd0a0bedb0d1">
+	</div>
+	<div class="grofile-hash-map-887b53d4725c0125f2c394f053951996">
+	</div>
+	<div class="grofile-hash-map-ea64e1d8a6cf1281a3e2ff84dcd57c05">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/rdatamining.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/rdatamining.wordpress.com\/wp-login.php?action=logout&_wpnonce=d0df4be849","homeURL":"https:\/\/rdatamining.wordpress.com\/","postID":"267","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1424115551j'></script>
+
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow &ldquo;blog.RDataMining.com&rdquo;</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 101 other followers</p>
+			<p><input type="email" name="email" placeholder="Enter your email address" id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="21924600"/>
+			<input type="hidden" name="source" value="https://rdatamining.wordpress.com/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="d4c9a3416b" /><input type="hidden" name="_wp_http_referer" value="/2012/05/17/an-example-of-social-network-analysis-with-r-using-package-igraph/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="https://wordpress.com/?ref=lof">Build a website with WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/rdatamining.wordpress.com\/2012\/05\/17\/an-example-of-social-network-analysis-with-r-using-package-igraph\/":267};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-linkedin' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+		});
+		</script>
+				<iframe src='https://widgets.wp.com/likes/master.html?ver=20151208#ver=20151208&amp;mp6=1' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script type="text/javascript">
+		//<![CDATA[
+			var jetpackLikesWidgetQueue = [];
+			var jetpackLikesWidgetBatch = [];
+			var jetpackLikesMasterReady = false;
+
+			function JetpackLikespostMessage( message, target ) {
+				if ( "string" === typeof message ){
+					try{
+						message = JSON.parse( message );
+					}
+					catch(e) {
+						return;
+					}
+				}
+
+				pm( {
+					target: target,
+					type: 'likesMessage',
+					data: message,
+					origin: '*'
+				} );
+			}
+
+			function JetpackLikesBatchHandler() {
+				var requests = [];
+				jQuery( 'div.jetpack-likes-widget-unloaded' ).each( function( i ) {
+					if ( jetpackLikesWidgetBatch.indexOf( this.id ) > -1 )
+						return;
+					jetpackLikesWidgetBatch.push( this.id );
+					var regex = /like-(post|comment)-wrapper-(\d+)-(\d+)-(\w+)/;
+					var match = regex.exec( this.id );
+					if ( ! match || match.length != 5 )
+						return;
+
+					var info = {
+						blog_id: match[2],
+						width:   this.width
+					};
+
+					if ( 'post' == match[1] ) {
+						info.post_id = match[3];
+					} else if ( 'comment' == match[1] ) {
+						info.comment_id = match[3];
+					}
+
+					info.obj_id = match[4];
+
+					requests.push( info );
+				});
+
+				if ( requests.length > 0 ) {
+					JetpackLikespostMessage( { event: 'initialBatch', requests: requests }, window.frames['likes-master'] );
+				}
+			}
+
+			function JetpackLikesMessageListener( event ) {
+				if ( "undefined" == typeof event.event )
+					return;
+
+				if ( 'masterReady' == event.event ) {
+					jQuery( document ).ready( function() {
+						jetpackLikesMasterReady = true;
+
+						var stylesData = {
+								event: 'injectStyles'
+						};
+
+						if ( jQuery( 'iframe.admin-bar-likes-widget' ).length > 0 ) {
+							JetpackLikespostMessage( { event: 'adminBarEnabled' }, window.frames[ 'likes-master' ] );
+
+							stylesData.adminBarStyles = {
+								background: jQuery( '#wpadminbar .quicklinks li#wp-admin-bar-wpl-like > a' ).css( 'background' ),
+								isRtl: ( 'rtl' == jQuery( '#wpadminbar' ).css( 'direction' ) )
+							};
+						}
+
+						if ( !window.addEventListener )
+							jQuery( '#wp-admin-bar-admin-bar-likes-widget' ).hide();
+
+						stylesData.textStyles = {
+							color: jQuery( '.sd-text-color').css( 'color' ),
+							fontFamily: jQuery( '.sd-text-color' ).css( 'font-family' ),
+							fontSize: jQuery( '.sd-text-color' ).css( 'font-size' ),
+							direction: jQuery( '.sd-text-color' ).css( 'direction' ),
+							fontWeight: jQuery( '.sd-text-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-text-color' ).css( 'font-style' ),
+							textDecoration: jQuery( '.sd-text-color' ).css('text-decoration')
+						};
+
+						stylesData.linkStyles = {
+							color: jQuery( '.sd-link-color' ).css('color'),
+							fontFamily: jQuery( '.sd-link-color' ).css('font-family'),
+							fontSize: jQuery( '.sd-link-color' ).css('font-size'),
+							textDecoration: jQuery( '.sd-link-color' ).css('text-decoration'),
+							fontWeight: jQuery( '.sd-link-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-link-color' ).css( 'font-style' )
+						};
+
+						JetpackLikespostMessage( stylesData, window.frames[ 'likes-master' ] );
+
+						JetpackLikesBatchHandler();
+
+						jQuery( document ).on( 'inview', 'div.jetpack-likes-widget-unloaded', function() {
+							jetpackLikesWidgetQueue.push( this.id );
+						});
+					});
+				}
+
+				if ( 'showLikeWidget' == event.event ) {
+					jQuery( '#' + event.id + ' .post-likes-widget-placeholder'  ).fadeOut( 'fast', function() {
+						jQuery( '#' + event.id + ' .post-likes-widget' ).fadeIn( 'fast', function() {
+							JetpackLikespostMessage( { event: 'likeWidgetDisplayed', blog_id: event.blog_id, post_id: event.post_id, obj_id: event.obj_id }, window.frames['likes-master'] );
+						});
+					});
+				}
+
+				if ( 'clickReblogFlair' == event.event ) {
+					wpcom_reblog.toggle_reblog_box_flair( event.obj_id );
+				}
+
+				if ( 'showOtherGravatars' == event.event ) {
+					var $container = jQuery( '#likes-other-gravatars' );
+					var $list = $container.find( 'ul' );
+
+					$container.hide();
+					$list.html( '' );
+
+					$container.find( '.likes-text span' ).text( event.total );
+
+					jQuery.each( event.likers, function( i, liker ) {
+						$list.append( '<li class="' + liker.css_class + '"><a href="' + liker.profile_URL + '" class="wpl-liker" rel="nofollow" target="_parent"><img src="' + liker.avatar_URL + '" alt="' + liker.name + '" width="30" height="30" style="padding-right: 3px;" /></a></li>');
+					} );
+
+					var offset = jQuery( "[name='" + event.parent + "']" ).offset();
+
+					$container.css( 'left', offset.left + event.position.left - 10 + 'px' );
+					$container.css( 'top', offset.top + event.position.top - 33 + 'px' );
+
+					var rowLength = Math.floor( event.width / 37 );
+					var height = ( Math.ceil( event.likers.length / rowLength ) * 37 ) + 13;
+					if ( height > 204 ) {
+						height = 204;
+					}
+
+					$container.css( 'height', height + 'px' );
+					$container.css( 'width', rowLength * 37 - 7 + 'px' );
+
+					$list.css( 'width', rowLength * 37 + 'px' );
+
+					$container.fadeIn( 'slow' );
+
+					var scrollbarWidth = $list[0].offsetWidth - $list[0].clientWidth;
+					if ( scrollbarWidth > 0 ) {
+						$container.width( $container.width() + scrollbarWidth );
+						$list.width( $list.width() + scrollbarWidth );
+					}
+				}
+			}
+
+			pm.bind( 'likesMessage', function(e) { JetpackLikesMessageListener(e); } );
+
+			jQuery( document ).click( function( e ) {
+				var $container = jQuery( '#likes-other-gravatars' );
+
+				if ( $container.has( e.target ).length === 0 ) {
+					$container.fadeOut( 'slow' );
+				}
+			});
+
+			function JetpackLikesWidgetQueueHandler() {
+				var wrapperID;
+				if ( ! jetpackLikesMasterReady ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				if ( jetpackLikesWidgetQueue.length > 0 ) {
+					// We may have a widget that needs creating now
+					var found = false;
+					while( jetpackLikesWidgetQueue.length > 0 ) {
+						// Grab the first member of the queue that isn't already loading.
+						wrapperID = jetpackLikesWidgetQueue.splice( 0, 1 )[0];
+						if ( jQuery( '#' + wrapperID ).hasClass( 'jetpack-likes-widget-unloaded' ) ) {
+							found = true;
+							break;
+						}
+					}
+					if ( ! found ) {
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				} else if ( jQuery( 'div.jetpack-likes-widget-unloaded' ).length > 0 ) {
+					// Grab any unloaded widgets for a batch request
+					JetpackLikesBatchHandler();
+
+					// Get the next unloaded widget
+					wrapperID = jQuery( 'div.jetpack-likes-widget-unloaded' ).first()[0].id;
+					if ( ! wrapperID ) {
+						// Everything is currently loaded
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				}
+
+				if ( 'undefined' === typeof wrapperID ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				var $wrapper = jQuery( '#' + wrapperID );
+				$wrapper.find( 'iframe' ).remove();
+
+				if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='22px' width='68px' frameBorder='0' scrolling='no' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				} else {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='55px' width='100%' frameBorder='0' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				}
+
+				$wrapper.removeClass( 'jetpack-likes-widget-unloaded' ).addClass( 'jetpack-likes-widget-loading' );
+
+				$wrapper.find( 'iframe' ).load( function( e ) {
+					var $iframe = jQuery( e.target );
+					$wrapper.removeClass( 'jetpack-likes-widget-loading' ).addClass( 'jetpack-likes-widget-loaded' );
+
+					JetpackLikespostMessage( { event: 'loadLikeWidget', name: $iframe.attr( 'name' ), width: $iframe.width() }, window.frames[ 'likes-master' ] );
+
+					if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+						$wrapper.find( 'iframe' ).Jetpack( 'resizeable' );
+					}
+				});
+				setTimeout( JetpackLikesWidgetQueueHandler, 250 );
+			}
+			JetpackLikesWidgetQueueHandler();
+		//]]>
+		</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431g'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var JetpackEmojiSettings = {"base_url":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/emoji\/twemoji\/"};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyNyzEOwjAMheELkZqiImBAnKVKTXGIEytOWrg9YcjAVKY3/N+DVYyNIWPI4BQmXMiivDqnO6iJgvVlQv02G5krMwnFvzum0FD7czHiy0xBATk6grz+7KZ3mGW0T/Of3lISNZu7HymBPsZEYW5bTze+9sPxcOrPw/7iPpSGYPc='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "rdatamining.wordpress.com";
+	</script>
+	<script type="text/javascript" src="https://s.skimresources.com/js/725X1342.skimlinks.js"></script><script src="//stats.wp.com/w.js?51" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'21924600','blog_tz':'10','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'21924600','v':'wpcom','tz':'10','user_id':'0','post':'267','subd':'rdatamining'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdTdvUG14Q2VDQTR4LlUsLi82dU1mai9BMmlCVVM1U0h6VG1VZD0tW3pWY0FSdGl1aEhCQ1FQNyxUSC9KOVJxfnglVVZKQ2NMbkdxQ2V2aGdwLER3cCZYcj1PTm1yTE1KTFhucERuQjJnVUJuXVVRfkNIU34zS3pUNl1LbllVQjYxanBOJU1+OHB1aV1VREFyQ3BkOS9ZVlNMJmR1UHhFV284SX5zeGp3U21xOT1lNm5ZNHJ3c05yY3owJiZRaVF+UCZPJkFILnlXZWJSLjZveDB4UVhLVWQtc1tNbXF6SW5sSzh8dGxdPz9BK0pBNld5SFtUaTJBLTIxbn5yditlRl8ueUIvVyVRNERGelRLNl04akF5ZC5rQnwx'}]);
+_stq.push([ 'clickTrackerInit', '21924600', '267' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>
